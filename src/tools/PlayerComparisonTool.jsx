@@ -223,17 +223,21 @@ function ComparisonTable({ players }) {
       <table style={{
         width: '100%', borderCollapse: 'collapse',
         fontSize: 13, color: C.text,
+        tableLayout: 'fixed',
       }}>
+        <colgroup>
+          <col style={{ width: '140px' }} />
+          {players.map((_, i) => <col key={i} />)}
+        </colgroup>
         <thead>
           <tr style={{ borderBottom: `1px solid ${C.border}` }}>
-            <th style={{ textAlign: 'left', padding: '12px 16px', color: C.textSecondary, fontWeight: 600 }}>
+            <th style={{ textAlign: 'left', padding: '10px 12px', color: C.textSecondary, fontWeight: 600 }}>
               Attribute
             </th>
             {players.map((p, i) => (
               <th key={i} style={{
-                textAlign: 'center', padding: '12px 16px', fontWeight: 700,
+                textAlign: 'center', padding: '10px 12px', fontWeight: 700,
                 color: PLAYER_COLORS[i % PLAYER_COLORS.length],
-                minWidth: 80,
               }}>
                 {p.name}
               </th>
@@ -262,7 +266,7 @@ function ComparisonTable({ players }) {
 
                 return (
                   <tr key={key} style={{ borderBottom: `1px solid ${C.border}22` }}>
-                    <td style={{ padding: '8px 16px', color: C.textSecondary }}>
+                    <td style={{ padding: '6px 12px', color: C.textSecondary }}>
                       {attrDisplayName(key)}
                     </td>
                     {values.map((val, i) => {
@@ -273,7 +277,7 @@ function ComparisonTable({ players }) {
                       }
                       return (
                         <td key={i} style={{
-                          textAlign: 'center', padding: '8px 16px',
+                          textAlign: 'center', padding: '6px 12px',
                           fontWeight: val !== null ? 600 : 400,
                           background: bg,
                           color: val !== null ? C.text : C.textMuted,
