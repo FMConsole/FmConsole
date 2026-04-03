@@ -370,7 +370,18 @@ function UploadCard({ index, player, onFile, onRemove, onNameChange }) {
               }}
               placeholder="Player name"
             />
-            <div style={{ fontSize: 11, color: C.textMuted, marginTop: 6 }}>
+            {/* Player details */}
+            {player.parsed?.details && (
+              <div style={{ fontSize: 11, color: C.textSecondary, marginTop: 6, lineHeight: 1.6 }}>
+                {[
+                  player.parsed.details.age && `Age ${player.parsed.details.age}`,
+                  player.parsed.details.nationality,
+                  player.parsed.details.currentClub,
+                  player.parsed.details.positions?.length > 0 && player.parsed.details.positions.join(', '),
+                ].filter(Boolean).join(' · ')}
+              </div>
+            )}
+            <div style={{ fontSize: 10, color: C.textMuted, marginTop: 4 }}>
               {Object.keys(flattenAttributes(player.parsed)).length} attributes found
             </div>
           </>
@@ -626,21 +637,41 @@ export default function PlayerComparisonTool() {
             </div>
           )}
 
-          {/* Legend */}
+          {/* Player cards with details */}
           <div style={{
-            display: 'flex', gap: 16, marginBottom: 20, flexWrap: 'wrap',
+            display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap',
           }}>
-            {readyPlayers.map((p, i) => (
-              <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <div style={{
-                  width: 12, height: 12, borderRadius: 3,
-                  background: PLAYER_COLORS[i % PLAYER_COLORS.length],
-                }} />
-                <span style={{ fontSize: 13, fontWeight: 600, color: C.text }}>
-                  {p.name || `Player ${i + 1}`}
-                </span>
-              </div>
-            ))}
+            {readyPlayers.map((p, i) => {
+              const d = p.parsed?.details
+              const color = PLAYER_COLORS[i % PLAYER_COLORS.length]
+              return (
+                <div key={p.id} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  background: `${color}08`, border: `1px solid ${color}25`,
+                  borderRadius: 10, padding: '8px 14px',
+                }}>
+                  <div style={{
+                    width: 12, height: 12, borderRadius: 3,
+                    background: color, flexShrink: 0,
+                  }} />
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.text }}>
+                      {p.name || `Player ${i + 1}`}
+                    </div>
+                    {d && (
+                      <div style={{ fontSize: 11, color: C.textSecondary, marginTop: 2 }}>
+                        {[
+                          d.age && `${d.age}y`,
+                          d.nationality,
+                          d.currentClub,
+                          d.positions?.length > 0 && d.positions.join('/'),
+                        ].filter(Boolean).join(' · ')}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
           </div>
 
           {/* Radar Chart */}

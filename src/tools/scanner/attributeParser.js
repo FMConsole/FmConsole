@@ -668,7 +668,20 @@ export function parseAttributes(text, overlay, visionData) {
     }
 
     const playerName = visionData.playerName || 'Unknown Player'
-    return { playerName, attributes: attrs }
+    return {
+      playerName,
+      attributes: attrs,
+      details: {
+        age: visionData.age || null,
+        nationality: visionData.nationality || null,
+        currentClub: visionData.currentClub || null,
+        positions: visionData.positions || [],
+        height: visionData.height || null,
+        preferredFoot: visionData.preferredFoot || null,
+        personality: visionData.personality || null,
+        reputation: visionData.reputation || null,
+      },
+    }
   }
 
   // Fallback: OCR text-based parsing
