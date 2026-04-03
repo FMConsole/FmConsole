@@ -201,14 +201,17 @@ function RadarChart({ players, attrKeys, size = 380 }) {
 /* ── Comparison Table ─────────────────────────────────────────────────── */
 
 function ComparisonTable({ players }) {
+  const flats = players.map(p => flattenAttributes(p.parsed))
+
+  // Only show goalkeeping if any player has goalkeeper attributes
+  const hasGK = flats.some(f => GOALKEEPING_ATTRS.some(a => f[toCamelCase(a)] !== undefined))
+
   const groups = [
-    { title: 'Goalkeeping', attrs: GOALKEEPING_ATTRS.map(toCamelCase) },
+    ...(hasGK ? [{ title: 'Goalkeeping', attrs: GOALKEEPING_ATTRS.map(toCamelCase) }] : []),
     { title: 'Technical', attrs: TECHNICAL_ATTRS.map(toCamelCase) },
     { title: 'Mental', attrs: MENTAL_ATTRS.map(toCamelCase) },
     { title: 'Physical', attrs: PHYSICAL_ATTRS.map(toCamelCase) },
   ]
-
-  const flats = players.map(p => flattenAttributes(p.parsed))
 
   return (
     <div style={{
@@ -523,7 +526,14 @@ export default function PlayerComparisonTool() {
           <div style={{
             display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap',
           }}>
-            {VIEW_OPTIONS.map(opt => (
+            {VIEW_OPTIONS.filter(opt => {
+              if (opt.key !== 'goalkeeping') return true
+              // Only show GK tab if any player has GK attributes
+              return readyPlayers.some(p => {
+                const flat = flattenAttributes(p.parsed)
+                return GOALKEEPING_ATTRS.some(a => flat[toCamelCase(a)] !== undefined)
+              })
+            }).map(opt => (
               <button key={opt.key} onClick={() => setView(opt.key)} style={{
                 padding: '8px 18px', borderRadius: 10, border: 'none',
                 background: view === opt.key ? C.purple : C.surfaceLight,
