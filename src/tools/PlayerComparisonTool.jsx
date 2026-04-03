@@ -45,10 +45,10 @@ function getAttrsForView(view) {
 
 /* ── Radar Chart (pure SVG) ───────────────────────────────────────────── */
 
-function RadarChart({ players, attrKeys, size = 380 }) {
+function RadarChart({ players, attrKeys, size = 480 }) {
   const cx = size / 2
   const cy = size / 2
-  const maxR = size / 2 - 50
+  const maxR = size / 2 - 80
   const n = attrKeys.length
   if (n < 3) return null
 
@@ -95,7 +95,7 @@ function RadarChart({ players, attrKeys, size = 380 }) {
   // Labels
   const labels = attrKeys.map((key, i) => {
     const angle = startAngle + i * angleStep
-    const labelR = maxR + 24
+    const labelR = maxR + 36
     const [lx, ly] = polarToXY(angle, labelR)
     let anchor = 'middle'
     if (Math.cos(angle) < -0.1) anchor = 'end'
