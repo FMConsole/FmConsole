@@ -503,6 +503,47 @@ export default function PlayerComparisonTool() {
     ))
   }, [])
 
+  // Export player data as CSV
+  const exportData = useCallback(() => {
+    const allAttrKeys = new Set()
+    const playerData = readyPlayers.map(p => {
+      const flat = flattenAttributes(p.parsed)
+      Object.keys(flat).forEach(k => allAttrKeys.add(k))
+      return { player: p, flat, details: p.parsed?.details || {} }
+    })
+
+    const attrKeys = [...allAttrKeys].sort()
+    const detailCols = ['Age', 'Nationality', 'Club', 'Positions', 'Height', 'Foot', 'Personality', 'Reputation']
+    const headers = ['Name', ...detailCols, ...attrKeys.map(k => attrDisplayName(k))]
+
+    const rows = playerData.map(({ player, flat, details }) => {
+      const detailVals = [
+        details.age || '',
+        details.nationality || '',
+        details.currentClub || '',
+        (details.positions || []).join('/'),
+        details.height || '',
+        details.preferredFoot ? `L:${details.preferredFoot.leftFoot || ''} R:${details.preferredFoot.rightFoot || ''}` : '',
+        details.personality || '',
+        details.reputation || '',
+      ]
+      const attrVals = attrKeys.map(k => flat[k] ?? '')
+      return [player.name || '', ...detailVals, ...attrVals]
+    })
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
+      .join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `fmconsole-players-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [readyPlayers])
+
   const readyPlayers = players.filter(p => p.status === 'done')
   const attrKeys = getAttrsForView(view, posFilter)
 
@@ -547,6 +588,18 @@ export default function PlayerComparisonTool() {
             />
           ))}
         </div>
+
+        {/* Export CSV */}
+        {readyPlayers.length > 0 && (
+          <button onClick={exportData} style={{
+            marginTop: 12, padding: '8px 16px', borderRadius: 8,
+            border: `1px solid ${C.border}`,
+            background: C.surfaceLight, color: C.textSecondary,
+            fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+          }}>
+            Export as CSV
+          </button>
+        )}
       </div>
 
       {/* Results */}
