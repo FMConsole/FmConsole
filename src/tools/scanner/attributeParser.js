@@ -27,13 +27,13 @@ const TECHNICAL_ATTRS = [
 
 const MENTAL_ATTRS = [
   'aggression', 'anticipation', 'bravery', 'composure', 'concentration',
-  'consistency', 'decisions', 'determination', 'dirtiness', 'flair',
-  'important matches', 'leadership', 'off the ball', 'positioning',
+  'decisions', 'determination', 'flair',
+  'leadership', 'off the ball', 'positioning',
   'teamwork', 'vision', 'work rate',
 ]
 
 const PHYSICAL_ATTRS = [
-  'acceleration', 'agility', 'balance', 'injury proneness',
+  'acceleration', 'agility', 'balance',
   'jumping reach', 'natural fitness', 'pace', 'stamina', 'strength',
 ]
 
