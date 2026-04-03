@@ -22,7 +22,7 @@ const GOALKEEPING_ATTRS = [
 const TECHNICAL_ATTRS = [
   'corners', 'crossing', 'dribbling', 'finishing', 'first touch',
   'free kicks', 'heading', 'long shots', 'long throws', 'marking',
-  'passing', 'penalty taking', 'tackling', 'technique', 'versatility',
+  'passing', 'penalty taking', 'tackling', 'technique',
 ]
 
 const MENTAL_ATTRS = [
