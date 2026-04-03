@@ -1,0 +1,1127 @@
+{
+  "elc": {
+    "league": "Championship",
+    "items": [
+      {
+        "name": "Bailey Cadamarteri",
+        "apiId": 37562822,
+        "clubId": "c3"
+      },
+      {
+        "name": "Nathan Broadhead",
+        "apiId": 581062,
+        "clubId": "c4"
+      },
+      {
+        "name": "Conor Coady",
+        "apiId": 3043,
+        "clubId": "c10"
+      },
+      {
+        "name": "Rhys Norrington-Davies",
+        "apiId": 7714340,
+        "clubId": "c14"
+      },
+      {
+        "name": "Justin Obikwu",
+        "apiId": 37547545,
+        "clubId": "c14"
+      },
+      {
+        "name": "Marcelino Núñez",
+        "apiId": 37405012,
+        "clubId": "c16"
+      },
+      {
+        "name": "Darnell Furlong",
+        "apiId": 4507,
+        "clubId": "c17"
+      },
+      {
+        "name": "Neto Borges",
+        "apiId": 533182,
+        "clubId": "c18"
+      },
+      {
+        "name": "James Bree",
+        "apiId": 6513,
+        "clubId": "c19"
+      },
+      {
+        "name": "Conor Chaplin",
+        "apiId": 12216,
+        "clubId": "c20"
+      },
+      {
+        "name": "Callum Lang",
+        "apiId": 518751,
+        "clubId": "c20"
+      },
+      {
+        "name": "Taylor Gardner-Hickman",
+        "apiId": 25217725,
+        "clubId": "c24"
+      },
+      {
+        "name": "Lewis Koumas",
+        "apiId": 37657770,
+        "clubId": "c24"
+      }
+    ]
+  },
+  "lo": {
+    "league": "League One",
+    "items": [
+      {
+        "name": "Martin Sherif",
+        "apiId": 37581746,
+        "clubId": "c10"
+      },
+      {
+        "name": "Thomas Holmes",
+        "apiId": 1494301,
+        "clubId": "c11"
+      },
+      {
+        "name": "Jak Alnwick",
+        "apiId": 4195,
+        "clubId": "c15"
+      },
+      {
+        "name": "Owen Goodman",
+        "apiId": 37537859,
+        "clubId": "c15"
+      },
+      {
+        "name": "Herbie Kane",
+        "apiId": 539554,
+        "clubId": "c19"
+      },
+      {
+        "name": "Ronan Curtis",
+        "apiId": 121791,
+        "clubId": "c19"
+      },
+      {
+        "name": "Carlos Gomes",
+        "apiId": 21762818,
+        "clubId": "c20"
+      },
+      {
+        "name": "J. Randall",
+        "apiId": 8497895,
+        "clubId": "c20"
+      },
+      {
+        "name": "J. Dacres-Cogley",
+        "apiId": 7316,
+        "clubId": "c21"
+      },
+      {
+        "name": "Corey O'Keeffe",
+        "apiId": 7570,
+        "clubId": "c21"
+      },
+      {
+        "name": "Paul Mullin",
+        "apiId": 12139,
+        "clubId": "c23"
+      }
+    ]
+  },
+  "lt": {
+    "league": "League Two",
+    "items": [
+      {
+        "name": "Danny Rose",
+        "apiId": 5558,
+        "clubId": "c11"
+      },
+      {
+        "name": "Josh Powell",
+        "apiId": 37550436,
+        "clubId": "c18"
+      },
+      {
+        "name": "Zech Medley",
+        "apiId": 1494444,
+        "clubId": "c18"
+      },
+      {
+        "name": "Kevin Berkoe",
+        "apiId": 28575648,
+        "clubId": "c21"
+      },
+      {
+        "name": "Ronan Darcy",
+        "apiId": 34898459,
+        "clubId": "c22"
+      },
+      {
+        "name": "Lee Ndlovu",
+        "apiId": 20401,
+        "clubId": "c23"
+      },
+      {
+        "name": "Ryan Delaney",
+        "apiId": 6649,
+        "clubId": "c24"
+      }
+    ]
+  },
+  "enl": {
+    "league": "National League",
+    "items": [
+      {
+        "name": "Dan Creaney",
+        "apiId": 37335021,
+        "clubId": "c5"
+      },
+      {
+        "name": "Inih Effiong",
+        "apiId": 16861,
+        "clubId": "c6"
+      },
+      {
+        "name": "Ryan Jones",
+        "apiId": 37540183,
+        "clubId": "c8"
+      },
+      {
+        "name": "Terrell Works",
+        "apiId": 37581728,
+        "clubId": "c8"
+      },
+      {
+        "name": "George Nurse",
+        "apiId": 21064639,
+        "clubId": "c8"
+      },
+      {
+        "name": "Tyrese Sinclair",
+        "apiId": 25591522,
+        "clubId": "c9"
+      },
+      {
+        "name": "Rory Watson",
+        "apiId": 4208,
+        "clubId": "c10"
+      },
+      {
+        "name": "Billy Chadwick",
+        "apiId": 37255843,
+        "clubId": "c10"
+      },
+      {
+        "name": "Callum Howe",
+        "apiId": 9092,
+        "clubId": "c10"
+      },
+      {
+        "name": "Archie Mair",
+        "apiId": 378669,
+        "clubId": "c12"
+      },
+      {
+        "name": "Terrell Agyemang",
+        "apiId": 37391439,
+        "clubId": "c13"
+      },
+      {
+        "name": "Adam Crowther",
+        "apiId": 37336450,
+        "clubId": "c14"
+      },
+      {
+        "name": "Nicholas Hayes",
+        "apiId": 22888772,
+        "clubId": "c17"
+      },
+      {
+        "name": "Aidan Dausch",
+        "apiId": 37675370,
+        "clubId": "c18"
+      },
+      {
+        "name": "James Clarke",
+        "apiId": 4598709,
+        "clubId": "c19"
+      },
+      {
+        "name": "Tahvon Campbell",
+        "apiId": 12522,
+        "clubId": "c21"
+      },
+      {
+        "name": "Yahya Bamba",
+        "apiId": 37664807,
+        "clubId": "c21"
+      },
+      {
+        "name": "Will Armitage",
+        "apiId": 37590186,
+        "clubId": "c21"
+      },
+      {
+        "name": "Joshua Grant",
+        "apiId": 537670,
+        "clubId": "c23"
+      },
+      {
+        "name": "Billy Waters",
+        "apiId": 8794,
+        "clubId": "c23"
+      },
+      {
+        "name": "Jack Hinchy",
+        "apiId": 37551499,
+        "clubId": "c23"
+      }
+    ]
+  },
+  "enln": {
+    "league": "National League North",
+    "items": [
+      {
+        "name": "Callum Ebanks",
+        "apiId": 37388633,
+        "clubId": "c10"
+      },
+      {
+        "name": "Keziah Martin",
+        "apiId": 37540865,
+        "clubId": "c15"
+      },
+      {
+        "name": "Bayley McCann",
+        "apiId": 37671856,
+        "clubId": "c16"
+      },
+      {
+        "name": "Sam Osborne",
+        "apiId": 13885,
+        "clubId": "c16"
+      },
+      {
+        "name": "Hallam Hope",
+        "apiId": 6011,
+        "clubId": "c17"
+      },
+      {
+        "name": "Theo Williams",
+        "apiId": 37559761,
+        "clubId": "c20"
+      },
+      {
+        "name": "Emmanuel Maja",
+        "apiId": 37541074,
+        "clubId": "c20"
+      },
+      {
+        "name": "Dylan Mitchell",
+        "apiId": 37621225,
+        "clubId": "c21"
+      },
+      {
+        "name": "Rogan Ravenhill",
+        "apiId": 37609376,
+        "clubId": "c21"
+      },
+      {
+        "name": "Martin Woods",
+        "apiId": 2086,
+        "clubId": "c22"
+      },
+      {
+        "name": "Charlie Jolley",
+        "apiId": 34898461,
+        "clubId": "c23"
+      },
+      {
+        "name": "Terry Bondo",
+        "apiId": 37790067,
+        "clubId": "c23"
+      },
+      {
+        "name": "Bobby Jones",
+        "apiId": 37391588,
+        "clubId": "c24"
+      }
+    ]
+  },
+  "enls": {
+    "league": "National League South",
+    "items": [
+      {
+        "name": "Lachlan Byrd",
+        "apiId": 37619884,
+        "clubId": "c3"
+      },
+      {
+        "name": "Alfie Tuck",
+        "apiId": 37667655,
+        "clubId": "c5"
+      },
+      {
+        "name": "Jack Young",
+        "apiId": 28575684,
+        "clubId": "c12"
+      },
+      {
+        "name": "Matthew Rowley",
+        "apiId": 38206891,
+        "clubId": "c13"
+      },
+      {
+        "name": "David Longe-King",
+        "apiId": 331678,
+        "clubId": "c14"
+      },
+      {
+        "name": "Jesurun Uchegbulam",
+        "apiId": 37608367,
+        "clubId": "c14"
+      },
+      {
+        "name": "Louis Lomas",
+        "apiId": 9964162,
+        "clubId": "c16"
+      },
+      {
+        "name": "Matthew Hall",
+        "apiId": 28912733,
+        "clubId": "c17"
+      },
+      {
+        "name": "Mike Atkinson",
+        "apiId": 37551178,
+        "clubId": "c19"
+      },
+      {
+        "name": "Adam May",
+        "apiId": 12518,
+        "clubId": "c21"
+      },
+      {
+        "name": "Harry Sidwell",
+        "apiId": 37675800,
+        "clubId": "c22"
+      },
+      {
+        "name": "Noah Phillips",
+        "apiId": 37430748,
+        "clubId": "c22"
+      },
+      {
+        "name": "Sam Pearson",
+        "apiId": 28552315,
+        "clubId": "c22"
+      },
+      {
+        "name": "Kai Yearn",
+        "apiId": 37547115,
+        "clubId": "c24"
+      }
+    ]
+  },
+  "bl2": {
+    "league": "2. Bundesliga",
+    "items": [
+      {
+        "name": "Andi Hoti",
+        "apiId": 37295914,
+        "clubId": "c6"
+      },
+      {
+        "name": "Max Geschwill",
+        "apiId": 22878569,
+        "clubId": "c7"
+      },
+      {
+        "name": "Faride Alidou",
+        "apiId": 21427690,
+        "clubId": "c10"
+      },
+      {
+        "name": "Robert Wagner",
+        "apiId": 37537922,
+        "clubId": "c14"
+      },
+      {
+        "name": "Jonas Sterner",
+        "apiId": 37266238,
+        "clubId": "c15"
+      },
+      {
+        "name": "Tobias Raschl",
+        "apiId": 3862071,
+        "clubId": "c18"
+      }
+    ]
+  },
+  "bl3": {
+    "league": "3. Liga",
+    "items": [
+      {
+        "name": "Lex-Tyger Lobinger",
+        "apiId": 20693603,
+        "clubId": "c16"
+      }
+    ]
+  },
+  "sb": {
+    "league": "Serie B",
+    "items": [
+      {
+        "name": "Antonio Fiori",
+        "apiId": 37607481,
+        "clubId": "c10"
+      },
+      {
+        "name": "Nicolò Buso",
+        "apiId": 22869263,
+        "clubId": "c10"
+      },
+      {
+        "name": "Matteo Dagasso",
+        "apiId": 37599990,
+        "clubId": "c12"
+      },
+      {
+        "name": "Niccolò Squizzato",
+        "apiId": 32777443,
+        "clubId": "c13"
+      },
+      {
+        "name": "Tommaso Corazza",
+        "apiId": 37599315,
+        "clubId": "c15"
+      },
+      {
+        "name": "Andrea Cistana",
+        "apiId": 133035,
+        "clubId": "c16"
+      },
+      {
+        "name": "Valerio Mantovani",
+        "apiId": 130154,
+        "clubId": "c16"
+      },
+      {
+        "name": "Francesco Vicari",
+        "apiId": 132027,
+        "clubId": "c16"
+      },
+      {
+        "name": "Daniel Fila",
+        "apiId": 37552118,
+        "clubId": "c17"
+      },
+      {
+        "name": "Giacomo De Pieri",
+        "apiId": 37696375,
+        "clubId": "c18"
+      },
+      {
+        "name": "Giacomo Stabile",
+        "apiId": 37653238,
+        "clubId": "c18"
+      },
+      {
+        "name": "Kevin Piscopo",
+        "apiId": 3533245,
+        "clubId": "c18"
+      },
+      {
+        "name": "Sheriff Kassama",
+        "apiId": 37667127,
+        "clubId": "c18"
+      },
+      {
+        "name": "Federico Zuccon",
+        "apiId": 37343972,
+        "clubId": "c18"
+      },
+      {
+        "name": "Davide Buglio",
+        "apiId": 496679,
+        "clubId": "c18"
+      },
+      {
+        "name": "Edoardo Soleri",
+        "apiId": 133708,
+        "clubId": "c19"
+      },
+      {
+        "name": "Alessandro Bellemo",
+        "apiId": 132680,
+        "clubId": "c19"
+      }
+    ]
+  },
+  "sca": {
+    "league": "Serie C: Girone A",
+    "items": [
+      {
+        "name": "Luigi Samele",
+        "apiId": 37436352,
+        "clubId": "c8"
+      },
+      {
+        "name": "Alessandro Lamesta",
+        "apiId": 37703080,
+        "clubId": "c12"
+      },
+      {
+        "name": "Simone Cantamessa",
+        "apiId": 37754213,
+        "clubId": "c12"
+      },
+      {
+        "name": "Alessandro Orlandi",
+        "apiId": 37754650,
+        "clubId": "c16"
+      },
+      {
+        "name": "Cesare Pogliano",
+        "apiId": 134152,
+        "clubId": "c17"
+      }
+    ]
+  },
+  "scb": {
+    "league": "Serie C: Girone B",
+    "items": [
+      {
+        "name": "Lorenzo Coccia",
+        "apiId": 37536559,
+        "clubId": "c2"
+      },
+      {
+        "name": "Filippo Puletto",
+        "apiId": 37607482,
+        "clubId": "c3"
+      },
+      {
+        "name": "Matteo Cortesi",
+        "apiId": 37262292,
+        "clubId": "c3"
+      },
+      {
+        "name": "Niccolò Pietra",
+        "apiId": 37571580,
+        "clubId": "c5"
+      },
+      {
+        "name": "Francesco Dell'Aquila",
+        "apiId": 37608217,
+        "clubId": "c5"
+      },
+      {
+        "name": "Jacopo Scaccabarozzi",
+        "apiId": 435671,
+        "clubId": "c10"
+      },
+      {
+        "name": "Abdel Zagrè",
+        "apiId": 37560807,
+        "clubId": "c10"
+      },
+      {
+        "name": "Salvatore Monaco",
+        "apiId": 132257,
+        "clubId": "c10"
+      },
+      {
+        "name": "Alexandru Capac",
+        "apiId": 37693746,
+        "clubId": "c18"
+      },
+      {
+        "name": "Nicola Falasco",
+        "apiId": 132236,
+        "clubId": "c18"
+      },
+      {
+        "name": "Mattia Leoncini",
+        "apiId": 37706928,
+        "clubId": "c18"
+      },
+      {
+        "name": "Tomas Lepri",
+        "apiId": 37552920,
+        "clubId": "c18"
+      },
+      {
+        "name": "Linas Megelaitis",
+        "apiId": 133400,
+        "clubId": "c18"
+      }
+    ]
+  },
+  "scc": {
+    "league": "Serie C: Girone C",
+    "items": [
+      {
+        "name": "Filippo Berra",
+        "apiId": 129461,
+        "clubId": "c5"
+      },
+      {
+        "name": "Giovanni Di Noia",
+        "apiId": 132260,
+        "clubId": "c6"
+      },
+      {
+        "name": "Mattia Novella",
+        "apiId": 16120876,
+        "clubId": "c8"
+      },
+      {
+        "name": "Pietro Ciotti",
+        "apiId": 20334427,
+        "clubId": "c9"
+      },
+      {
+        "name": "Angelo Veltri",
+        "apiId": 37665505,
+        "clubId": "c11"
+      },
+      {
+        "name": "Karim Cardoni",
+        "apiId": 37568233,
+        "clubId": "c11"
+      },
+      {
+        "name": "Francesco Pio Petito",
+        "apiId": 37540841,
+        "clubId": "c11"
+      },
+      {
+        "name": "Youssouph Cheikh Sylla",
+        "apiId": 20355567,
+        "clubId": "c13"
+      },
+      {
+        "name": "Dario Del Fabro",
+        "apiId": 6204,
+        "clubId": "c14"
+      },
+      {
+        "name": "Giovanni Volpe",
+        "apiId": 37308579,
+        "clubId": "c14"
+      },
+      {
+        "name": "Alessandro Russo",
+        "apiId": 20716662,
+        "clubId": "c14"
+      },
+      {
+        "name": "Pasqualino Ortisi",
+        "apiId": 35259780,
+        "clubId": "c16"
+      },
+      {
+        "name": "Francesco Orlando",
+        "apiId": 132213,
+        "clubId": "c17"
+      },
+      {
+        "name": "Marco Tumminello",
+        "apiId": 133649,
+        "clubId": "c18"
+      },
+      {
+        "name": "Francesco Rillo",
+        "apiId": 37257785,
+        "clubId": "c18"
+      },
+      {
+        "name": "Antonio Sabbatani",
+        "apiId": 37760958,
+        "clubId": "c19"
+      },
+      {
+        "name": "Vincenzo Millico",
+        "apiId": 10293779,
+        "clubId": "c20"
+      }
+    ]
+  },
+  "l2": {
+    "league": "La Liga 2",
+    "items": [
+      {
+        "name": "Gonzalo Petit",
+        "apiId": 37690218,
+        "clubId": "c8"
+      },
+      {
+        "name": "Pablo Insua",
+        "apiId": 186354,
+        "clubId": "c12"
+      },
+      {
+        "name": "Iván Calero",
+        "apiId": 6042,
+        "clubId": "c12"
+      },
+      {
+        "name": "Marino Illescas",
+        "apiId": 8456327,
+        "clubId": "c14"
+      },
+      {
+        "name": "Peru Rodríguez",
+        "apiId": 37412535,
+        "clubId": "c15"
+      },
+      {
+        "name": "Samuel Obeng Gyabaa",
+        "apiId": 21035924,
+        "clubId": "c21"
+      },
+      {
+        "name": "Edward Cedeño",
+        "apiId": 37594239,
+        "clubId": "c21"
+      },
+      {
+        "name": "Selvi Clua",
+        "apiId": 37676504,
+        "clubId": "c22"
+      }
+    ]
+  },
+  "fl2": {
+    "league": "Ligue 2",
+    "items": [
+      {
+        "name": "Mathys Tourraine",
+        "apiId": 27088955,
+        "clubId": "c15"
+      }
+    ]
+  },
+  "fna": {
+    "league": "National",
+    "items": [
+      {
+        "name": "Aeron Zinga",
+        "apiId": 31648711,
+        "clubId": "c9"
+      },
+      {
+        "name": "Ousseynou Ndiaye",
+        "apiId": 2206982,
+        "clubId": "c9"
+      },
+      {
+        "name": "Mathéo Ntumi",
+        "apiId": 37679368,
+        "clubId": "c11"
+      },
+      {
+        "name": "Samy Baghdadi",
+        "apiId": 525147,
+        "clubId": "c17"
+      },
+      {
+        "name": "Charles Abi",
+        "apiId": 9302861,
+        "clubId": "c17"
+      }
+    ]
+  },
+  "ed": {
+    "league": "Eerste Divisie",
+    "items": [
+      {
+        "name": "Nazjir Held",
+        "apiId": 37687496,
+        "clubId": "c11"
+      },
+      {
+        "name": "Dennis Vos",
+        "apiId": 23697504,
+        "clubId": "c14"
+      },
+      {
+        "name": "Tim Braem",
+        "apiId": 37767522,
+        "clubId": "c15"
+      },
+      {
+        "name": "Jillian Bernardina",
+        "apiId": 37920621,
+        "clubId": "c17"
+      }
+    ]
+  },
+  "td": {
+    "league": "Tweede Divisie",
+    "items": [
+      {
+        "name": "Daan Steur",
+        "apiId": 37662070,
+        "clubId": "c5"
+      }
+    ]
+  },
+  "pp2": {
+    "league": "Liga Portugal 2",
+    "items": [
+      {
+        "name": "André Rodrigues",
+        "apiId": 509299,
+        "clubId": "c5"
+      },
+      {
+        "name": "Dinis Rodrigues",
+        "apiId": 37604614,
+        "clubId": "c11"
+      },
+      {
+        "name": "Ricardo Schutte",
+        "apiId": 20693634,
+        "clubId": "c11"
+      },
+      {
+        "name": "David Costa",
+        "apiId": 37704485,
+        "clubId": "c13"
+      },
+      {
+        "name": "Mohamed Aidara",
+        "apiId": 2816143,
+        "clubId": "c17"
+      },
+      {
+        "name": "Rafael Pontelo",
+        "apiId": 37704500,
+        "clubId": "c18"
+      }
+    ]
+  },
+  "pp3": {
+    "league": "Liga 3",
+    "items": [
+      {
+        "name": "Jinyoung Yuk",
+        "apiId": 37540808,
+        "clubId": "c13"
+      },
+      {
+        "name": "Buby Katty",
+        "apiId": 37547295,
+        "clubId": "c13"
+      },
+      {
+        "name": "Fran Pereira",
+        "apiId": 37561093,
+        "clubId": "c15"
+      },
+      {
+        "name": "Calegari",
+        "apiId": 37458981,
+        "clubId": "c16"
+      },
+      {
+        "name": "Rui Silva",
+        "apiId": 162379,
+        "clubId": "c17"
+      },
+      {
+        "name": "Tomás Rocha",
+        "apiId": 38207998,
+        "clubId": "c18"
+      },
+      {
+        "name": "Leandro Tipote",
+        "apiId": 540326,
+        "clubId": "c18"
+      }
+    ]
+  },
+  "sc2": {
+    "league": "Championship",
+    "items": [
+      {
+        "name": "Dominic Thomas",
+        "apiId": 172827,
+        "clubId": "c8"
+      },
+      {
+        "name": "Uche Ikpeazu",
+        "apiId": 9266,
+        "clubId": "c10"
+      },
+      {
+        "name": "Josh Fowler",
+        "apiId": 38202027,
+        "clubId": "c10"
+      }
+    ]
+  },
+  "sl1": {
+    "league": "League One",
+    "items": [
+      {
+        "name": "Joseph Teasdale",
+        "apiId": 37706583,
+        "clubId": "c2"
+      },
+      {
+        "name": "Robert Jones",
+        "apiId": 378308,
+        "clubId": "c10"
+      }
+    ]
+  },
+  "sl2": {
+    "league": "League Two",
+    "items": [
+      {
+        "name": "Erik Sula",
+        "apiId": 1468027,
+        "clubId": "c4"
+      },
+      {
+        "name": "James Lyon",
+        "apiId": 37550817,
+        "clubId": "c4"
+      },
+      {
+        "name": "Morgyn Neill",
+        "apiId": 173038,
+        "clubId": "c6"
+      },
+      {
+        "name": "Mark Russell",
+        "apiId": 174017,
+        "clubId": "c8"
+      }
+    ]
+  },
+  "tl1": {
+    "league": "1. Lig",
+    "items": [
+      {
+        "name": "Yunus Tarhan",
+        "apiId": 37590966,
+        "clubId": "c4"
+      },
+      {
+        "name": "Florent Hasani",
+        "apiId": 1122865,
+        "clubId": "c6"
+      },
+      {
+        "name": "Oğuzhan Matur",
+        "apiId": 12066303,
+        "clubId": "c12"
+      },
+      {
+        "name": "Abdulkadir Parmak",
+        "apiId": 203978,
+        "clubId": "c12"
+      },
+      {
+        "name": "Yilmaz Gin",
+        "apiId": 37742618,
+        "clubId": "c12"
+      },
+      {
+        "name": "Cisqui",
+        "apiId": 24840,
+        "clubId": "c14"
+      },
+      {
+        "name": "André Poko",
+        "apiId": 95932,
+        "clubId": "c15"
+      },
+      {
+        "name": "Marcos Silva",
+        "apiId": 37257655,
+        "clubId": "c15"
+      },
+      {
+        "name": "Moustapha Camara",
+        "apiId": 37590239,
+        "clubId": "c15"
+      },
+      {
+        "name": "Fredy",
+        "apiId": 25796,
+        "clubId": "c16"
+      },
+      {
+        "name": "Ozan Sol",
+        "apiId": 203682,
+        "clubId": "c16"
+      },
+      {
+        "name": "Emeka Eze",
+        "apiId": 464015,
+        "clubId": "c16"
+      },
+      {
+        "name": "Emrecan Terzi",
+        "apiId": 37563154,
+        "clubId": "c17"
+      },
+      {
+        "name": "Batuhan Kör",
+        "apiId": 31228349,
+        "clubId": "c19"
+      },
+      {
+        "name": "Naby Oularé",
+        "apiId": 37542376,
+        "clubId": "c19"
+      },
+      {
+        "name": "Abdulsamed Damlu",
+        "apiId": 204255,
+        "clubId": "c19"
+      }
+    ]
+  },
+  "bcp": {
+    "league": "Challenger Pro League",
+    "items": [
+      {
+        "name": "Pieter De Schrijver",
+        "apiId": 37545694,
+        "clubId": "c8"
+      },
+      {
+        "name": "Jano Willems",
+        "apiId": 37611904,
+        "clubId": "c11"
+      },
+      {
+        "name": "Kays Ruiz-Atil",
+        "apiId": 23697440,
+        "clubId": "c14"
+      },
+      {
+        "name": "Emile Doucouré",
+        "apiId": 37721150,
+        "clubId": "c15"
+      }
+    ]
+  },
+  "bd1": {
+    "league": "Division 1",
+    "items": [
+      {
+        "name": "Naim Van Attenhoven",
+        "apiId": 37564813,
+        "clubId": "c18"
+      }
+    ]
+  }
+}

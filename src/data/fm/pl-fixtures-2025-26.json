@@ -1,0 +1,644 @@
+{
+  "meta": {
+    "competition": "Premier League",
+    "season": "2025-26",
+    "totalMatchdays": 38,
+    "totalFixtures": 380,
+    "teams": 20,
+    "generatedAt": "2026-03-31",
+    "notes": "Kick-off times shown in UK local time (BST/GMT). Times marked as TBC are scheduled at default 15:00 Sat but subject to TV/European changes.",
+    "source": "premierleague.com"
+  },
+  "teams": [
+    { "id": "AFC", "name": "AFC Bournemouth", "shortName": "Bournemouth" },
+    { "id": "ARS", "name": "Arsenal", "shortName": "Arsenal" },
+    { "id": "AVL", "name": "Aston Villa", "shortName": "Aston Villa" },
+    { "id": "BRE", "name": "Brentford", "shortName": "Brentford" },
+    { "id": "BRI", "name": "Brighton & Hove Albion", "shortName": "Brighton" },
+    { "id": "BUR", "name": "Burnley", "shortName": "Burnley" },
+    { "id": "CHE", "name": "Chelsea", "shortName": "Chelsea" },
+    { "id": "CRY", "name": "Crystal Palace", "shortName": "Crystal Palace" },
+    { "id": "EVE", "name": "Everton", "shortName": "Everton" },
+    { "id": "FUL", "name": "Fulham", "shortName": "Fulham" },
+    { "id": "LEE", "name": "Leeds United", "shortName": "Leeds" },
+    { "id": "LIV", "name": "Liverpool", "shortName": "Liverpool" },
+    { "id": "MCI", "name": "Manchester City", "shortName": "Man City" },
+    { "id": "MUN", "name": "Manchester United", "shortName": "Man United" },
+    { "id": "NEW", "name": "Newcastle United", "shortName": "Newcastle" },
+    { "id": "NFO", "name": "Nottingham Forest", "shortName": "Nott'm Forest" },
+    { "id": "SUN", "name": "Sunderland", "shortName": "Sunderland" },
+    { "id": "TOT", "name": "Tottenham Hotspur", "shortName": "Tottenham" },
+    { "id": "WHU", "name": "West Ham United", "shortName": "West Ham" },
+    { "id": "WOL", "name": "Wolverhampton Wanderers", "shortName": "Wolves" }
+  ],
+  "matchdays": [
+    {
+      "matchday": 1,
+      "dateRange": "15-18 Aug 2025",
+      "fixtures": [
+        { "id": "MW01-01", "home": "LIV", "away": "AFC", "date": "2025-08-15", "kickoff": "20:00", "broadcaster": "Sky Sports" },
+        { "id": "MW01-02", "home": "AVL", "away": "NEW", "date": "2025-08-16", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW01-03", "home": "BRI", "away": "FUL", "date": "2025-08-16", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW01-04", "home": "SUN", "away": "WHU", "date": "2025-08-16", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW01-05", "home": "TOT", "away": "BUR", "date": "2025-08-16", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW01-06", "home": "WOL", "away": "MCI", "date": "2025-08-16", "kickoff": "17:30", "broadcaster": "Sky Sports" },
+        { "id": "MW01-07", "home": "CHE", "away": "CRY", "date": "2025-08-17", "kickoff": "14:00", "broadcaster": "Sky Sports" },
+        { "id": "MW01-08", "home": "NFO", "away": "BRE", "date": "2025-08-17", "kickoff": "14:00", "broadcaster": "Sky Sports" },
+        { "id": "MW01-09", "home": "MUN", "away": "ARS", "date": "2025-08-17", "kickoff": "16:30", "broadcaster": "Sky Sports" },
+        { "id": "MW01-10", "home": "LEE", "away": "EVE", "date": "2025-08-18", "kickoff": "20:00", "broadcaster": "Sky Sports" }
+      ]
+    },
+    {
+      "matchday": 2,
+      "dateRange": "22-25 Aug 2025",
+      "fixtures": [
+        { "id": "MW02-01", "home": "WHU", "away": "CHE", "date": "2025-08-22", "kickoff": "20:00", "broadcaster": null },
+        { "id": "MW02-02", "home": "MCI", "away": "TOT", "date": "2025-08-23", "kickoff": "12:30", "broadcaster": null },
+        { "id": "MW02-03", "home": "AFC", "away": "WOL", "date": "2025-08-23", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW02-04", "home": "BRE", "away": "AVL", "date": "2025-08-23", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW02-05", "home": "BUR", "away": "SUN", "date": "2025-08-23", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW02-06", "home": "ARS", "away": "LEE", "date": "2025-08-23", "kickoff": "17:30", "broadcaster": null },
+        { "id": "MW02-07", "home": "CRY", "away": "NFO", "date": "2025-08-24", "kickoff": "14:00", "broadcaster": null },
+        { "id": "MW02-08", "home": "EVE", "away": "BRI", "date": "2025-08-24", "kickoff": "14:00", "broadcaster": null },
+        { "id": "MW02-09", "home": "FUL", "away": "MUN", "date": "2025-08-24", "kickoff": "16:30", "broadcaster": null },
+        { "id": "MW02-10", "home": "NEW", "away": "LIV", "date": "2025-08-25", "kickoff": "20:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 3,
+      "dateRange": "30-31 Aug 2025",
+      "fixtures": [
+        { "id": "MW03-01", "home": "CHE", "away": "FUL", "date": "2025-08-30", "kickoff": "12:30", "broadcaster": null },
+        { "id": "MW03-02", "home": "MUN", "away": "BUR", "date": "2025-08-30", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW03-03", "home": "SUN", "away": "BRE", "date": "2025-08-30", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW03-04", "home": "TOT", "away": "AFC", "date": "2025-08-30", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW03-05", "home": "WOL", "away": "EVE", "date": "2025-08-30", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW03-06", "home": "LEE", "away": "NEW", "date": "2025-08-30", "kickoff": "17:30", "broadcaster": null },
+        { "id": "MW03-07", "home": "BRI", "away": "MCI", "date": "2025-08-31", "kickoff": "14:00", "broadcaster": null },
+        { "id": "MW03-08", "home": "NFO", "away": "WHU", "date": "2025-08-31", "kickoff": "14:00", "broadcaster": null },
+        { "id": "MW03-09", "home": "LIV", "away": "ARS", "date": "2025-08-31", "kickoff": "16:30", "broadcaster": null },
+        { "id": "MW03-10", "home": "AVL", "away": "CRY", "date": "2025-08-31", "kickoff": "19:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 4,
+      "dateRange": "13-14 Sep 2025",
+      "fixtures": [
+        { "id": "MW04-01", "home": "ARS", "away": "NFO", "date": "2025-09-13", "kickoff": "12:30", "broadcaster": null },
+        { "id": "MW04-02", "home": "AFC", "away": "BRI", "date": "2025-09-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW04-03", "home": "CRY", "away": "SUN", "date": "2025-09-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW04-04", "home": "EVE", "away": "AVL", "date": "2025-09-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW04-05", "home": "FUL", "away": "LEE", "date": "2025-09-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW04-06", "home": "NEW", "away": "WOL", "date": "2025-09-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW04-07", "home": "WHU", "away": "TOT", "date": "2025-09-13", "kickoff": "17:30", "broadcaster": null },
+        { "id": "MW04-08", "home": "BRE", "away": "CHE", "date": "2025-09-13", "kickoff": "20:00", "broadcaster": null },
+        { "id": "MW04-09", "home": "BUR", "away": "LIV", "date": "2025-09-14", "kickoff": "14:00", "broadcaster": null },
+        { "id": "MW04-10", "home": "MCI", "away": "MUN", "date": "2025-09-14", "kickoff": "16:30", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 5,
+      "dateRange": "20-21 Sep 2025",
+      "fixtures": [
+        { "id": "MW05-01", "home": "LIV", "away": "EVE", "date": "2025-09-20", "kickoff": "12:30", "broadcaster": "TNT Sports" },
+        { "id": "MW05-02", "home": "AFC", "away": "NEW", "date": "2025-09-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW05-03", "home": "BRI", "away": "TOT", "date": "2025-09-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW05-04", "home": "BUR", "away": "NFO", "date": "2025-09-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW05-05", "home": "WHU", "away": "CRY", "date": "2025-09-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW05-06", "home": "WOL", "away": "LEE", "date": "2025-09-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW05-07", "home": "MUN", "away": "CHE", "date": "2025-09-20", "kickoff": "17:30", "broadcaster": "Sky Sports" },
+        { "id": "MW05-08", "home": "FUL", "away": "BRE", "date": "2025-09-20", "kickoff": "20:00", "broadcaster": "Sky Sports" },
+        { "id": "MW05-09", "home": "SUN", "away": "AVL", "date": "2025-09-21", "kickoff": "14:00", "broadcaster": "Sky Sports" },
+        { "id": "MW05-10", "home": "ARS", "away": "MCI", "date": "2025-09-21", "kickoff": "16:30", "broadcaster": "Sky Sports" }
+      ]
+    },
+    {
+      "matchday": 6,
+      "dateRange": "27-28 Sep 2025",
+      "fixtures": [
+        { "id": "MW06-01", "home": "BRE", "away": "MUN", "date": "2025-09-27", "kickoff": "12:30", "broadcaster": "TNT Sports" },
+        { "id": "MW06-02", "home": "AVL", "away": "FUL", "date": "2025-09-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW06-03", "home": "CHE", "away": "BRI", "date": "2025-09-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW06-04", "home": "CRY", "away": "LIV", "date": "2025-09-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW06-05", "home": "LEE", "away": "AFC", "date": "2025-09-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW06-06", "home": "MCI", "away": "BUR", "date": "2025-09-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW06-07", "home": "NFO", "away": "SUN", "date": "2025-09-27", "kickoff": "17:30", "broadcaster": "Sky Sports" },
+        { "id": "MW06-08", "home": "TOT", "away": "WOL", "date": "2025-09-27", "kickoff": "20:00", "broadcaster": "Sky Sports" },
+        { "id": "MW06-09", "home": "NEW", "away": "ARS", "date": "2025-09-28", "kickoff": "16:30", "broadcaster": null },
+        { "id": "MW06-10", "home": "EVE", "away": "WHU", "date": "2025-09-29", "kickoff": "20:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 7,
+      "dateRange": "4 Oct 2025",
+      "fixtures": [
+        { "id": "MW07-01", "home": "AFC", "away": "FUL", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-02", "home": "ARS", "away": "WHU", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-03", "home": "AVL", "away": "BUR", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-04", "home": "BRE", "away": "MCI", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-05", "home": "CHE", "away": "LIV", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-06", "home": "EVE", "away": "CRY", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-07", "home": "LEE", "away": "TOT", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-08", "home": "MUN", "away": "SUN", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-09", "home": "NEW", "away": "NFO", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW07-10", "home": "WOL", "away": "BRI", "date": "2025-10-04", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 8,
+      "dateRange": "18 Oct 2025",
+      "fixtures": [
+        { "id": "MW08-01", "home": "BRI", "away": "NEW", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-02", "home": "BUR", "away": "LEE", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-03", "home": "CRY", "away": "AFC", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-04", "home": "FUL", "away": "ARS", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-05", "home": "LIV", "away": "MUN", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-06", "home": "MCI", "away": "EVE", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-07", "home": "NFO", "away": "CHE", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-08", "home": "SUN", "away": "WOL", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-09", "home": "TOT", "away": "AVL", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW08-10", "home": "WHU", "away": "BRE", "date": "2025-10-18", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 9,
+      "dateRange": "25 Oct 2025",
+      "fixtures": [
+        { "id": "MW09-01", "home": "AFC", "away": "NFO", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-02", "home": "ARS", "away": "CRY", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-03", "home": "AVL", "away": "MCI", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-04", "home": "BRE", "away": "LIV", "date": "2025-10-25", "kickoff": "20:00", "broadcaster": "TNT Sports" },
+        { "id": "MW09-05", "home": "CHE", "away": "SUN", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-06", "home": "EVE", "away": "TOT", "date": "2025-10-26", "kickoff": "16:30", "broadcaster": "Sky Sports" },
+        { "id": "MW09-07", "home": "LEE", "away": "WHU", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-08", "home": "MUN", "away": "BRI", "date": "2025-10-25", "kickoff": "17:30", "broadcaster": "Sky Sports" },
+        { "id": "MW09-09", "home": "NEW", "away": "FUL", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW09-10", "home": "WOL", "away": "BUR", "date": "2025-10-25", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 10,
+      "dateRange": "1 Nov 2025",
+      "fixtures": [
+        { "id": "MW10-01", "home": "BRI", "away": "LEE", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-02", "home": "BUR", "away": "ARS", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-03", "home": "CRY", "away": "BRE", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-04", "home": "FUL", "away": "WOL", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-05", "home": "LIV", "away": "AVL", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-06", "home": "MCI", "away": "AFC", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-07", "home": "NFO", "away": "MUN", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-08", "home": "SUN", "away": "EVE", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-09", "home": "TOT", "away": "CHE", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW10-10", "home": "WHU", "away": "NEW", "date": "2025-11-01", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 11,
+      "dateRange": "8 Nov 2025",
+      "fixtures": [
+        { "id": "MW11-01", "home": "AVL", "away": "AFC", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-02", "home": "BRE", "away": "NEW", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-03", "home": "CHE", "away": "WOL", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-04", "home": "CRY", "away": "BRI", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-05", "home": "EVE", "away": "FUL", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-06", "home": "MCI", "away": "LIV", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-07", "home": "NFO", "away": "LEE", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-08", "home": "SUN", "away": "ARS", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-09", "home": "TOT", "away": "MUN", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW11-10", "home": "WHU", "away": "BUR", "date": "2025-11-08", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 12,
+      "dateRange": "22 Nov 2025",
+      "fixtures": [
+        { "id": "MW12-01", "home": "AFC", "away": "WHU", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-02", "home": "ARS", "away": "TOT", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-03", "home": "BRI", "away": "BRE", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-04", "home": "BUR", "away": "CHE", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-05", "home": "FUL", "away": "SUN", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-06", "home": "LEE", "away": "AVL", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-07", "home": "LIV", "away": "NFO", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-08", "home": "MUN", "away": "EVE", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-09", "home": "NEW", "away": "MCI", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW12-10", "home": "WOL", "away": "CRY", "date": "2025-11-22", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 13,
+      "dateRange": "29 Nov 2025",
+      "fixtures": [
+        { "id": "MW13-01", "home": "AVL", "away": "WOL", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-02", "home": "BRE", "away": "BUR", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-03", "home": "CHE", "away": "ARS", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-04", "home": "CRY", "away": "MUN", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-05", "home": "EVE", "away": "NEW", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-06", "home": "MCI", "away": "LEE", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-07", "home": "NFO", "away": "BRI", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-08", "home": "SUN", "away": "AFC", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-09", "home": "TOT", "away": "FUL", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW13-10", "home": "WHU", "away": "LIV", "date": "2025-11-29", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 14,
+      "dateRange": "3 Dec 2025",
+      "fixtures": [
+        { "id": "MW14-01", "home": "AFC", "away": "EVE", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-02", "home": "ARS", "away": "BRE", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-03", "home": "BRI", "away": "AVL", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-04", "home": "BUR", "away": "CRY", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-05", "home": "FUL", "away": "MCI", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-06", "home": "LEE", "away": "CHE", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-07", "home": "LIV", "away": "SUN", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-08", "home": "MUN", "away": "WHU", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-09", "home": "NEW", "away": "TOT", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW14-10", "home": "WOL", "away": "NFO", "date": "2025-12-03", "kickoff": "19:45", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 15,
+      "dateRange": "6 Dec 2025",
+      "fixtures": [
+        { "id": "MW15-01", "home": "AFC", "away": "CHE", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-02", "home": "AVL", "away": "ARS", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-03", "home": "BRI", "away": "WHU", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-04", "home": "EVE", "away": "NFO", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-05", "home": "FUL", "away": "CRY", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-06", "home": "LEE", "away": "LIV", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-07", "home": "MCI", "away": "SUN", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-08", "home": "NEW", "away": "BUR", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-09", "home": "TOT", "away": "BRE", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW15-10", "home": "WOL", "away": "MUN", "date": "2025-12-06", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 16,
+      "dateRange": "13 Dec 2025",
+      "fixtures": [
+        { "id": "MW16-01", "home": "ARS", "away": "WOL", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-02", "home": "BRE", "away": "LEE", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-03", "home": "BUR", "away": "FUL", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-04", "home": "CHE", "away": "EVE", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-05", "home": "CRY", "away": "MCI", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-06", "home": "LIV", "away": "BRI", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-07", "home": "MUN", "away": "AFC", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-08", "home": "NFO", "away": "TOT", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-09", "home": "SUN", "away": "NEW", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW16-10", "home": "WHU", "away": "AVL", "date": "2025-12-13", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 17,
+      "dateRange": "20 Dec 2025",
+      "fixtures": [
+        { "id": "MW17-01", "home": "AFC", "away": "BUR", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-02", "home": "AVL", "away": "MUN", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-03", "home": "BRI", "away": "SUN", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-04", "home": "EVE", "away": "ARS", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-05", "home": "FUL", "away": "NFO", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-06", "home": "LEE", "away": "CRY", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-07", "home": "MCI", "away": "WHU", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-08", "home": "NEW", "away": "CHE", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-09", "home": "TOT", "away": "LIV", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW17-10", "home": "WOL", "away": "BRE", "date": "2025-12-20", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 18,
+      "dateRange": "27 Dec 2025",
+      "fixtures": [
+        { "id": "MW18-01", "home": "ARS", "away": "BRI", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-02", "home": "BRE", "away": "AFC", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-03", "home": "BUR", "away": "EVE", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-04", "home": "CHE", "away": "AVL", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-05", "home": "CRY", "away": "TOT", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-06", "home": "LIV", "away": "WOL", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-07", "home": "MUN", "away": "NEW", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-08", "home": "NFO", "away": "MCI", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-09", "home": "SUN", "away": "LEE", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW18-10", "home": "WHU", "away": "FUL", "date": "2025-12-27", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 19,
+      "dateRange": "30 Dec 2025",
+      "fixtures": [
+        { "id": "MW19-01", "home": "ARS", "away": "AVL", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-02", "home": "BRE", "away": "TOT", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-03", "home": "BUR", "away": "NEW", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-04", "home": "CHE", "away": "AFC", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-05", "home": "CRY", "away": "FUL", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-06", "home": "LIV", "away": "LEE", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-07", "home": "MUN", "away": "WOL", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-08", "home": "NFO", "away": "EVE", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-09", "home": "SUN", "away": "MCI", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW19-10", "home": "WHU", "away": "BRI", "date": "2025-12-30", "kickoff": "19:45", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 20,
+      "dateRange": "3 Jan 2026",
+      "fixtures": [
+        { "id": "MW20-01", "home": "AFC", "away": "ARS", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-02", "home": "AVL", "away": "NFO", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-03", "home": "BRI", "away": "BUR", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-04", "home": "EVE", "away": "BRE", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-05", "home": "FUL", "away": "LIV", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-06", "home": "LEE", "away": "MUN", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-07", "home": "MCI", "away": "CHE", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-08", "home": "NEW", "away": "CRY", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-09", "home": "TOT", "away": "SUN", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW20-10", "home": "WOL", "away": "WHU", "date": "2026-01-03", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 21,
+      "dateRange": "7 Jan 2026",
+      "fixtures": [
+        { "id": "MW21-01", "home": "AFC", "away": "TOT", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-02", "home": "ARS", "away": "LIV", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-03", "home": "BRE", "away": "SUN", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-04", "home": "BUR", "away": "MUN", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-05", "home": "CRY", "away": "AVL", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-06", "home": "EVE", "away": "WOL", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-07", "home": "FUL", "away": "CHE", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-08", "home": "MCI", "away": "BRI", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-09", "home": "NEW", "away": "LEE", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW21-10", "home": "WHU", "away": "NFO", "date": "2026-01-07", "kickoff": "19:45", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 22,
+      "dateRange": "17 Jan 2026",
+      "fixtures": [
+        { "id": "MW22-01", "home": "AVL", "away": "EVE", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-02", "home": "BRI", "away": "AFC", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-03", "home": "CHE", "away": "BRE", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-04", "home": "LEE", "away": "FUL", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-05", "home": "LIV", "away": "BUR", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-06", "home": "MUN", "away": "MCI", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-07", "home": "NFO", "away": "ARS", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-08", "home": "SUN", "away": "CRY", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-09", "home": "TOT", "away": "WHU", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW22-10", "home": "WOL", "away": "NEW", "date": "2026-01-17", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 23,
+      "dateRange": "24 Jan 2026",
+      "fixtures": [
+        { "id": "MW23-01", "home": "AFC", "away": "LIV", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-02", "home": "ARS", "away": "MUN", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-03", "home": "BRE", "away": "NFO", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-04", "home": "BUR", "away": "TOT", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-05", "home": "CRY", "away": "CHE", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-06", "home": "EVE", "away": "LEE", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-07", "home": "FUL", "away": "BRI", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-08", "home": "MCI", "away": "WOL", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-09", "home": "NEW", "away": "AVL", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW23-10", "home": "WHU", "away": "SUN", "date": "2026-01-24", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 24,
+      "dateRange": "31 Jan 2026",
+      "fixtures": [
+        { "id": "MW24-01", "home": "AVL", "away": "BRE", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-02", "home": "BRI", "away": "EVE", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-03", "home": "CHE", "away": "WHU", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-04", "home": "LEE", "away": "ARS", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-05", "home": "LIV", "away": "NEW", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-06", "home": "MUN", "away": "FUL", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-07", "home": "NFO", "away": "CRY", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-08", "home": "SUN", "away": "BUR", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-09", "home": "TOT", "away": "MCI", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW24-10", "home": "WOL", "away": "AFC", "date": "2026-01-31", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 25,
+      "dateRange": "7 Feb 2026",
+      "fixtures": [
+        { "id": "MW25-01", "home": "AFC", "away": "AVL", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-02", "home": "ARS", "away": "SUN", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-03", "home": "BRI", "away": "CRY", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-04", "home": "BUR", "away": "WHU", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-05", "home": "FUL", "away": "EVE", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-06", "home": "LEE", "away": "NFO", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-07", "home": "LIV", "away": "MCI", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-08", "home": "MUN", "away": "TOT", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-09", "home": "NEW", "away": "BRE", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW25-10", "home": "WOL", "away": "CHE", "date": "2026-02-07", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 26,
+      "dateRange": "11 Feb 2026",
+      "fixtures": [
+        { "id": "MW26-01", "home": "AVL", "away": "BRI", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-02", "home": "BRE", "away": "ARS", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-03", "home": "CHE", "away": "LEE", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-04", "home": "CRY", "away": "BUR", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-05", "home": "EVE", "away": "AFC", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-06", "home": "MCI", "away": "FUL", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-07", "home": "NFO", "away": "WOL", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-08", "home": "SUN", "away": "LIV", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-09", "home": "TOT", "away": "NEW", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW26-10", "home": "WHU", "away": "MUN", "date": "2026-02-11", "kickoff": "19:45", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 27,
+      "dateRange": "21 Feb 2026",
+      "fixtures": [
+        { "id": "MW27-01", "home": "AVL", "away": "LEE", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-02", "home": "BRE", "away": "BRI", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-03", "home": "CHE", "away": "BUR", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-04", "home": "CRY", "away": "WOL", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-05", "home": "EVE", "away": "MUN", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-06", "home": "MCI", "away": "NEW", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-07", "home": "NFO", "away": "LIV", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-08", "home": "SUN", "away": "FUL", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-09", "home": "TOT", "away": "ARS", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW27-10", "home": "WHU", "away": "AFC", "date": "2026-02-21", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 28,
+      "dateRange": "28 Feb 2026",
+      "fixtures": [
+        { "id": "MW28-01", "home": "AFC", "away": "SUN", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-02", "home": "ARS", "away": "CHE", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-03", "home": "BRI", "away": "NFO", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-04", "home": "BUR", "away": "BRE", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-05", "home": "FUL", "away": "TOT", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-06", "home": "LEE", "away": "MCI", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-07", "home": "LIV", "away": "WHU", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-08", "home": "MUN", "away": "CRY", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-09", "home": "NEW", "away": "EVE", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW28-10", "home": "WOL", "away": "AVL", "date": "2026-02-28", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 29,
+      "dateRange": "4 Mar 2026",
+      "fixtures": [
+        { "id": "MW29-01", "home": "AFC", "away": "BRE", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-02", "home": "AVL", "away": "CHE", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-03", "home": "BRI", "away": "ARS", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-04", "home": "EVE", "away": "BUR", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-05", "home": "FUL", "away": "WHU", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-06", "home": "LEE", "away": "SUN", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-07", "home": "MCI", "away": "NFO", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-08", "home": "NEW", "away": "MUN", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-09", "home": "TOT", "away": "CRY", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null },
+        { "id": "MW29-10", "home": "WOL", "away": "LIV", "date": "2026-03-04", "kickoff": "19:45", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 30,
+      "dateRange": "14 Mar 2026",
+      "fixtures": [
+        { "id": "MW30-01", "home": "ARS", "away": "EVE", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-02", "home": "BRE", "away": "WOL", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-03", "home": "BUR", "away": "AFC", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-04", "home": "CHE", "away": "NEW", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-05", "home": "CRY", "away": "LEE", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-06", "home": "LIV", "away": "TOT", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-07", "home": "MUN", "away": "AVL", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-08", "home": "NFO", "away": "FUL", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-09", "home": "SUN", "away": "BRI", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW30-10", "home": "WHU", "away": "MCI", "date": "2026-03-14", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 31,
+      "dateRange": "21 Mar 2026",
+      "fixtures": [
+        { "id": "MW31-01", "home": "AFC", "away": "MUN", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-02", "home": "AVL", "away": "WHU", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-03", "home": "BRI", "away": "LIV", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-04", "home": "EVE", "away": "CHE", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-05", "home": "FUL", "away": "BUR", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-06", "home": "LEE", "away": "BRE", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-07", "home": "MCI", "away": "CRY", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-08", "home": "NEW", "away": "SUN", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-09", "home": "TOT", "away": "NFO", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW31-10", "home": "WOL", "away": "ARS", "date": "2026-03-21", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 32,
+      "dateRange": "11 Apr 2026",
+      "fixtures": [
+        { "id": "MW32-01", "home": "ARS", "away": "AFC", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-02", "home": "BRE", "away": "EVE", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-03", "home": "BUR", "away": "BRI", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-04", "home": "CHE", "away": "MCI", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-05", "home": "CRY", "away": "NEW", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-06", "home": "LIV", "away": "FUL", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-07", "home": "MUN", "away": "LEE", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-08", "home": "NFO", "away": "AVL", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-09", "home": "SUN", "away": "TOT", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW32-10", "home": "WHU", "away": "WOL", "date": "2026-04-11", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 33,
+      "dateRange": "18 Apr 2026",
+      "fixtures": [
+        { "id": "MW33-01", "home": "AVL", "away": "SUN", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-02", "home": "BRE", "away": "FUL", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-03", "home": "CHE", "away": "MUN", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-04", "home": "CRY", "away": "WHU", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-05", "home": "EVE", "away": "LIV", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-06", "home": "LEE", "away": "WOL", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-07", "home": "MCI", "away": "ARS", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-08", "home": "NEW", "away": "AFC", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-09", "home": "NFO", "away": "BUR", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW33-10", "home": "TOT", "away": "BRI", "date": "2026-04-18", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 34,
+      "dateRange": "25 Apr 2026",
+      "fixtures": [
+        { "id": "MW34-01", "home": "AFC", "away": "LEE", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-02", "home": "ARS", "away": "NEW", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-03", "home": "BRI", "away": "CHE", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-04", "home": "BUR", "away": "MCI", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-05", "home": "FUL", "away": "AVL", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-06", "home": "LIV", "away": "CRY", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-07", "home": "MUN", "away": "BRE", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-08", "home": "SUN", "away": "NFO", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-09", "home": "WHU", "away": "EVE", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW34-10", "home": "WOL", "away": "TOT", "date": "2026-04-25", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 35,
+      "dateRange": "2 May 2026",
+      "fixtures": [
+        { "id": "MW35-01", "home": "AFC", "away": "CRY", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-02", "home": "ARS", "away": "FUL", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-03", "home": "AVL", "away": "TOT", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-04", "home": "BRE", "away": "WHU", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-05", "home": "CHE", "away": "NFO", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-06", "home": "EVE", "away": "MCI", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-07", "home": "LEE", "away": "BUR", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-08", "home": "MUN", "away": "LIV", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-09", "home": "NEW", "away": "BRI", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW35-10", "home": "WOL", "away": "SUN", "date": "2026-05-02", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 36,
+      "dateRange": "9 May 2026",
+      "fixtures": [
+        { "id": "MW36-01", "home": "BRI", "away": "WOL", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-02", "home": "BUR", "away": "AVL", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-03", "home": "CRY", "away": "EVE", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-04", "home": "FUL", "away": "AFC", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-05", "home": "LIV", "away": "CHE", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-06", "home": "MCI", "away": "BRE", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-07", "home": "NFO", "away": "NEW", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-08", "home": "SUN", "away": "MUN", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-09", "home": "TOT", "away": "LEE", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW36-10", "home": "WHU", "away": "ARS", "date": "2026-05-09", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 37,
+      "dateRange": "17 May 2026",
+      "fixtures": [
+        { "id": "MW37-01", "home": "AFC", "away": "MCI", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-02", "home": "ARS", "away": "BUR", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-03", "home": "AVL", "away": "LIV", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-04", "home": "BRE", "away": "CRY", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-05", "home": "CHE", "away": "TOT", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-06", "home": "EVE", "away": "SUN", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-07", "home": "LEE", "away": "BRI", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-08", "home": "MUN", "away": "NFO", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-09", "home": "NEW", "away": "WHU", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null },
+        { "id": "MW37-10", "home": "WOL", "away": "FUL", "date": "2026-05-17", "kickoff": "15:00", "broadcaster": null }
+      ]
+    },
+    {
+      "matchday": 38,
+      "dateRange": "24 May 2026",
+      "fixtures": [
+        { "id": "MW38-01", "home": "BRI", "away": "MUN", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-02", "home": "BUR", "away": "WOL", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-03", "home": "CRY", "away": "ARS", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-04", "home": "FUL", "away": "NEW", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-05", "home": "LIV", "away": "BRE", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-06", "home": "MCI", "away": "AVL", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-07", "home": "NFO", "away": "AFC", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-08", "home": "SUN", "away": "CHE", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-09", "home": "TOT", "away": "EVE", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null },
+        { "id": "MW38-10", "home": "WHU", "away": "LEE", "date": "2026-05-24", "kickoff": "16:00", "broadcaster": null }
+      ]
+    }
+  ]
+}
