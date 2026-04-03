@@ -5,6 +5,9 @@ import {
   parseAttributes, flattenAttributes, attrDisplayName, toCamelCase,
   GOALKEEPING_ATTRS, TECHNICAL_ATTRS, MENTAL_ATTRS, PHYSICAL_ATTRS,
 } from './scanner/attributeParser.js'
+import {
+  POSITION_LIST, getKeyAttrsForPosition, getAttrWeight, calcPositionScore,
+} from '../data/positionWeights.js'
 
 const MAX_PLAYERS = 4
 
@@ -38,7 +41,10 @@ const VIEW_OPTIONS = [
   { key: 'physical', label: 'Physical' },
 ]
 
-function getAttrsForView(view) {
+function getAttrsForView(view, posFilter) {
+  if (view === 'position' && posFilter) {
+    return getKeyAttrsForPosition(posFilter, 12).map(a => a.key)
+  }
   if (view === 'key') return KEY_STATS
   return ATTR_GROUPS[view].map(toCamelCase)
 }
@@ -200,7 +206,7 @@ function RadarChart({ players, attrKeys, size = 480 }) {
 
 /* ── Comparison Table ─────────────────────────────────────────────────── */
 
-function ComparisonTable({ players }) {
+function ComparisonTable({ players, posFilter }) {
   const flats = players.map(p => flattenAttributes(p.parsed))
 
   // Only show goalkeeping if any player has goalkeeper attributes
@@ -264,9 +270,17 @@ function ComparisonTable({ players }) {
                 const maxVal = validVals.length ? Math.max(...validVals) : null
                 const minVal = validVals.length ? Math.min(...validVals) : null
 
+                const weight = posFilter ? getAttrWeight(posFilter, key) : 0
+
                 return (
                   <tr key={key} style={{ borderBottom: `1px solid ${C.border}22` }}>
-                    <td style={{ padding: '6px 12px', color: C.textSecondary }}>
+                    <td style={{ padding: '6px 12px', color: C.textSecondary, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {posFilter && weight > 0 && (
+                        <span style={{
+                          width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
+                          background: weight >= 0.8 ? C.green : weight >= 0.5 ? C.orange : C.textMuted,
+                        }} />
+                      )}
                       {attrDisplayName(key)}
                     </td>
                     {values.map((val, i) => {
@@ -419,6 +433,7 @@ function UploadCard({ index, player, onFile, onRemove, onNameChange }) {
 export default function PlayerComparisonTool() {
   const [players, setPlayers] = useState([]) // { id, file, preview, name, parsed, status, progress }
   const [view, setView] = useState('key')
+  const [posFilter, setPosFilter] = useState('') // '' = no filter, 'ST', 'CB', etc.
   const nextId = useRef(0)
 
   const addPlayer = useCallback(async (file) => {
@@ -478,7 +493,7 @@ export default function PlayerComparisonTool() {
   }, [])
 
   const readyPlayers = players.filter(p => p.status === 'done')
-  const attrKeys = getAttrsForView(view)
+  const attrKeys = getAttrsForView(view, posFilter)
 
   // How many empty upload slots to show
   const emptySlots = Math.max(1, 2 - players.length)
@@ -526,13 +541,41 @@ export default function PlayerComparisonTool() {
       {/* Results */}
       {readyPlayers.length >= 2 && (
         <>
-          {/* View toggle */}
-          <div style={{
-            display: 'flex', gap: 8, marginBottom: 24, flexWrap: 'wrap',
-          }}>
-            {VIEW_OPTIONS.filter(opt => {
+          {/* Position filter + View toggle */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Position dropdown */}
+            <select
+              value={posFilter}
+              onChange={e => {
+                setPosFilter(e.target.value)
+                if (e.target.value) setView('position')
+                else if (view === 'position') setView('key')
+              }}
+              style={{
+                padding: '8px 14px', borderRadius: 10,
+                background: posFilter ? C.green : C.surfaceLight,
+                color: posFilter ? '#fff' : C.textSecondary,
+                border: `1px solid ${posFilter ? C.green : C.border}`,
+                fontWeight: 600, fontSize: 13, cursor: 'pointer',
+                fontFamily: 'inherit', outline: 'none',
+                appearance: 'none', paddingRight: 28,
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%238892A8' fill='none' stroke-width='1.5'/%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 10px center',
+              }}
+            >
+              <option value="">All Positions</option>
+              {POSITION_LIST.map(p => (
+                <option key={p.key} value={p.key}>{p.key} — {p.label}</option>
+              ))}
+            </select>
+
+            {/* View buttons */}
+            {[
+              ...(posFilter ? [{ key: 'position', label: 'Position Key' }] : []),
+              ...VIEW_OPTIONS,
+            ].filter(opt => {
               if (opt.key !== 'goalkeeping') return true
-              // Only show GK tab if any player has GK attributes
               return readyPlayers.some(p => {
                 const flat = flattenAttributes(p.parsed)
                 return GOALKEEPING_ATTRS.some(a => flat[toCamelCase(a)] !== undefined)
@@ -540,7 +583,7 @@ export default function PlayerComparisonTool() {
             }).map(opt => (
               <button key={opt.key} onClick={() => setView(opt.key)} style={{
                 padding: '8px 18px', borderRadius: 10, border: 'none',
-                background: view === opt.key ? C.purple : C.surfaceLight,
+                background: view === opt.key ? (opt.key === 'position' ? C.green : C.purple) : C.surfaceLight,
                 color: view === opt.key ? '#fff' : C.textSecondary,
                 fontWeight: 600, fontSize: 13, cursor: 'pointer',
                 transition: 'background 0.2s, color 0.2s',
@@ -549,6 +592,39 @@ export default function PlayerComparisonTool() {
               </button>
             ))}
           </div>
+
+          {/* Position scores (when position filter active) */}
+          {posFilter && (
+            <div style={{
+              display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap',
+            }}>
+              {readyPlayers.map((p, i) => {
+                const flat = flattenAttributes(p.parsed)
+                const score = calcPositionScore(posFilter, flat)
+                return (
+                  <div key={p.id} style={{
+                    flex: 1, minWidth: 140,
+                    background: C.gradientCard, border: `1px solid ${PLAYER_COLORS[i % PLAYER_COLORS.length]}30`,
+                    borderRadius: 12, padding: '14px 18px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                  }}>
+                    <span style={{ fontSize: 11, color: C.textMuted, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                      {posFilter} Score
+                    </span>
+                    <span style={{
+                      fontSize: 28, fontWeight: 800,
+                      color: PLAYER_COLORS[i % PLAYER_COLORS.length],
+                    }}>
+                      {score}
+                    </span>
+                    <span style={{ fontSize: 12, color: C.textSecondary, fontWeight: 600 }}>
+                      {p.name || `Player ${i + 1}`}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
 
           {/* Legend */}
           <div style={{
@@ -579,7 +655,7 @@ export default function PlayerComparisonTool() {
           <h3 style={{ color: C.text, fontSize: 16, fontWeight: 700, marginBottom: 16 }}>
             Attribute Breakdown
           </h3>
-          <ComparisonTable players={readyPlayers} />
+          <ComparisonTable players={readyPlayers} posFilter={posFilter} />
         </>
       )}
 
