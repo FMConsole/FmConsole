@@ -725,7 +725,7 @@ export function parseAttributes(text, overlay, visionData) {
 
 /* ── Utilities ────────────────────────────────────────────────────────── */
 
-function toCamelCase(str) {
+export function toCamelCase(str) {
   return str.replace(/\s+(\w)/g, (_, c) => c.toUpperCase())
 }
 
@@ -759,4 +759,4 @@ export function attrDisplayName(key) {
     .trim()
 }
 
-export { toCamelCase, GOALKEEPING_ATTRS, TECHNICAL_ATTRS, MENTAL_ATTRS, PHYSICAL_ATTRS }
+export { GOALKEEPING_ATTRS, TECHNICAL_ATTRS, MENTAL_ATTRS, PHYSICAL_ATTRS }
