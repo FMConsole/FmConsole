@@ -11,6 +11,28 @@
  * The parser tries all approaches and picks the one that finds the most attributes.
  */
 
+/* ── Utilities (must be defined before use) ───────────────────────────── */
+
+export function toCamelCase(str) {
+  return str.replace(/\s+(\w)/g, (_, c) => c.toUpperCase())
+}
+
+export function flattenAttributes(parsed) {
+  return {
+    ...parsed.attributes.goalkeeping,
+    ...parsed.attributes.technical,
+    ...parsed.attributes.mental,
+    ...parsed.attributes.physical,
+  }
+}
+
+export function attrDisplayName(key) {
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, c => c.toUpperCase())
+    .trim()
+}
+
 /* ── Attribute definitions ────────────────────────────────────────────── */
 
 const GOALKEEPING_ATTRS = [
@@ -723,12 +745,6 @@ export function parseAttributes(text, overlay, visionData) {
   return { playerName, attributes: best.attrs }
 }
 
-/* ── Utilities ────────────────────────────────────────────────────────── */
-
-export function toCamelCase(str) {
-  return str.replace(/\s+(\w)/g, (_, c) => c.toUpperCase())
-}
-
 /** Find which group a camelCase key belongs to. */
 function findGroupForKey(key) {
   const allGroups = [
@@ -741,22 +757,6 @@ function findGroupForKey(key) {
     if (attrs.some(a => toCamelCase(a) === key)) return group
   }
   return null
-}
-
-export function flattenAttributes(parsed) {
-  return {
-    ...parsed.attributes.goalkeeping,
-    ...parsed.attributes.technical,
-    ...parsed.attributes.mental,
-    ...parsed.attributes.physical,
-  }
-}
-
-export function attrDisplayName(key) {
-  return key
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, c => c.toUpperCase())
-    .trim()
 }
 
 export { GOALKEEPING_ATTRS, TECHNICAL_ATTRS, MENTAL_ATTRS, PHYSICAL_ATTRS }

@@ -8,8 +8,7 @@ import Blog from './pages/Blog'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import TacticBuilder from './pages/TacticBuilder'
-import SquadPlanner from './pages/SquadPlanner'
-import StatsScanner from './pages/StatsScanner'
+import SquadBuilder from './pages/SquadBuilder'
 import PlayerComparison from './pages/PlayerComparison'
 import TraitRecommender from './pages/TraitRecommender'
 import Database from './pages/Database'
@@ -35,8 +34,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/tools/tactic-builder" element={<TacticBuilder />} />
-          <Route path="/tools/squad-planner" element={<SquadPlanner />} />
-          <Route path="/tools/stats-scanner" element={<StatsScanner />} />
+          <Route path="/tools/squad-builder" element={<SquadBuilder />} />
           <Route path="/tools/player-comparison" element={<PlayerComparison />} />
           <Route path="/tools/trait-recommender" element={<TraitRecommender />} />
           <Route path="/database" element={<Database />} />
