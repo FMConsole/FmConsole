@@ -702,6 +702,7 @@ export function parseAttributes(text, overlay, visionData) {
         preferredFoot: visionData.preferredFoot || null,
         personality: visionData.personality || null,
         reputation: visionData.reputation || null,
+        traits: visionData.traits || [],
       },
     }
   }

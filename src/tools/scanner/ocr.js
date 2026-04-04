@@ -91,6 +91,7 @@ IMPORTANT READING INSTRUCTIONS:
 - Read positions from the "Positions" section (e.g. "WB/M/AM (R)" means Wing-Back, Midfielder, Attacking Midfielder Right)
 - Read height, personality, reputation from the "Info" panel if visible
 - Read preferred foot information if visible (e.g. Left Foot: Weak, Right Foot: Very Strong)
+- Read player traits/PPMs (Player-Preferred Moves) from the "Info" or traits panel if visible. These are listed text traits like "Likes To Try To Beat Offside Trap", "Knocks Ball Past Opponent", "Tries First Time Shots", "Gets Crowd Going" etc.
 
 DOUBLE-CHECK each number carefully. Common mistakes to avoid:
 - Do not confuse 6 and 8, or 1 and 7
@@ -108,6 +109,7 @@ Return ONLY valid JSON with this exact structure (omit any fields you cannot fin
   "personality": "string",
   "reputation": "string (e.g. Regional, National, Continental)",
   "preferredFoot": "string (e.g. Right, Left, Either)",
+  "traits": ["string"],
   "technicalAttributes": {
     "crossing": number,
     "dribbling": number,

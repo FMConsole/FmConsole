@@ -7,6 +7,9 @@ import {
 import {
   POSITION_LIST, getKeyAttrsForPosition, calcPositionScore,
 } from '../data/positionWeights.js'
+import {
+  getTopRolesForPosition, starsDisplay, scoreToStars,
+} from '../data/roleWeights.js'
 
 const TECHNICAL_ATTRS = [
   'corners', 'crossing', 'dribbling', 'finishing', 'first touch',
@@ -44,6 +47,7 @@ const KEY_STATS = [
 
 const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
+  { key: 'roles', label: 'Roles' },
   { key: 'positions', label: 'Positions' },
 ]
 
@@ -197,6 +201,199 @@ function PositionCard({ posKey, posLabel, score, flat }) {
             }}>
               <span style={{ fontSize: 10, color: C.textMuted }}>{attrDisplayName(a.key)}</span>
               <span style={{ fontSize: 11, fontWeight: 700, color: getBarColor(val) }}>{val || '—'}</span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+/* ── Insight Banner ─────────────────────────────────────────────────── */
+
+function InsightBanner({ posScores, flat }) {
+  const best = posScores[0]
+  if (!best) return null
+
+  const topRoles = getTopRolesForPosition(best.key, flat, 3)
+  const bestRole = topRoles[0]
+
+  const barColor = best.score >= 15 ? C.green : best.score >= 12 ? C.blue : C.orange
+
+  return (
+    <div style={{
+      background: `linear-gradient(135deg, ${C.surface} 0%, ${C.surfaceLight} 100%)`,
+      border: `1px solid ${barColor}40`,
+      borderRadius: 14, padding: '16px 20px', marginBottom: 24,
+      display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center',
+    }}>
+      {/* Best Position */}
+      <div style={{ flex: '0 0 auto' }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>
+          Natural Position
+        </div>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+          <span style={{ fontSize: 22, fontWeight: 900, color: barColor }}>{best.label}</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: C.textSecondary }}>{best.score.toFixed(1)}</span>
+        </div>
+        {posScores[1] && (
+          <div style={{ fontSize: 11, color: C.textMuted, marginTop: 2 }}>
+            Also: {posScores[1].label} ({posScores[1].score.toFixed(1)})
+          </div>
+        )}
+      </div>
+
+      <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
+
+      {/* Best Role */}
+      <div style={{ flex: '0 0 auto' }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>
+          Best Role
+        </div>
+        {bestRole && (
+          <>
+            <div style={{ fontSize: 18, fontWeight: 800, color: C.text }}>{bestRole.label}</div>
+            <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{bestRole.duty} · {starsDisplay(bestRole.score)}</div>
+          </>
+        )}
+      </div>
+
+      <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
+
+      {/* Top 3 roles quick view */}
+      <div style={{ flex: 1, minWidth: 180 }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
+          Role Ranking
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {topRoles.map((r, i) => {
+            const stars = scoreToStars(r.score)
+            const filled = Math.floor(stars)
+            const half = stars % 1 >= 0.5
+            return (
+              <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 10, color: C.textMuted, width: 12 }}>{i + 1}.</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? C.text : C.textSecondary, minWidth: 150 }}>{r.label}</span>
+                <span style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
+                  {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Description */}
+      {bestRole?.description && (
+        <div style={{
+          flex: '1 1 100%', paddingTop: 12, borderTop: `1px solid ${C.border}`,
+          fontSize: 12, color: C.textSecondary, fontStyle: 'italic',
+        }}>
+          {bestRole.description}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── Roles Tab ───────────────────────────────────────────────────────── */
+
+function RolesTab({ posScores, flat }) {
+  const [selectedPos, setSelectedPos] = useState(posScores[0]?.key || '')
+  const roles = getTopRolesForPosition(selectedPos, flat, 8)
+
+  return (
+    <div>
+      {/* Position selector */}
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 20 }}>
+        {posScores.slice(0, 6).map(p => {
+          const isActive = selectedPos === p.key
+          const barColor = p.score >= 15 ? C.green : p.score >= 12 ? C.blue : C.orange
+          return (
+            <button key={p.key} onClick={() => setSelectedPos(p.key)} style={{
+              padding: '8px 14px', borderRadius: 8, border: `1px solid ${isActive ? barColor : C.border}`,
+              background: isActive ? `${barColor}18` : C.surface,
+              color: isActive ? barColor : C.textSecondary,
+              fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+              transition: 'all 0.15s',
+            }}>
+              {p.label}
+              <span style={{ marginLeft: 6, fontSize: 11, opacity: 0.8 }}>{p.score.toFixed(1)}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Role cards */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {roles.map((r, i) => {
+          const stars = scoreToStars(r.score)
+          const filled = Math.floor(stars)
+          const half = stars % 1 >= 0.5
+          const pct = (r.score / 20) * 100
+          const barColor = r.score >= 15 ? C.green : r.score >= 12 ? C.blue : r.score >= 9 ? C.orange : '#e05050'
+
+          // Top 3 key attrs for this role
+          const topAttrs = Object.entries(r.weights)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([key, w]) => ({ key, w, val: flat[key] ?? 0 }))
+
+          return (
+            <div key={r.key} style={{
+              background: i === 0 ? `linear-gradient(135deg, ${C.surface}, ${C.surfaceLight})` : C.surface,
+              border: `1px solid ${i === 0 ? barColor + '40' : C.border}`,
+              borderRadius: 12, padding: '14px 16px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                {/* Rank */}
+                <div style={{
+                  width: 28, height: 28, borderRadius: 6, flexShrink: 0,
+                  background: i === 0 ? barColor : C.surfaceHover,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 13, fontWeight: 800, color: i === 0 ? '#fff' : C.textMuted,
+                }}>
+                  {i + 1}
+                </div>
+                {/* Name + duty */}
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{r.label}</div>
+                  <div style={{ fontSize: 11, color: C.textMuted }}>{r.duty}</div>
+                </div>
+                {/* Score */}
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: barColor }}>{r.score.toFixed(1)}</div>
+                  <div style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
+                    {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Score bar */}
+              <div style={{ height: 4, borderRadius: 2, background: C.surfaceHover, overflow: 'hidden', marginBottom: 10 }}>
+                <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 2, transition: 'width 0.4s' }} />
+              </div>
+
+              {/* Key attributes */}
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {topAttrs.map(a => (
+                  <div key={a.key} style={{
+                    display: 'flex', alignItems: 'center', gap: 4,
+                    padding: '3px 8px', borderRadius: 5,
+                    background: C.bgLight, border: `1px solid ${C.border}`,
+                  }}>
+                    <span style={{ fontSize: 10, color: C.textMuted }}>{attrDisplayName(a.key)}</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: getBarColor(a.val) }}>{a.val || '—'}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Description */}
+              {r.description && (
+                <div style={{ fontSize: 11, color: C.textMuted, marginTop: 8, fontStyle: 'italic' }}>
+                  {r.description}
+                </div>
+              )}
             </div>
           )
         })}
@@ -430,14 +627,24 @@ export default function PlayerAnalyserTool() {
               </div>
             </div>
           </div>
-          {details.height || details.preferredFoot || details.personality ? (
+          {(details.height || details.preferredFoot || details.personality || details.reputation) && (
             <div style={{ fontSize: 11, color: C.textMuted, display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 4 }}>
               {details.height && <span>Height: {details.height}</span>}
               {details.preferredFoot && <span>Foot: L{details.preferredFoot.leftFoot} / R{details.preferredFoot.rightFoot}</span>}
               {details.personality && <span>{details.personality}</span>}
               {details.reputation && <span>Rep: {details.reputation}</span>}
             </div>
-          ) : null}
+          )}
+          {details.traits?.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
+              {details.traits.map(t => (
+                <span key={t} style={{
+                  padding: '2px 8px', borderRadius: 5, fontSize: 10, fontWeight: 600,
+                  background: `${C.purple}18`, border: `1px solid ${C.purple}40`, color: C.purpleLight,
+                }}>{t}</span>
+              ))}
+            </div>
+          )}
         </div>
         <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
           <button onClick={reupload} style={{
@@ -477,6 +684,9 @@ export default function PlayerAnalyserTool() {
           </button>
         </div>
       </div>
+
+      {/* ── Insight Banner ── */}
+      <InsightBanner posScores={posScores} flat={flat} />
 
       {/* ── 4-Column Attribute Table (FM-style) ── */}
       <style>{`@media (max-width: 900px) { .fm-attr-grid { grid-template-columns: repeat(2, 1fr) !important; } } @media (max-width: 520px) { .fm-attr-grid { grid-template-columns: 1fr !important; } }`}</style>
@@ -620,6 +830,11 @@ export default function PlayerAnalyserTool() {
             </div>
           </div>
         </>
+      )}
+
+      {/* ── Roles Tab ── */}
+      {activeView === 'roles' && (
+        <RolesTab posScores={posScores} flat={flat} />
       )}
 
       {/* ── Positions Tab ── */}
