@@ -528,6 +528,8 @@ export default function PlayerComparisonTool() {
     ))
   }, [])
 
+  const readyPlayers = players.filter(p => p.status === 'done')
+
   // Export player data as CSV
   const exportData = useCallback(() => {
     const allAttrKeys = new Set()
@@ -607,7 +609,6 @@ export default function PlayerComparisonTool() {
     localStorage.setItem('fmc_comparison_sessions', JSON.stringify(updated))
   }, [savedSessions])
 
-  const readyPlayers = players.filter(p => p.status === 'done')
   const attrKeys = getAttrsForView(view, posFilter)
 
   // How many empty upload slots to show
