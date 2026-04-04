@@ -852,7 +852,8 @@ function ScannerPhase({ roster, user, onBack }) {
     if (!image) return
     setScanning(true); setProgress(0)
     try {
-      const text = await extractText(image, { onProgress: setProgress })
+      const ocrResult = await extractText(image, { onProgress: setProgress })
+      const text = typeof ocrResult === 'string' ? ocrResult : (ocrResult.text || '')
       setOcrText(text)
       const rows = parseStatsLines(text)
       const matched = roster.length > 0 ? matchAll(rows, roster) : rows.map(r => ({ ...r, match: null, matched: false }))
