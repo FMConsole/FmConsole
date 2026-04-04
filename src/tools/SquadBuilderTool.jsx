@@ -143,7 +143,7 @@ function RosterStep({ roster, setRoster, onNext }) {
     setScanning(false)
   }, [setRoster])
 
-  // Scan individual player screenshot and add to roster
+  // Scan individual player screenshot — match to existing roster or add new
   const handlePlayerScan = useCallback(async (file) => {
     if (!file || !file.type.startsWith('image/')) return
     setPlayerScanning(true)
@@ -162,22 +162,49 @@ function RosterStep({ roster, setRoster, onNext }) {
       const details = parsed.details || {}
       const positions = details.positions?.join(', ') || ''
 
-      const newPlayer = {
-        id: `ps-${Date.now()}`,
-        name,
-        pos: positions,
-        age: details.age || null,
-        nationality: details.nationality || '',
-        value: '',
-        wage: '',
-        playingTime: '',
-        status: [],
+      // Try to match against existing roster by name (fuzzy)
+      const normalize = s => s.toLowerCase().replace(/[^a-z]/g, '')
+      const scannedNorm = normalize(name)
+      const matchIdx = roster.findIndex(p => {
+        const rNorm = normalize(p.name)
+        // exact match, or one name contains the other (handles first/last name differences)
+        return rNorm === scannedNorm || rNorm.includes(scannedNorm) || scannedNorm.includes(rNorm)
+      })
+
+      let updated
+      if (matchIdx >= 0) {
+        // Update existing player with scanned data
+        updated = roster.map((p, i) => {
+          if (i !== matchIdx) return p
+          return {
+            ...p,
+            pos: positions || p.pos,
+            age: details.age || p.age,
+            nationality: details.nationality || p.nationality,
+            scanned: true,
+          }
+        })
+        setPlayerScanMsg(`Updated ${roster[matchIdx].name}`)
+      } else {
+        // Add as new player
+        const newPlayer = {
+          id: `ps-${Date.now()}`,
+          name,
+          pos: positions,
+          age: details.age || null,
+          nationality: details.nationality || '',
+          value: '',
+          wage: '',
+          playingTime: '',
+          status: [],
+          scanned: true,
+        }
+        updated = [...roster, newPlayer]
+        setPlayerScanMsg(`Added ${name}`)
       }
 
-      const updated = [...roster, newPlayer]
       setRoster(updated)
       localStorage.setItem(STORAGE.roster, JSON.stringify(updated))
-      setPlayerScanMsg(`Added ${name}`)
       setTimeout(() => setPlayerScanMsg(''), 3000)
     } catch (err) {
       console.error('Player scan failed:', err)
@@ -344,7 +371,10 @@ function RosterStep({ roster, setRoster, onNext }) {
                   const color = CAT_COLORS[cat] || C.blue
                   return (
                     <tr key={p.id} style={{ borderBottom: `1px solid ${C.border}22` }}>
-                      <td style={{ padding: '8px 10px', fontWeight: 600 }}>{p.name}</td>
+                      <td style={{ padding: '8px 10px', fontWeight: 600 }}>
+                        {p.name}
+                        {p.scanned && <span style={{ marginLeft: 6, fontSize: 9, color: C.green, fontWeight: 700, verticalAlign: 'middle' }}>SCANNED</span>}
+                      </td>
                       <td style={{ padding: '8px 10px' }}>
                         <span style={{ padding: '2px 8px', borderRadius: 4, background: `${color}18`, color, fontSize: 11, fontWeight: 700 }}>
                           {p.pos || '?'}
