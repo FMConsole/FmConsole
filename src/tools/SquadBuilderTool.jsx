@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import C from '../theme/colors'
 import { FORMATIONS, POS_CATEGORY, ROLES } from './formations'
 import { extractText, SQUAD_EXTRACTION_PROMPT } from './scanner/ocr.js'
+import { parseAttributes } from './scanner/attributeParser.js'
 
 /* ── League / team data ────────────────────────────────────────────────── */
 
@@ -98,6 +99,10 @@ function RosterStep({ roster, setRoster, onNext }) {
   const [clubId, setClubId] = useState('')
   const [loading, setLoading] = useState(false)
   const fileRef = useRef(null)
+  const playerFileRef = useRef(null)
+  const [playerScanning, setPlayerScanning] = useState(false)
+  const [playerProgress, setPlayerProgress] = useState(0)
+  const [playerScanMsg, setPlayerScanMsg] = useState('')
 
   // Upload screenshot
   const handleUpload = useCallback(async (file) => {
@@ -137,6 +142,50 @@ function RosterStep({ roster, setRoster, onNext }) {
     }
     setScanning(false)
   }, [setRoster])
+
+  // Scan individual player screenshot and add to roster
+  const handlePlayerScan = useCallback(async (file) => {
+    if (!file || !file.type.startsWith('image/')) return
+    setPlayerScanning(true)
+    setPlayerProgress(0)
+    setPlayerScanMsg('')
+    try {
+      const result = await extractText(file, {
+        onProgress: setPlayerProgress,
+      })
+      const text = typeof result === 'string' ? result : (result.text || '')
+      const overlay = result.overlay || null
+      const visionData = result.visionData || null
+      const parsed = parseAttributes(text, overlay, visionData)
+
+      const name = parsed.playerName || 'Unknown'
+      const details = parsed.details || {}
+      const positions = details.positions?.join(', ') || ''
+
+      const newPlayer = {
+        id: `ps-${Date.now()}`,
+        name,
+        pos: positions,
+        age: details.age || null,
+        nationality: details.nationality || '',
+        value: '',
+        wage: '',
+        playingTime: '',
+        status: [],
+      }
+
+      const updated = [...roster, newPlayer]
+      setRoster(updated)
+      localStorage.setItem(STORAGE.roster, JSON.stringify(updated))
+      setPlayerScanMsg(`Added ${name}`)
+      setTimeout(() => setPlayerScanMsg(''), 3000)
+    } catch (err) {
+      console.error('Player scan failed:', err)
+      setPlayerScanMsg('Scan failed — try a clearer screenshot')
+      setTimeout(() => setPlayerScanMsg(''), 4000)
+    }
+    setPlayerScanning(false)
+  }, [roster, setRoster])
 
   // Load from database
   useEffect(() => {
@@ -318,8 +367,25 @@ function RosterStep({ roster, setRoster, onNext }) {
             </table>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 12, color: C.textMuted }}>{roster.length} players</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 12, color: C.textMuted }}>{roster.length} players</span>
+              <button onClick={() => playerFileRef.current?.click()} disabled={playerScanning} style={{
+                padding: '8px 14px', borderRadius: 8, border: `1px solid ${C.green}40`,
+                background: `${C.green}12`, color: C.green, fontSize: 11, fontWeight: 600,
+                cursor: playerScanning ? 'wait' : 'pointer', fontFamily: 'inherit',
+                opacity: playerScanning ? 0.6 : 1,
+              }}>
+                {playerScanning ? `Scanning... ${playerProgress}%` : '+ Scan Player'}
+              </button>
+              <input ref={playerFileRef} type="file" accept="image/*" style={{ display: 'none' }}
+                onChange={e => { const f = e.target.files?.[0]; if (f) handlePlayerScan(f); e.target.value = '' }} />
+              {playerScanMsg && (
+                <span style={{ fontSize: 11, color: playerScanMsg.includes('fail') ? '#ef4444' : C.green, fontWeight: 600 }}>
+                  {playerScanMsg}
+                </span>
+              )}
+            </div>
             <button onClick={onNext} style={{
               padding: '12px 28px', borderRadius: 10, border: 'none',
               background: C.gradientBlue, color: '#fff', fontWeight: 700,
