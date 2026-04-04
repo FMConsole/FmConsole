@@ -91,6 +91,8 @@ function RosterStep({ roster, setRoster, onNext }) {
   const [source, setSource] = useState('upload') // 'upload' | 'database'
   const [scanning, setScanning] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [scanStatus, setScanStatus] = useState('')
+  const [scanError, setScanError] = useState('')
   const [league, setLeague] = useState('')
   const [clubs, setClubs] = useState([])
   const [clubId, setClubId] = useState('')
@@ -102,9 +104,12 @@ function RosterStep({ roster, setRoster, onNext }) {
     if (!file || !file.type.startsWith('image/')) return
     setScanning(true)
     setProgress(0)
+    setScanError('')
+    setScanStatus('')
     try {
       const result = await extractText(file, {
         onProgress: setProgress,
+        onStatus: setScanStatus,
         prompt: SQUAD_EXTRACTION_PROMPT,
       })
       const visionData = result.visionData
@@ -122,9 +127,13 @@ function RosterStep({ roster, setRoster, onNext }) {
         }))
         setRoster(players)
         localStorage.setItem(STORAGE.roster, JSON.stringify(players))
+        setScanStatus(`Found ${players.length} players`)
+      } else {
+        setScanError('No players found in screenshot. Make sure it\'s an FM squad list view.')
       }
     } catch (err) {
       console.error('Vision scan failed:', err)
+      setScanError(err.message || 'Scan failed. Check your API key configuration.')
     }
     setScanning(false)
   }, [setRoster])
@@ -209,7 +218,7 @@ function RosterStep({ roster, setRoster, onNext }) {
               <div style={{ width: '100%', height: 6, borderRadius: 3, background: C.surfaceHover, overflow: 'hidden' }}>
                 <div style={{ width: `${progress}%`, height: '100%', background: C.blue, transition: 'width 0.3s' }} />
               </div>
-              <span style={{ fontSize: 12, color: C.textMuted }}>Analyzing squad screenshot... {progress}%</span>
+              <span style={{ fontSize: 12, color: C.textMuted }}>{scanStatus || `Analyzing squad screenshot... ${progress}%`}</span>
             </>
           ) : (
             <>
@@ -217,6 +226,12 @@ function RosterStep({ roster, setRoster, onNext }) {
               <span style={{ fontSize: 13, fontWeight: 600, color: C.textSecondary }}>
                 Drop FM squad list screenshot or click to upload
               </span>
+              {scanStatus && !scanError && (
+                <span style={{ fontSize: 12, color: C.green }}>{scanStatus}</span>
+              )}
+              {scanError && (
+                <span style={{ fontSize: 12, color: '#ef4444', textAlign: 'center', maxWidth: 360 }}>{scanError}</span>
+              )}
             </>
           )}
           <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
