@@ -174,7 +174,7 @@ export default function TraitRecommenderTool() {
         onStatus: (msg) => setScanMessage(msg),
       })
 
-      const text = ocrResult.text || ocrResult
+      const text = typeof ocrResult === 'string' ? ocrResult : (ocrResult.text || '')
       const overlay = ocrResult.overlay || null
       const visionData = ocrResult.visionData || null
       const parsed = parseAttributes(text, overlay, visionData)

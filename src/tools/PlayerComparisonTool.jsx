@@ -3,7 +3,6 @@ import C from '../theme/colors'
 import { extractText } from './scanner/ocr.js'
 import {
   parseAttributes, flattenAttributes, attrDisplayName, toCamelCase,
-  GOALKEEPING_ATTRS, TECHNICAL_ATTRS, MENTAL_ATTRS, PHYSICAL_ATTRS,
 } from './scanner/attributeParser.js'
 import {
   POSITION_LIST, getKeyAttrsForPosition, getAttrWeight, calcPositionScore,
@@ -17,6 +16,28 @@ const PLAYER_FILLS = [
   'rgba(124,77,255,0.15)',
   'rgba(255,107,0,0.15)',
   'rgba(0,200,83,0.15)',
+]
+
+// Inlined to avoid module initialization order issues in production builds
+const GOALKEEPING_ATTRS = [
+  'aerial ability', 'command of area', 'communication', 'eccentricity',
+  'handling', 'kicking', 'one on ones', 'reflexes', 'rushing out',
+  'tendency to punch', 'throwing',
+]
+const TECHNICAL_ATTRS = [
+  'corners', 'crossing', 'dribbling', 'finishing', 'first touch',
+  'free kicks', 'heading', 'long shots', 'long throws', 'marking',
+  'passing', 'penalty taking', 'tackling', 'technique',
+]
+const MENTAL_ATTRS = [
+  'aggression', 'anticipation', 'bravery', 'composure', 'concentration',
+  'decisions', 'determination', 'flair',
+  'leadership', 'off the ball', 'positioning',
+  'teamwork', 'vision', 'work rate',
+]
+const PHYSICAL_ATTRS = [
+  'acceleration', 'agility', 'balance',
+  'jumping reach', 'natural fitness', 'pace', 'stamina', 'strength',
 ]
 
 const ATTR_GROUPS = {
@@ -472,10 +493,9 @@ export default function PlayerComparisonTool() {
         },
       })
 
-      // extractText returns { text, overlay }
-      const text = ocrResult.text || ocrResult
+      // extractText returns { text, overlay, visionData }
+      const text = typeof ocrResult === 'string' ? ocrResult : (ocrResult.text || '')
       const overlay = ocrResult.overlay || null
-
       const visionData = ocrResult.visionData || null
       const parsed = parseAttributes(text, overlay, visionData)
 
