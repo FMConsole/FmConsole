@@ -237,6 +237,7 @@ export default function PlayerAnalyserTool() {
   const [player, setPlayer] = useState(null)
   const [activeView, setActiveView] = useState('overview')
   const inputRef = useRef(null)
+  const reuploadRef = useRef(null)
   const [dragOver, setDragOver] = useState(false)
 
   const scanPlayer = useCallback(async (file) => {
@@ -273,6 +274,10 @@ export default function PlayerAnalyserTool() {
     setPlayer(null)
     setActiveView('overview')
   }, [player])
+
+  const reupload = useCallback(() => {
+    reuploadRef.current?.click()
+  }, [])
 
   const handleDrop = useCallback((e) => {
     e.preventDefault()
@@ -467,6 +472,25 @@ export default function PlayerAnalyserTool() {
           ) : null}
         </div>
         <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+          <button onClick={reupload} style={{
+            padding: '8px 16px', borderRadius: 8,
+            border: `1px solid ${C.blue}40`, background: `${C.blue}12`,
+            color: C.blue, fontSize: 12, fontWeight: 600,
+            cursor: 'pointer', fontFamily: 'inherit',
+          }}>
+            Re-upload
+          </button>
+          <input ref={reuploadRef} type="file" accept="image/*"
+            style={{ display: 'none' }}
+            onChange={e => {
+              const file = e.target.files?.[0]
+              if (file) {
+                if (player?.preview) URL.revokeObjectURL(player.preview)
+                scanPlayer(file)
+              }
+              e.target.value = ''
+            }}
+          />
           <button onClick={exportData} style={{
             padding: '8px 16px', borderRadius: 8,
             border: `1px solid ${C.border}`, background: C.surfaceLight,
