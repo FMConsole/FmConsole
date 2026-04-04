@@ -135,6 +135,30 @@ Return ONLY valid JSON with this exact structure (omit any fields you can't find
 
 All attribute values should be integers between 1 and 20. Return ONLY the JSON, no markdown fences or explanation.`;
 
+const SQUAD_EXTRACTION_PROMPT = `You are analyzing a Football Manager squad list screenshot. Extract ALL players visible and return them as JSON.
+
+Return ONLY valid JSON with this exact structure:
+{
+  "clubName": "string",
+  "players": [
+    {
+      "playerName": "Full name of player",
+      "position": "Position abbreviation as shown (e.g. GK, D (C), D (LC), DM, M (C), AM (RLC), ST (C))",
+      "transferValue": "Value range as shown (e.g. £2.9M - £8.6M)",
+      "age": number,
+      "ability": "Star rating or description if visible",
+      "potential": "Star rating or description if visible",
+      "playingTime": "Role description (e.g. Star Player, Regular Starter, Squad Player, Backup, etc.)",
+      "nationality": "Country code (e.g. ENG, FRA, BRA)",
+      "wage": "Wage as shown (e.g. £24K - £35K)",
+      "contractExpiry": "Date in YYYY-MM-DD format if visible",
+      "status": ["Any status flags like Loa, Inj, Sus"]
+    }
+  ]
+}
+
+Extract EVERY player row visible in the screenshot. Return ONLY the JSON, no markdown fences or explanation.`;
+
 /**
  * Convert a File/Blob to a base64 string (without the data URL prefix).
  */
@@ -181,7 +205,7 @@ function getMediaType(source) {
  * @returns {Promise<{text: string, visionData: object|null}>}
  */
 export async function extractText(source, options = {}) {
-  const { onProgress, onStatus } = options;
+  const { onProgress, onStatus, prompt: customPrompt } = options;
 
   if (!ANTHROPIC_API_KEY) {
     throw new Error("Anthropic API key not configured. Set VITE_ANTHROPIC_API_KEY in .env");
@@ -234,7 +258,7 @@ export async function extractText(source, options = {}) {
             },
             {
               type: "text",
-              text: EXTRACTION_PROMPT,
+              text: customPrompt || EXTRACTION_PROMPT,
             },
           ],
         },
@@ -284,4 +308,4 @@ export function isOCRAvailable() {
 /**
  * Get remaining free scans for today.
  */
-export { getRemainingScans };
+export { getRemainingScans, SQUAD_EXTRACTION_PROMPT };

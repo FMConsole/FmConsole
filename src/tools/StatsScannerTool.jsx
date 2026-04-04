@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import C from '../theme/colors'
 import { FORMATIONS, POS_CATEGORY } from './formations'
-import { extractText } from './scanner/ocr.js'
+import { extractText, SQUAD_EXTRACTION_PROMPT } from './scanner/ocr.js'
 import { parseStatsLines } from './scanner/parser.js'
 import { matchAll, bestPlayerMatch } from './scanner/matcher.js'
 
@@ -852,15 +852,55 @@ function ScannerPhase({ roster, user, onBack }) {
     if (!image) return
     setScanning(true); setProgress(0)
     try {
-      const ocrResult = await extractText(image, { onProgress: setProgress })
+      const ocrResult = await extractText(image, {
+        onProgress: setProgress,
+        prompt: SQUAD_EXTRACTION_PROMPT,
+      })
       const text = typeof ocrResult === 'string' ? ocrResult : (ocrResult.text || '')
       setOcrText(text)
-      const rows = parseStatsLines(text)
-      const matched = roster.length > 0 ? matchAll(rows, roster) : rows.map(r => ({ ...r, match: null, matched: false }))
-      setParsed(matched)
-      const sel = {}
-      matched.forEach((r, i) => { if (r.matched) sel[i] = true })
-      setSelected(sel)
+
+      // Try Vision AI structured data first
+      const visionData = ocrResult.visionData
+      if (visionData && visionData.players && visionData.players.length > 0) {
+        // Convert Vision AI squad data to the existing row format
+        const rows = visionData.players.map(p => ({
+          nameText: p.playerName || '',
+          pos: p.position || '',
+          apps: 0,
+          goals: 0,
+          xg: 0,
+          assists: 0,
+          avgRating: 0,
+          cleanSheets: 0,
+          raw: '',
+          // Extra squad data from Vision AI
+          age: p.age,
+          nationality: p.nationality,
+          transferValue: p.transferValue,
+          wage: p.wage,
+          playingTime: p.playingTime,
+          contractExpiry: p.contractExpiry,
+          status: p.status,
+          ability: p.ability,
+          potential: p.potential,
+        }))
+        const matched = roster.length > 0 ? matchAll(rows, roster) : rows.map(r => ({ ...r, match: null, matched: false }))
+        setParsed(matched)
+        const sel = {}
+        matched.forEach((r, i) => { if (r.matched) sel[i] = true })
+        setSelected(sel)
+        if (visionData.clubName) {
+          setToast(`Found ${rows.length} players from ${visionData.clubName}`)
+        }
+      } else {
+        // Fallback to text parsing
+        const rows = parseStatsLines(text)
+        const matched = roster.length > 0 ? matchAll(rows, roster) : rows.map(r => ({ ...r, match: null, matched: false }))
+        setParsed(matched)
+        const sel = {}
+        matched.forEach((r, i) => { if (r.matched) sel[i] = true })
+        setSelected(sel)
+      }
     } catch (err) {
       console.error('OCR error:', err)
       setToast('OCR failed — try a clearer screenshot')
