@@ -7,7 +7,7 @@ import { extractText, SQUAD_EXTRACTION_PROMPT } from './scanner/ocr.js'
 
 const LEAGUE_META = {
   pl:"Premier League|ENG", elc:"Championship|ENG", lo:"League One|ENG", lt:"League Two|ENG",
-  enl:"National League|ENG",
+  enl:"National League|ENG", enln:"National League North|ENG", enls:"National League South|ENG",
   bl1:"Bundesliga|GER", bl2:"2. Bundesliga|GER",
   sa:"Serie A|ITA", sb:"Serie B|ITA",
   pd:"La Liga|ESP", l2:"La Liga 2|ESP",
