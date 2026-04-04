@@ -230,10 +230,7 @@ export async function extractText(source, options = {}) {
     throw new Error("Anthropic API key not configured. Set VITE_ANTHROPIC_API_KEY in .env");
   }
 
-  // Check rate limit
-  if (isRateLimited()) {
-    throw new Error(`Daily scan limit reached (${DAILY_SCAN_LIMIT}/day). Resets at midnight.`);
-  }
+  // Rate limiting disabled — monitor usage via Anthropic dashboard
 
   if (onStatus) onStatus("Analyzing screenshot with AI...");
   if (onProgress) onProgress(10);
