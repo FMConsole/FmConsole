@@ -333,6 +333,9 @@ export default function PlayerAnalyserTool() {
           <div style={{ fontSize: 13, color: C.textSecondary, textAlign: 'center', maxWidth: 320, lineHeight: 1.5 }}>
             Drop an FM player attribute screenshot or click to upload. Uses Vision AI to extract attributes automatically.
           </div>
+          <div style={{ fontSize: 11, color: C.textMuted, textAlign: 'center', maxWidth: 300, lineHeight: 1.5, marginTop: 4 }}>
+            Tip: Full-screen screenshots are more accurate than windowed mode
+          </div>
           <input ref={inputRef} type="file" accept="image/*"
             style={{ display: 'none' }}
             onChange={e => {

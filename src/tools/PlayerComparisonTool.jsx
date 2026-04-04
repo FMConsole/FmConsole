@@ -448,6 +448,9 @@ function UploadCard({ index, player, onFile, onRemove, onNameChange }) {
       <div style={{ fontSize: 13, color: C.textSecondary, textAlign: 'center' }}>
         Drop a player attribute screenshot or click to upload
       </div>
+      <div style={{ fontSize: 10, color: C.textMuted, textAlign: 'center', marginTop: 4 }}>
+        Tip: Full-screen screenshots are more accurate
+      </div>
       <input ref={inputRef} type="file" accept="image/*"
         style={{ display: 'none' }}
         onChange={e => {
