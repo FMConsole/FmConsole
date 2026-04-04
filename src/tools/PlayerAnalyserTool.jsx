@@ -37,9 +37,6 @@ const KEY_STATS = [
 
 const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
-  { key: 'technical', label: 'Technical' },
-  { key: 'mental', label: 'Mental' },
-  { key: 'physical', label: 'Physical' },
   { key: 'positions', label: 'Positions' },
 ]
 
@@ -154,36 +151,6 @@ function RadarChart({ flat, attrKeys, size = 520, color = C.blue }) {
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-/* ── Attribute Bar Row ───────────────────────────────────────────────── */
-
-function AttrRow({ label, value }) {
-  const barColor = getBarColor(value)
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 12,
-      padding: '6px 0', borderBottom: `1px solid ${C.border}22`,
-    }}>
-      <span style={{ width: 120, fontSize: 13, color: C.textSecondary, flexShrink: 0 }}>
-        {label}
-      </span>
-      <div style={{
-        flex: 1, height: 8, borderRadius: 4, background: C.surfaceHover, overflow: 'hidden',
-      }}>
-        <div style={{
-          width: `${(value / 20) * 100}%`, height: '100%',
-          background: barColor, borderRadius: 4, transition: 'width 0.3s',
-        }} />
-      </div>
-      <span style={{
-        width: 28, fontSize: 14, fontWeight: 700, textAlign: 'right',
-        color: barColor, flexShrink: 0,
-      }}>
-        {value}
-      </span>
     </div>
   )
 }
@@ -419,15 +386,6 @@ export default function PlayerAnalyserTool() {
     .map(p => ({ ...p, score: calcPositionScore(p.key, flat) }))
     .sort((a, b) => b.score - a.score)
 
-  // Current view attrs
-  const getViewAttrs = () => {
-    if (activeView === 'technical') return TECHNICAL_ATTRS
-    if (activeView === 'mental') return MENTAL_ATTRS
-    if (activeView === 'physical') return PHYSICAL_ATTRS
-    return null
-  }
-  const viewAttrs = getViewAttrs()
-
   return (
     <div>
       {/* Player Header */}
@@ -513,13 +471,109 @@ export default function PlayerAnalyserTool() {
         </div>
       </div>
 
-      {/* Tab Bar */}
+      {/* ── 3-Column Attribute Table (FM-style) ── */}
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+        gap: 12, marginBottom: 24,
+      }}>
+        {/* Technical Column */}
+        <div style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14,
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            background: `${C.blue}12`, borderBottom: `1px solid ${C.border}`,
+          }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: C.blue }}>Technical</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: C.blue }}>{techAvg.toFixed(1)}</span>
+          </div>
+          <div style={{ padding: '4px 12px' }}>
+            {TECHNICAL_ATTRS.map(attr => {
+              const key = toCamelCase(attr)
+              const val = flat[key]
+              if (val == null) return null
+              return (
+                <div key={key} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '5px 4px', borderBottom: `1px solid ${C.border}15`,
+                }}>
+                  <span style={{ fontSize: 12, color: C.textSecondary }}>{attrDisplayName(key)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: getBarColor(val), minWidth: 20, textAlign: 'right' }}>{val}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Mental Column */}
+        <div style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14,
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            background: '#FFD60012', borderBottom: `1px solid ${C.border}`,
+          }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#FFD600' }}>Mental</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#FFD600' }}>{mentAvg.toFixed(1)}</span>
+          </div>
+          <div style={{ padding: '4px 12px' }}>
+            {MENTAL_ATTRS.map(attr => {
+              const key = toCamelCase(attr)
+              const val = flat[key]
+              if (val == null) return null
+              return (
+                <div key={key} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '5px 4px', borderBottom: `1px solid ${C.border}15`,
+                }}>
+                  <span style={{ fontSize: 12, color: C.textSecondary }}>{attrDisplayName(key)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: getBarColor(val), minWidth: 20, textAlign: 'right' }}>{val}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Physical Column */}
+        <div style={{
+          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14,
+          overflow: 'hidden',
+        }}>
+          <div style={{
+            padding: '10px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            background: `${C.green}12`, borderBottom: `1px solid ${C.border}`,
+          }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: C.green }}>Physical</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: C.green }}>{physAvg.toFixed(1)}</span>
+          </div>
+          <div style={{ padding: '4px 12px' }}>
+            {PHYSICAL_ATTRS.map(attr => {
+              const key = toCamelCase(attr)
+              const val = flat[key]
+              if (val == null) return null
+              return (
+                <div key={key} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '5px 4px', borderBottom: `1px solid ${C.border}15`,
+                }}>
+                  <span style={{ fontSize: 12, color: C.textSecondary }}>{attrDisplayName(key)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: getBarColor(val), minWidth: 20, textAlign: 'right' }}>{val}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Bar (Overview / Positions) */}
       <div style={{
         display: 'flex', gap: 4, marginBottom: 24,
         padding: 4, background: C.surface, borderRadius: 12,
-        border: `1px solid ${C.border}`, overflowX: 'auto',
+        border: `1px solid ${C.border}`,
       }}>
-        {VIEW_TABS.filter(t => t.key !== 'goalkeeping' || hasGK).map(tab => (
+        {VIEW_TABS.map(tab => (
           <button
             key={tab.key}
             onClick={() => setActiveView(tab.key)}
@@ -546,10 +600,10 @@ export default function PlayerAnalyserTool() {
             gap: 12, marginBottom: 24,
           }}>
             {[
-              { label: 'Overall', val: overallAvg, color: C.blue },
-              { label: 'Technical', val: techAvg, color: C.blue },
-              { label: 'Mental', val: mentAvg, color: '#FFD600' },
-              { label: 'Physical', val: physAvg, color: C.green },
+              { label: 'Overall', val: overallAvg },
+              { label: 'Technical', val: techAvg },
+              { label: 'Mental', val: mentAvg },
+              { label: 'Physical', val: physAvg },
             ].map(s => (
               <div key={s.label} style={{
                 background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12,
@@ -576,7 +630,7 @@ export default function PlayerAnalyserTool() {
           {/* Strengths & Weaknesses */}
           <div style={{
             display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 16, marginBottom: 24,
+            gap: 16,
           }}>
             <div style={{
               background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: 20,
@@ -612,31 +666,6 @@ export default function PlayerAnalyserTool() {
             </div>
           </div>
         </>
-      )}
-
-      {/* ── Attribute Breakdown Tabs ── */}
-      {viewAttrs && (
-        <div style={{
-          background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: 20,
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h4 style={{ fontSize: 15, fontWeight: 700, color: C.text, margin: 0 }}>
-              {activeView.charAt(0).toUpperCase() + activeView.slice(1)} Attributes
-            </h4>
-            <span style={{
-              fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 6,
-              background: `${C.blue}18`, color: C.blue,
-            }}>
-              Avg: {groupAvg(flat, viewAttrs).toFixed(1)}
-            </span>
-          </div>
-          {viewAttrs.map(attr => {
-            const key = toCamelCase(attr)
-            const val = flat[key]
-            if (val == null) return null
-            return <AttrRow key={key} label={attrDisplayName(key)} value={val} />
-          })}
-        </div>
       )}
 
       {/* ── Positions Tab ── */}
