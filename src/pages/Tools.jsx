@@ -3,6 +3,8 @@ import C from '../theme/colors'
 import Section from '../components/Section'
 import Card from '../components/Card'
 import GradientText from '../components/GradientText'
+import AffiliateBanner from '../components/AffiliateBanner'
+import { AFFILIATE_LINKS } from '../config/affiliates'
 
 const tools = [
   {
@@ -40,6 +42,15 @@ const tools = [
     glow: C.glowGreen,
     status: 'Live',
     href: '/tools/trait-recommender',
+  },
+  {
+    icon: '🔬',
+    title: 'Player Analyser',
+    desc: 'Upload a player screenshot for deep analysis — radar charts, position fit scores, strengths and weaknesses.',
+    color: C.blue,
+    glow: C.glowBlue,
+    status: 'Live',
+    href: '/tools/player-analyser',
   },
   {
     icon: '💰',
@@ -81,6 +92,13 @@ export default function Tools() {
           </p>
         </Section>
       </div>
+
+      {/* Affiliate */}
+      {AFFILIATE_LINKS[0] && (
+        <Section style={{ paddingBottom: 0 }}>
+          <AffiliateBanner {...AFFILIATE_LINKS[0]} label="Playing FM25? Get it here" />
+        </Section>
+      )}
 
       {/* Tools Grid */}
       <Section>

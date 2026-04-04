@@ -11,6 +11,7 @@ import TacticBuilder from './pages/TacticBuilder'
 import SquadBuilder from './pages/SquadBuilder'
 import PlayerComparison from './pages/PlayerComparison'
 import TraitRecommender from './pages/TraitRecommender'
+import PlayerAnalyser from './pages/PlayerAnalyser'
 import Database from './pages/Database'
 import Players from './pages/database/Players'
 import PlayerDetail from './pages/database/PlayerDetail'
@@ -20,6 +21,7 @@ import Competitions from './pages/database/Competitions'
 import CompetitionDetail from './pages/database/CompetitionDetail'
 import Nations from './pages/database/Nations'
 import NationDetail from './pages/database/NationDetail'
+import AdLayout from './components/AdLayout'
 
 export default function App() {
   return (
@@ -28,23 +30,24 @@ export default function App() {
       <main style={{ flex: 1, paddingTop: 70 }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/tools" element={<AdLayout><Tools /></AdLayout>} />
+          <Route path="/community" element={<AdLayout><Community /></AdLayout>} />
+          <Route path="/blog" element={<AdLayout><Blog /></AdLayout>} />
+          <Route path="/about" element={<AdLayout><About /></AdLayout>} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/tools/tactic-builder" element={<TacticBuilder />} />
           <Route path="/tools/squad-builder" element={<SquadBuilder />} />
           <Route path="/tools/player-comparison" element={<PlayerComparison />} />
           <Route path="/tools/trait-recommender" element={<TraitRecommender />} />
-          <Route path="/database" element={<Database />} />
-          <Route path="/database/players" element={<Players />} />
+          <Route path="/tools/player-analyser" element={<PlayerAnalyser />} />
+          <Route path="/database" element={<AdLayout><Database /></AdLayout>} />
+          <Route path="/database/players" element={<AdLayout><Players /></AdLayout>} />
           <Route path="/database/players/:id" element={<PlayerDetail />} />
-          <Route path="/database/clubs" element={<Clubs />} />
+          <Route path="/database/clubs" element={<AdLayout><Clubs /></AdLayout>} />
           <Route path="/database/clubs/:id" element={<ClubDetail />} />
-          <Route path="/database/competitions" element={<Competitions />} />
+          <Route path="/database/competitions" element={<AdLayout><Competitions /></AdLayout>} />
           <Route path="/database/competitions/:id" element={<CompetitionDetail />} />
-          <Route path="/database/nations" element={<Nations />} />
+          <Route path="/database/nations" element={<AdLayout><Nations /></AdLayout>} />
           <Route path="/database/nations/:id" element={<NationDetail />} />
         </Routes>
       </main>

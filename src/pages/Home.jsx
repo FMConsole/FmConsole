@@ -4,6 +4,10 @@ import Section from '../components/Section'
 import Card from '../components/Card'
 import Button from '../components/Button'
 import GradientText from '../components/GradientText'
+import AdBanner from '../components/AdBanner'
+import AffiliateCard from '../components/AffiliateCard'
+import { AD_SLOTS } from '../config/ads'
+import { AFFILIATE_LINKS } from '../config/affiliates'
 
 const features = [
   {
@@ -203,6 +207,11 @@ export default function Home() {
         </Section>
       </div>
 
+      {/* Ad */}
+      <Section style={{ paddingTop: 24, paddingBottom: 24 }}>
+        <AdBanner slot={AD_SLOTS.HOME_MID} format="horizontal" />
+      </Section>
+
       {/* Latest Content */}
       <Section>
         <div style={{
@@ -264,6 +273,20 @@ export default function Home() {
             Join thousands of managers already using FMConsole to elevate their game.
           </p>
           <Link to="/tools"><Button variant="orange">Get Started Free</Button></Link>
+
+          {AFFILIATE_LINKS.length > 0 && (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: 16,
+              maxWidth: 520,
+              margin: '32px auto 0',
+            }}>
+              {AFFILIATE_LINKS.map(a => (
+                <AffiliateCard key={a.id} {...a} />
+              ))}
+            </div>
+          )}
         </Section>
       </div>
     </>

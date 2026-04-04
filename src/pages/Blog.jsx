@@ -3,6 +3,8 @@ import C from '../theme/colors'
 import Section from '../components/Section'
 import Card from '../components/Card'
 import GradientText from '../components/GradientText'
+import AffiliateBanner from '../components/AffiliateBanner'
+import { AFFILIATE_LINKS } from '../config/affiliates'
 
 const categories = ['All', 'Tactics', 'Transfers', 'Wonderkids', 'Beginners', 'Save Ideas']
 
@@ -142,8 +144,15 @@ export default function Blog() {
         </div>
       </Section>
 
+      {/* Affiliate */}
+      {AFFILIATE_LINKS[0] && (
+        <Section style={{ paddingTop: 0, paddingBottom: 0 }}>
+          <AffiliateBanner {...AFFILIATE_LINKS[0]} label="Playing FM25? Get it here" />
+        </Section>
+      )}
+
       {/* Articles Grid */}
-      <Section style={{ paddingTop: 0 }}>
+      <Section style={{ paddingTop: 24 }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
