@@ -445,6 +445,11 @@ export default function PlayerComparisonTool() {
   const [players, setPlayers] = useState([]) // { id, file, preview, name, parsed, status, progress }
   const [view, setView] = useState('key')
   const [posFilter, setPosFilter] = useState('') // '' = no filter, 'ST', 'CB', etc.
+  const [savedSessions, setSavedSessions] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('fmc_comparison_sessions') || '[]')
+    } catch { return [] }
+  })
   const nextId = useRef(0)
 
   const addPlayer = useCallback(async (file) => {
@@ -544,6 +549,44 @@ export default function PlayerComparisonTool() {
     URL.revokeObjectURL(url)
   }, [readyPlayers])
 
+  // Save current players to localStorage
+  const saveSession = useCallback(() => {
+    if (readyPlayers.length === 0) return
+    const session = {
+      id: Date.now(),
+      date: new Date().toISOString(),
+      label: readyPlayers.map(p => p.name).join(' vs '),
+      players: readyPlayers.map(p => ({
+        name: p.name,
+        parsed: p.parsed,
+      })),
+    }
+    const updated = [session, ...savedSessions].slice(0, 10) // keep last 10
+    setSavedSessions(updated)
+    localStorage.setItem('fmc_comparison_sessions', JSON.stringify(updated))
+  }, [readyPlayers, savedSessions])
+
+  // Load a saved session
+  const loadSession = useCallback((session) => {
+    const loaded = session.players.map((p, i) => ({
+      id: nextId.current++,
+      file: null,
+      preview: null,
+      name: p.name,
+      parsed: p.parsed,
+      status: 'done',
+      progress: 100,
+    }))
+    setPlayers(loaded)
+  }, [])
+
+  // Delete a saved session
+  const deleteSession = useCallback((sessionId) => {
+    const updated = savedSessions.filter(s => s.id !== sessionId)
+    setSavedSessions(updated)
+    localStorage.setItem('fmc_comparison_sessions', JSON.stringify(updated))
+  }, [savedSessions])
+
   const readyPlayers = players.filter(p => p.status === 'done')
   const attrKeys = getAttrsForView(view, posFilter)
 
@@ -589,16 +632,70 @@ export default function PlayerComparisonTool() {
           ))}
         </div>
 
-        {/* Export CSV */}
+        {/* Export / Save buttons */}
         {readyPlayers.length > 0 && (
-          <button onClick={exportData} style={{
-            marginTop: 12, padding: '8px 16px', borderRadius: 8,
-            border: `1px solid ${C.border}`,
-            background: C.surfaceLight, color: C.textSecondary,
-            fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-          }}>
-            Export as CSV
-          </button>
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <button onClick={exportData} style={{
+              padding: '8px 16px', borderRadius: 8,
+              border: `1px solid ${C.border}`,
+              background: C.surfaceLight, color: C.textSecondary,
+              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              Export CSV
+            </button>
+            <button onClick={saveSession} style={{
+              padding: '8px 16px', borderRadius: 8,
+              border: `1px solid ${C.green}40`,
+              background: `${C.green}12`,
+              color: C.green,
+              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              Save Session
+            </button>
+          </div>
+        )}
+
+        {/* Recent sessions */}
+        {savedSessions.length > 0 && players.length === 0 && (
+          <div style={{ marginTop: 20 }}>
+            <h4 style={{ fontSize: 13, fontWeight: 600, color: C.textMuted, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+              Recent Sessions
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {savedSessions.map(s => (
+                <div key={s.id} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '10px 14px', borderRadius: 10,
+                  background: C.gradientCard, border: `1px solid ${C.border}`,
+                }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: C.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {s.label}
+                    </div>
+                    <div style={{ fontSize: 11, color: C.textMuted, marginTop: 2 }}>
+                      {new Date(s.date).toLocaleDateString()} · {s.players.length} players
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                    <button onClick={() => loadSession(s)} style={{
+                      padding: '5px 12px', borderRadius: 6, border: 'none',
+                      background: C.blue, color: '#fff',
+                      fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+                    }}>
+                      Load
+                    </button>
+                    <button onClick={() => deleteSession(s.id)} style={{
+                      padding: '5px 8px', borderRadius: 6, border: `1px solid ${C.border}`,
+                      background: 'none', color: C.textMuted,
+                      fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
+                    }}>
+                      ×
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
 
