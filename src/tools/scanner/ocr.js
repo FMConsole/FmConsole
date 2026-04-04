@@ -80,15 +80,34 @@ function setCachedResult(imageHash, result) {
   }
 }
 
-const EXTRACTION_PROMPT = `You are analyzing a Football Manager player screenshot. Extract ALL player attributes you can see and return them as JSON.
+const EXTRACTION_PROMPT = `You are analyzing a Football Manager (FM) player profile screenshot. Your task is to extract the player's information and ALL attribute values with perfect accuracy.
 
-Return ONLY valid JSON with this exact structure (omit any fields you can't find):
+IMPORTANT READING INSTRUCTIONS:
+- Each attribute row has the attribute NAME on the LEFT and the NUMBER VALUE on the RIGHT
+- The number is always an integer between 1 and 20
+- Some attributes have colored backgrounds (yellow, green, blue) — IGNORE the background colors and read ONLY the number value
+- The "Technical" section includes both the main attributes AND "Set Pieces" below them (Corners, Free Kick Taking, Long Throws, Penalty Taking)
+- Read the player name from the header area at the top of the profile
+- Read positions from the "Positions" section (e.g. "WB/M/AM (R)" means Wing-Back, Midfielder, Attacking Midfielder Right)
+- Read height, personality, reputation from the "Info" panel if visible
+- Read preferred foot information if visible (e.g. Left Foot: Weak, Right Foot: Very Strong)
+
+DOUBLE-CHECK each number carefully. Common mistakes to avoid:
+- Do not confuse 6 and 8, or 1 and 7
+- Do not skip attributes — there are exactly 14 Technical (including 4 Set Pieces), 14 Mental, and 8 Physical attributes
+- If an attribute value is partially obscured by a highlight color, look carefully at the number — it is still readable
+
+Return ONLY valid JSON with this exact structure (omit any fields you cannot find):
 {
   "playerName": "string",
   "age": number,
   "nationality": "string",
   "currentClub": "string",
   "positions": ["string"],
+  "height": "string (e.g. 6'0)",
+  "personality": "string",
+  "reputation": "string (e.g. Regional, National, Continental)",
+  "preferredFoot": "string (e.g. Right, Left, Either)",
   "technicalAttributes": {
     "crossing": number,
     "dribbling": number,
@@ -133,7 +152,7 @@ Return ONLY valid JSON with this exact structure (omit any fields you can't find
   }
 }
 
-All attribute values should be integers between 1 and 20. Return ONLY the JSON, no markdown fences or explanation.`;
+All attribute values MUST be integers between 1 and 20. Return ONLY the JSON, no markdown fences or explanation.`;
 
 const SQUAD_EXTRACTION_PROMPT = `You are analyzing a Football Manager squad list screenshot. Extract ALL players visible and return them as JSON.
 
