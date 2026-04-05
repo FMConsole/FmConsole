@@ -54,11 +54,12 @@ const tools = [
   },
   {
     icon: '💰',
-    title: 'Transfer Tracker',
-    desc: 'Track transfer rumors, valuations, and market trends across all top leagues.',
+    title: 'Transfer Analysis',
+    desc: 'Compare squad players vs. transfer targets. Analyse role fit, cost, age value, and squad fit for confident signing decisions.',
     color: C.orange,
     glow: C.glowOrange,
-    status: 'Coming Soon',
+    status: 'Live',
+    href: '/tools/transfer-analysis',
   },
   {
     icon: '🔍',

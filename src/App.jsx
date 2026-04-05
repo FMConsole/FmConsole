@@ -12,6 +12,7 @@ import SquadBuilder from './pages/SquadBuilder'
 import PlayerComparison from './pages/PlayerComparison'
 import TraitRecommender from './pages/TraitRecommender'
 import PlayerAnalyser from './pages/PlayerAnalyser'
+import TransferAnalysis from './pages/TransferAnalysis'
 import Database from './pages/Database'
 import Players from './pages/database/Players'
 import PlayerDetail from './pages/database/PlayerDetail'
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/tools/player-comparison" element={<PlayerComparison />} />
           <Route path="/tools/trait-recommender" element={<TraitRecommender />} />
           <Route path="/tools/player-analyser" element={<PlayerAnalyser />} />
+          <Route path="/tools/transfer-analysis" element={<TransferAnalysis />} />
           <Route path="/database" element={<AdLayout><Database /></AdLayout>} />
           <Route path="/database/players" element={<AdLayout><Players /></AdLayout>} />
           <Route path="/database/players/:id" element={<PlayerDetail />} />
