@@ -19,7 +19,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   goalkeeper: {
-    name: 'Goalkeeper',
+    label: 'Goalkeeper',
     positions: ["GK"],
     duty: 'Defend',
     description: 'Standard goalkeeper focused on shot-stopping and positioning',
@@ -31,7 +31,7 @@ export const ROLES = {
   },
 
   noNonsenseGoalkeeper: {
-    name: 'No-Nonsense Goalkeeper',
+    label: 'No-Nonsense Goalkeeper',
     positions: ["GK"],
     duty: 'Defend',
     description: 'Physical keeper who dominates the box with commanding presence',
@@ -43,7 +43,7 @@ export const ROLES = {
   },
 
   lineHoldingKeeper: {
-    name: 'Line-Holding Keeper',
+    label: 'Line-Holding Keeper',
     positions: ["GK"],
     duty: 'Defend',
     description: 'Positional keeper who holds the defensive line to play offside trap',
@@ -55,7 +55,7 @@ export const ROLES = {
   },
 
   sweeperKeeper: {
-    name: 'Sweeper Keeper',
+    label: 'Sweeper Keeper',
     positions: ["GK"],
     duty: 'Defend',
     description: 'Aggressive keeper who sweeps behind the defensive line and claims crosses',
@@ -66,7 +66,7 @@ export const ROLES = {
   },
 
   ballPlayingGoalkeeper: {
-    name: 'Ball-Playing Goalkeeper',
+    label: 'Ball-Playing Goalkeeper',
     positions: ["GK"],
     duty: 'Support',
     description: 'Technically gifted keeper who distributes short and builds from the back',
@@ -83,7 +83,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   centreback: {
-    name: 'Centre-Back',
+    label: 'Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Reads the game, defends aerially and covers space',
@@ -95,7 +95,7 @@ export const ROLES = {
   },
 
   noNonsenseCentreback: {
-    name: 'No-Nonsense Centre-Back',
+    label: 'No-Nonsense Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Physical no-nonsense defender who clears danger directly',
@@ -107,7 +107,7 @@ export const ROLES = {
   },
 
   coveringCentreback: {
-    name: 'Covering Centre-Back',
+    label: 'Covering Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Covers behind the defensive line and sweeps up loose balls',
@@ -118,7 +118,7 @@ export const ROLES = {
   },
 
   stoppingCentreback: {
-    name: 'Stopping Centre-Back',
+    label: 'Stopping Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Physical stopper who wins aerial duels and tackles',
@@ -129,7 +129,7 @@ export const ROLES = {
   },
 
   ballPlayingCentreback: {
-    name: 'Ball-Playing Centre-Back',
+    label: 'Ball-Playing Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Ball-playing defender who distributes from the back',
@@ -141,7 +141,7 @@ export const ROLES = {
   },
 
   overlappingCentreback: {
-    name: 'Overlapping Centre-Back',
+    label: 'Overlapping Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Overlapping centre-back who supports wide attacks',
@@ -152,7 +152,7 @@ export const ROLES = {
   },
 
   advancedCentreback: {
-    name: 'Advanced Centre-Back',
+    label: 'Advanced Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Advanced centre-back with licence to step into midfield',
@@ -163,7 +163,7 @@ export const ROLES = {
   },
 
   wideCentreback: {
-    name: 'Wide Centre-Back',
+    label: 'Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Wide centre-back deployed on the flank in a back three',
@@ -174,7 +174,7 @@ export const ROLES = {
   },
 
   coveringWideCentreback: {
-    name: 'Covering Wide Centre-Back',
+    label: 'Covering Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Wide covering centre-back who tucks in to protect space',
@@ -185,7 +185,7 @@ export const ROLES = {
   },
 
   stoppingWideCentreback: {
-    name: 'Stopping Wide Centre-Back',
+    label: 'Stopping Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
     description: 'Wide stopping centre-back focused on defensive duties',
@@ -201,7 +201,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   fullBack: {
-    name: 'Full-Back',
+    label: 'Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
     description: 'Overlapping full-back who supports attacks from wide',
@@ -212,7 +212,7 @@ export const ROLES = {
   },
 
   holdingFullBack: {
-    name: 'Holding Full-Back',
+    label: 'Holding Full-Back',
     positions: ["LB", "RB"],
     duty: 'Defend',
     description: 'Holding full-back who maintains defensive shape',
@@ -224,7 +224,7 @@ export const ROLES = {
   },
 
   insideFullBack: {
-    name: 'Inside Full-Back',
+    label: 'Inside Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
     description: 'Inside full-back who tucks into midfield to create overloads',
@@ -235,7 +235,7 @@ export const ROLES = {
   },
 
   invertedFullBack: {
-    name: 'Inverted Full-Back',
+    label: 'Inverted Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
     description: 'Inverted full-back who cuts inside into central positions',
@@ -246,7 +246,7 @@ export const ROLES = {
   },
 
   pressingFullBack: {
-    name: 'Pressing Full-Back',
+    label: 'Pressing Full-Back',
     positions: ["LB", "RB"],
     duty: 'Defend',
     description: 'Pressing full-back who presses high up the pitch',
@@ -262,7 +262,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   wingBack: {
-    name: 'Wing-Back',
+    label: 'Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
     description: 'Dynamic wing-back combining defensive duties with attacking width',
@@ -273,7 +273,7 @@ export const ROLES = {
   },
 
   holdingWingBack: {
-    name: 'Holding Wing-Back',
+    label: 'Holding Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Defend',
     description: 'Holding wing-back who prioritises defensive cover',
@@ -284,7 +284,7 @@ export const ROLES = {
   },
 
   insideWingBack: {
-    name: 'Inside Wing-Back',
+    label: 'Inside Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
     description: 'Inside wing-back who moves centrally when team has possession',
@@ -295,7 +295,7 @@ export const ROLES = {
   },
 
   invertedWingBack: {
-    name: 'Inverted Wing-Back',
+    label: 'Inverted Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
     description: 'Inverted wing-back who cuts inside to create overloads',
@@ -306,7 +306,7 @@ export const ROLES = {
   },
 
   pressingWingBack: {
-    name: 'Pressing Wing-Back',
+    label: 'Pressing Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Defend',
     description: 'Pressing wing-back who presses high and tracks wide runners',
@@ -317,7 +317,7 @@ export const ROLES = {
   },
 
   playmakingWingBack: {
-    name: 'Playmaking Wing-Back',
+    label: 'Playmaking Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
     description: 'Playmaking wing-back who combines distribution with width',
@@ -329,7 +329,7 @@ export const ROLES = {
   },
 
   advancedWingBack: {
-    name: 'Advanced Wing-Back',
+    label: 'Advanced Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Attack',
     description: 'Advanced wing-back who acts almost as a winger going forward',
@@ -346,7 +346,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   defensiveMidfielder: {
-    name: 'Defensive Midfielder',
+    label: 'Defensive Midfielder',
     positions: ["DM"],
     duty: 'Support',
     description: 'Defensive midfielder who screens the back four',
@@ -357,7 +357,7 @@ export const ROLES = {
   },
 
   droppingDefensiveMidfielder: {
-    name: 'Dropping Defensive Midfielder',
+    label: 'Dropping Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
     description: 'Dropping defensive midfielder who acts as an extra centre-back',
@@ -368,7 +368,7 @@ export const ROLES = {
   },
 
   screeningDefensiveMidfielder: {
-    name: 'Screening Defensive Midfielder',
+    label: 'Screening Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
     description: 'Screening defensive midfielder who shields and protects the backline',
@@ -379,7 +379,7 @@ export const ROLES = {
   },
 
   wideCoveringDefensiveMidfielder: {
-    name: 'Wide Covering Defensive Midfielder',
+    label: 'Wide Covering Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
     description: 'Wide-covering defensive midfielder who tracks wide runners',
@@ -390,7 +390,7 @@ export const ROLES = {
   },
 
   pressingDefensiveMidfielder: {
-    name: 'Pressing Defensive Midfielder',
+    label: 'Pressing Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
     description: 'Pressing defensive midfielder who wins the ball high up the pitch',
@@ -401,7 +401,7 @@ export const ROLES = {
   },
 
   halfBack: {
-    name: 'Half-Back',
+    label: 'Half-Back',
     positions: ["DM", "CB"],
     duty: 'Defend',
     description: 'Half-back who drops between the centre-backs to receive in possession',
@@ -417,7 +417,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   deepLyingPlaymaker: {
-    name: 'Deep-Lying Playmaker',
+    label: 'Deep-Lying Playmaker',
     positions: ["CM", "DM"],
     duty: 'Support',
     description: 'Deep-lying playmaker who dictates tempo and distributes from deep',
@@ -428,7 +428,7 @@ export const ROLES = {
   },
 
   centralMidfielder: {
-    name: 'Central Midfielder',
+    label: 'Central Midfielder',
     positions: ["CM"],
     duty: 'Support',
     description: 'Central midfielder who links defence and attack',
@@ -439,7 +439,7 @@ export const ROLES = {
   },
 
   screeningCentralMidfielder: {
-    name: 'Screening Central Midfielder',
+    label: 'Screening Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
     description: 'Screening central midfielder who protects the defensive line',
@@ -450,7 +450,7 @@ export const ROLES = {
   },
 
   wideCoveringCentralMidfielder: {
-    name: 'Wide Covering Central Midfielder',
+    label: 'Wide Covering Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
     description: 'Wide-covering central midfielder who tracks wide channels',
@@ -461,7 +461,7 @@ export const ROLES = {
   },
 
   boxToBoxMidfielder: {
-    name: 'Box-to-Box Midfielder',
+    label: 'Box-to-Box Midfielder',
     positions: ["CM"],
     duty: 'Support',
     description: 'Box-to-box midfielder with energy to cover every blade of grass',
@@ -473,7 +473,7 @@ export const ROLES = {
   },
 
   boxToBoxPlaymaker: {
-    name: 'Box-to-Box Playmaker',
+    label: 'Box-to-Box Playmaker',
     positions: ["CM"],
     duty: 'Support',
     description: 'Box-to-box playmaker combining ball-carrying with tireless energy',
@@ -484,7 +484,7 @@ export const ROLES = {
   },
 
   channelMidfielder: {
-    name: 'Channel Midfielder',
+    label: 'Channel Midfielder',
     positions: ["CM"],
     duty: 'Attack',
     description: 'Channel midfielder who makes forward runs between the lines',
@@ -495,7 +495,7 @@ export const ROLES = {
   },
 
   midfieldPlaymaker: {
-    name: 'Midfield Playmaker',
+    label: 'Midfield Playmaker',
     positions: ["CM"],
     duty: 'Support',
     description: 'Midfield playmaker who controls tempo and creates chances',
@@ -507,7 +507,7 @@ export const ROLES = {
   },
 
   pressingCentralMidfielder: {
-    name: 'Pressing Central Midfielder',
+    label: 'Pressing Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
     description: 'Pressing central midfielder who wins the ball in advanced positions',
@@ -523,7 +523,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   wideMidfielder: {
-    name: 'Wide Midfielder',
+    label: 'Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Support',
     description: 'Wide midfielder who provides width and crossing from wide areas',
@@ -534,7 +534,7 @@ export const ROLES = {
   },
 
   trackingWideMidfielder: {
-    name: 'Tracking Wide Midfielder',
+    label: 'Tracking Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Defend',
     description: 'Tracking wide midfielder who tracks opposition runs diligently',
@@ -545,7 +545,7 @@ export const ROLES = {
   },
 
   wideCentralMidfielder: {
-    name: 'Wide Central Midfielder',
+    label: 'Wide Central Midfielder',
     positions: ["LM", "RM"],
     duty: 'Support',
     description: 'Wide central midfielder who operates between the lines',
@@ -556,7 +556,7 @@ export const ROLES = {
   },
 
   wideOutletWideMidfielder: {
-    name: 'Wide Outlet Wide Midfielder',
+    label: 'Wide Outlet Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Defend',
     description: 'Wide outlet midfielder who provides a pass option in wide areas',
@@ -571,7 +571,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   attackingMidfielder: {
-    name: 'Attacking Midfielder',
+    label: 'Attacking Midfielder',
     positions: ["AM"],
     duty: 'Support',
     description: 'Attacking midfielder who links midfield and the final third',
@@ -582,7 +582,7 @@ export const ROLES = {
   },
 
   trackingAttackingMidfielder: {
-    name: 'Tracking Attacking Midfielder',
+    label: 'Tracking Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
     description: 'Tracking attacking midfielder who presses from the front',
@@ -593,7 +593,7 @@ export const ROLES = {
   },
 
   advancedPlaymaker: {
-    name: 'Advanced Playmaker',
+    label: 'Advanced Playmaker',
     positions: ["AM", "CM"],
     duty: 'Support',
     description: 'Advanced playmaker who creates in the final third',
@@ -604,7 +604,7 @@ export const ROLES = {
   },
 
   centralOutletAttackingMidfielder: {
-    name: 'Central Outlet Attacking Midfielder',
+    label: 'Central Outlet Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
     description: 'Central outlet attacking midfielder who provides a passing option centrally',
@@ -615,7 +615,7 @@ export const ROLES = {
   },
 
   splittingOutletAttackingMidfielder: {
-    name: 'Splitting Outlet Attacking Midfielder',
+    label: 'Splitting Outlet Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
     description: 'Splitting outlet attacking midfielder who plays killer passes between lines',
@@ -626,7 +626,7 @@ export const ROLES = {
   },
 
   freeRole: {
-    name: 'Free Role',
+    label: 'Free Role',
     positions: ["AM", "CM"],
     duty: 'Attack',
     description: 'Free role player with licence to roam and create throughout the pitch',
@@ -642,7 +642,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   winger: {
-    name: 'Winger',
+    label: 'Winger',
     positions: ["LW", "RW"],
     duty: 'Support',
     description: 'Winger who provides width and delivers crosses from wide positions',
@@ -653,7 +653,7 @@ export const ROLES = {
   },
 
   halfSpaceWinger: {
-    name: 'Half-Space Winger',
+    label: 'Half-Space Winger',
     positions: ["LW", "RW"],
     duty: 'Attack',
     description: 'Half-space winger who operates in the inside channel',
@@ -664,7 +664,7 @@ export const ROLES = {
   },
 
   insideWinger: {
-    name: 'Inside Winger',
+    label: 'Inside Winger',
     positions: ["LW", "RW"],
     duty: 'Attack',
     description: 'Inside winger who cuts inside to shoot or create',
@@ -675,7 +675,7 @@ export const ROLES = {
   },
 
   invertingOutletWinger: {
-    name: 'Inverting Outlet Winger',
+    label: 'Inverting Outlet Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
     description: 'Inverting outlet winger who tracks back and provides defensive cover',
@@ -686,7 +686,7 @@ export const ROLES = {
   },
 
   trackingWinger: {
-    name: 'Tracking Winger',
+    label: 'Tracking Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
     description: 'Tracking winger who presses and recovers defensively',
@@ -697,7 +697,7 @@ export const ROLES = {
   },
 
   wideOutletWinger: {
-    name: 'Wide Outlet Winger',
+    label: 'Wide Outlet Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
     description: 'Wide outlet winger who stays wide to provide passing options',
@@ -707,7 +707,7 @@ export const ROLES = {
   },
 
   widePlaymaker: {
-    name: 'Wide Playmaker',
+    label: 'Wide Playmaker',
     positions: ["LW", "RW", "LM", "RM"],
     duty: 'Support',
     description: 'Wide playmaker who creates and distributes from wide positions',
@@ -718,7 +718,7 @@ export const ROLES = {
   },
 
   wideForward: {
-    name: 'Wide Forward',
+    label: 'Wide Forward',
     positions: ["LW", "RW", "LM", "RM"],
     duty: 'Attack',
     description: 'Wide forward who combines goal threat with width',
@@ -729,7 +729,7 @@ export const ROLES = {
   },
 
   insideForward: {
-    name: 'Inside Forward',
+    label: 'Inside Forward',
     positions: ["LW", "RW"],
     duty: 'Attack',
     description: 'Inside forward who cuts inside from wide to threaten goal',
@@ -745,7 +745,7 @@ export const ROLES = {
   ═══════════════════════════════════════════════════════ */
 
   centreForward: {
-    name: 'Centre Forward',
+    label: 'Centre Forward',
     positions: ["ST"],
     duty: 'Support',
     description: 'Complete centre-forward combining aerial and technical goal threat',
@@ -756,7 +756,7 @@ export const ROLES = {
   },
 
   falseNine: {
-    name: 'False Nine',
+    label: 'False Nine',
     positions: ["ST"],
     duty: 'Support',
     description: 'False nine who drops deep to create space and link play',
@@ -767,7 +767,7 @@ export const ROLES = {
   },
 
   deepLyingForward: {
-    name: 'Deep-Lying Forward',
+    label: 'Deep-Lying Forward',
     positions: ["ST"],
     duty: 'Support',
     description: 'Deep-lying forward who drops to receive and distribute for teammates',
@@ -778,7 +778,7 @@ export const ROLES = {
   },
 
   halfSpaceForward: {
-    name: 'Half-Space Forward',
+    label: 'Half-Space Forward',
     positions: ["ST"],
     duty: 'Attack',
     description: 'Half-space forward who exploits channels between defence and wide',
@@ -789,7 +789,7 @@ export const ROLES = {
   },
 
   channelForward: {
-    name: 'Channel Forward',
+    label: 'Channel Forward',
     positions: ["ST"],
     duty: 'Attack',
     description: 'Channel forward who makes runs in behind to exploit space',
@@ -800,7 +800,7 @@ export const ROLES = {
   },
 
   secondStriker: {
-    name: 'Second Striker',
+    label: 'Second Striker',
     positions: ["ST"],
     duty: 'Attack',
     description: 'Second striker who links midfield and attack with energy',
@@ -811,7 +811,7 @@ export const ROLES = {
   },
 
   centralOutletCentreForward: {
-    name: 'Central Outlet Centre Forward',
+    label: 'Central Outlet Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
     description: 'Central outlet centre-forward who holds up play for direct passes',
@@ -822,7 +822,7 @@ export const ROLES = {
   },
 
   splittingOutletCentreForward: {
-    name: 'Splitting Outlet Centre Forward',
+    label: 'Splitting Outlet Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
     description: 'Splitting outlet centre-forward who runs in behind to split the defence',
@@ -833,7 +833,7 @@ export const ROLES = {
   },
 
   trackingCentreForward: {
-    name: 'Tracking Centre Forward',
+    label: 'Tracking Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
     description: 'Tracking centre-forward who works hard pressing and defending from the front',
@@ -844,7 +844,7 @@ export const ROLES = {
   },
 
   targetForward: {
-    name: 'Target Forward',
+    label: 'Target Forward',
     positions: ["ST"],
     duty: 'Support',
     description: 'Target forward who holds up play aerially and brings teammates in',
@@ -855,7 +855,7 @@ export const ROLES = {
   },
 
   poacher: {
-    name: 'Poacher',
+    label: 'Poacher',
     positions: ["ST"],
     duty: 'Attack',
     description: 'Poacher who lurks in the box to finish off chances',

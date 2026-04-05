@@ -41,7 +41,7 @@ function runAnalysis({
   } else {
     const scored = sharedRoleKeys.map(roleKey => ({
       roleKey,
-      roleName: ROLES[roleKey]?.name || roleKey,
+      roleName: ROLES[roleKey]?.label || roleKey,
       currentScore: calcRoleScore(roleKey, currentFlat),
       targetScore: calcRoleScore(roleKey, targetFlat),
     })).sort((a, b) => b.targetScore - a.targetScore).slice(0, 5)
