@@ -328,6 +328,21 @@ function InsightBanner({ posScores, flat, age }) {
 
 const ZONE_COLORS = { gk: '#c4a935', def: '#8c7856', mid: '#d4782a', att: '#3fbf4f' }
 
+// Maps each pitch dot ID → positionWeights.js key for suitability scoring
+const POSMAP_TO_POSWEIGHT = {
+  GK: 'GK', DL: 'LB', DC: 'CB', DR: 'RB',
+  DML: 'LWB', DMC: 'DM', DMR: 'RWB',
+  ML: 'LM', MC: 'CM', MR: 'RM',
+  AML: 'LW', AMC: 'AM', AMR: 'RW', ST: 'ST',
+}
+
+function suitabilityColor(score) {
+  if (score >= 15) return C.green
+  if (score >= 12) return C.blue
+  if (score >= 9) return C.orange
+  return '#ef4444'
+}
+
 const POSITION_MAP = [
   { id: 'GK', label: 'Goalkeeper', x: 6, y: 50, zone: 'gk',
     gk: { key: ['aerialAbility', 'commandOfArea', 'communication', 'handling', 'oneOnOnes', 'rushingOut'] },
@@ -463,22 +478,24 @@ function PositionMapTab({ flat }) {
           <div style={{ position: 'absolute', top: '20%', right: 0, height: '60%', width: '16%', border: '1px solid rgba(255,255,255,0.2)', borderRight: 'none' }} />
           {/* Position dots */}
           {POSITION_MAP.map(pos => {
-            const color = ZONE_COLORS[pos.zone]
+            const posKey = POSMAP_TO_POSWEIGHT[pos.id]
+            const score = hasPlayer && posKey ? calcPositionScore(posKey, flat) : null
+            const dotColor = score != null ? suitabilityColor(score) : ZONE_COLORS[pos.zone]
             const isActive = selected?.id === pos.id
             return (
               <div
                 key={pos.id}
                 onClick={e => { e.stopPropagation(); setCollapsed({}); setSelected(isActive ? null : pos) }}
-                title={pos.label}
+                title={score != null ? `${pos.label} — ${score.toFixed(1)}` : pos.label}
                 style={{
                   position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`,
                   width: isActive ? 30 : 24, height: isActive ? 30 : 24,
                   borderRadius: '50%', transform: 'translate(-50%,-50%)',
-                  background: color, cursor: 'pointer', zIndex: 5,
+                  background: dotColor, cursor: 'pointer', zIndex: 5,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 7, fontWeight: 800, color: '#000',
                   border: isActive ? '2.5px solid #fff' : '1.5px solid rgba(255,255,255,0.35)',
-                  boxShadow: isActive ? `0 0 10px ${color}90` : 'none',
+                  boxShadow: isActive ? `0 0 10px ${dotColor}90` : 'none',
                   transition: 'all 0.15s',
                 }}
               >
@@ -488,12 +505,20 @@ function PositionMapTab({ flat }) {
           })}
         </div>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 10, flexWrap: 'wrap' }}>
-          {[['gk','GK'],['def','DEF'],['mid','MID'],['att','ATT']].map(([z, l]) => (
-            <div key={z} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.textMuted }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: ZONE_COLORS[z] }} />
-              {l}
-            </div>
-          ))}
+          {hasPlayer
+            ? [['#22c55e','15+'],['#0066ff','12–14'],['#ff6b00','9–11'],['#ef4444','<9']].map(([c, l]) => (
+                <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.textMuted }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
+                  {l}
+                </div>
+              ))
+            : [['gk','GK'],['def','DEF'],['mid','MID'],['att','ATT']].map(([z, l]) => (
+                <div key={z} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.textMuted }}>
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: ZONE_COLORS[z] }} />
+                  {l}
+                </div>
+              ))
+          }
         </div>
       </div>
 
