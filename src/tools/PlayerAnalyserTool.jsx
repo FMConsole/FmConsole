@@ -51,6 +51,29 @@ const VIEW_TABS = [
   { key: 'positions', label: 'Positions' },
 ]
 
+/* ── Age helpers ─────────────────────────────────────────────────────── */
+
+const PHYSICAL_SPEED_KEYS = ['pace', 'acceleration', 'agility', 'stamina']
+
+function getAgeProfile(age) {
+  if (!age) return null
+  if (age <= 20) return { bracket: 'developing', label: 'Developing (U21)', color: C.blue, physNote: 'Physical attributes are still developing — expect improvement with training.' }
+  if (age <= 27) return { bracket: 'peak', label: 'Peak (21–27)', color: C.green, physNote: null }
+  if (age <= 31) return { bracket: 'prime', label: 'Prime (28–31)', color: C.greenLight, physNote: 'Minor physical decline may be beginning — monitor pace and acceleration.' }
+  if (age <= 34) return { bracket: 'veteran', label: 'Veteran (32–34)', color: C.orange, physNote: 'Physical decline is expected at this age. Pace and acceleration scores may understate peak ability.' }
+  return { bracket: 'declining', label: `Experienced (${age})`, color: '#e05050', physNote: 'Significant age-related physical decline. Scores reflect current form — consider technical and mental strengths when choosing a role.' }
+}
+
+/**
+ * Physical demand of a role: ratio of (pace + acceleration + agility + stamina) weights
+ * to total weight. Returns 0–1.
+ */
+function rolePhysicalDemand(roleWeights) {
+  const speedWeight = PHYSICAL_SPEED_KEYS.reduce((s, k) => s + (roleWeights[k] || 0), 0)
+  const total = Object.values(roleWeights).reduce((s, w) => s + w, 0)
+  return total > 0 ? speedWeight / total : 0
+}
+
 function getBarColor(val) {
   if (val >= 16) return C.green
   if (val >= 12) return C.blue
@@ -211,7 +234,7 @@ function PositionCard({ posKey, posLabel, score, flat }) {
 
 /* ── Insight Banner ─────────────────────────────────────────────────── */
 
-function InsightBanner({ posScores, flat }) {
+function InsightBanner({ posScores, flat, age }) {
   const best = posScores[0]
   if (!best) return null
 
@@ -292,13 +315,37 @@ function InsightBanner({ posScores, flat }) {
           {bestRole.description}
         </div>
       )}
+
+      {/* Age advice */}
+      {(() => {
+        const ageProfile = getAgeProfile(age)
+        if (!ageProfile || !ageProfile.physNote) return null
+        return (
+          <div style={{
+            flex: '1 1 100%', paddingTop: 10,
+            borderTop: bestRole?.description ? 'none' : `1px solid ${C.border}`,
+            display: 'flex', alignItems: 'flex-start', gap: 8,
+          }}>
+            <span style={{
+              flexShrink: 0, fontSize: 10, fontWeight: 700, padding: '2px 8px',
+              borderRadius: 5, background: `${ageProfile.color}20`,
+              border: `1px solid ${ageProfile.color}50`, color: ageProfile.color,
+            }}>
+              {ageProfile.label}
+            </span>
+            <span style={{ fontSize: 12, color: C.textMuted }}>
+              {ageProfile.physNote}
+            </span>
+          </div>
+        )
+      })()}
     </div>
   )
 }
 
 /* ── Roles Tab ───────────────────────────────────────────────────────── */
 
-function RolesTab({ posScores, flat }) {
+function RolesTab({ posScores, flat, age }) {
   const [selectedPos, setSelectedPos] = useState(posScores[0]?.key || '')
   const roles = getTopRolesForPosition(selectedPos, flat, 8)
 
@@ -387,6 +434,30 @@ function RolesTab({ posScores, flat }) {
                   </div>
                 ))}
               </div>
+
+              {/* Age / physical demand warning */}
+              {(() => {
+                const ageProfile = getAgeProfile(age)
+                if (!ageProfile || ageProfile.bracket === 'peak' || ageProfile.bracket === 'developing') return null
+                const demand = rolePhysicalDemand(r.weights)
+                if (demand < 0.22) return null // low physical demand — no warning needed
+                const isHighDemand = demand >= 0.32
+                return (
+                  <div style={{
+                    marginTop: 8, display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '5px 10px', borderRadius: 6,
+                    background: isHighDemand ? '#e0505018' : `${C.orange}12`,
+                    border: `1px solid ${isHighDemand ? '#e0505040' : C.orange + '40'}`,
+                  }}>
+                    <span style={{ fontSize: 12 }}>⚡</span>
+                    <span style={{ fontSize: 11, color: isHighDemand ? '#e05050' : C.orange }}>
+                      {isHighDemand
+                        ? `High physical demand — at ${age}, pace and acceleration decline affects this role`
+                        : `Moderate physical demand — still viable at ${age} but monitor pace/acceleration`}
+                    </span>
+                  </div>
+                )
+              })()}
 
               {/* Description */}
               {r.description && (
@@ -686,7 +757,7 @@ export default function PlayerAnalyserTool() {
       </div>
 
       {/* ── Insight Banner ── */}
-      <InsightBanner posScores={posScores} flat={flat} />
+      <InsightBanner posScores={posScores} flat={flat} age={details.age} />
 
       {/* ── 4-Column Attribute Table (FM-style) ── */}
       <style>{`@media (max-width: 900px) { .fm-attr-grid { grid-template-columns: repeat(2, 1fr) !important; } } @media (max-width: 520px) { .fm-attr-grid { grid-template-columns: 1fr !important; } }`}</style>
@@ -834,7 +905,7 @@ export default function PlayerAnalyserTool() {
 
       {/* ── Roles Tab ── */}
       {activeView === 'roles' && (
-        <RolesTab posScores={posScores} flat={flat} />
+        <RolesTab posScores={posScores} flat={flat} age={details.age} />
       )}
 
       {/* ── Positions Tab ── */}
