@@ -90,13 +90,15 @@ IMPORTANT READING INSTRUCTIONS:
 - Read the player name from the header area at the top of the profile
 - Read positions from the "Positions" section (e.g. "WB/M/AM (R)" means Wing-Back, Midfielder, Attacking Midfielder Right)
 - Read height, personality, reputation from the "Info" panel if visible
-- Read preferred foot information if visible (e.g. Left Foot: Weak, Right Foot: Very Strong)
+- Read preferred foot information if visible. Foot strength labels map to numbers: Very Strong=5, Strong=4, Reasonable=3, Weak=2, Very Weak=1. The preferred (dominant) foot is always 5. If only one foot descriptor is shown, set the preferred foot to 5 and estimate the other from context.
 - Read player traits/PPMs (Player-Preferred Moves) from the "Info" or traits panel if visible. These are listed text traits like "Likes To Try To Beat Offside Trap", "Knocks Ball Past Opponent", "Tries First Time Shots", "Gets Crowd Going" etc.
 
 DOUBLE-CHECK each number carefully. Common mistakes to avoid:
 - Do not confuse 6 and 8, or 1 and 7
 - Do not skip attributes — there are exactly 14 Technical (including 4 Set Pieces), 14 Mental, and 8 Physical attributes
-- If an attribute value is partially obscured by a highlight color, look carefully at the number — it is still readable
+- Highlighted rows (yellow, blue, green background) are VERY common in FM — the number is always clearly printed on top of the highlight. Read the digit, not the color. A highlighted "17" must be returned as 17, never as 7 or 9
+- Two-digit numbers (10–20) are common — do not drop the leading digit. If a value looks like a single digit but the player is good, consider whether it may be a two-digit number with the first digit partially merged into the highlight
+- Read each attribute independently in order — do not infer a value from surrounding values
 
 Return ONLY valid JSON with this exact structure (omit any fields you cannot find):
 {
@@ -108,7 +110,11 @@ Return ONLY valid JSON with this exact structure (omit any fields you cannot fin
   "height": "string (e.g. 6'0)",
   "personality": "string",
   "reputation": "string (e.g. Regional, National, Continental)",
-  "preferredFoot": "string (e.g. Right, Left, Either)",
+  "preferredFoot": {
+    "preferred": "Right, Left, or Either",
+    "leftFoot": number (1-5),
+    "rightFoot": number (1-5)
+  },
   "traits": ["string"],
   "technicalAttributes": {
     "crossing": number,

@@ -5,12 +5,13 @@ import {
   parseAttributes, flattenAttributes, attrDisplayName, toCamelCase,
 } from './scanner/attributeParser.js'
 import {
-  POSITION_LIST, getKeyAttrsForPosition, calcPositionScore,
+  POSITION_LIST, getKeyAttrsForPosition, calcPositionScore, footAdjustment,
 } from '../data/positionWeights.js'
 import {
   getRolesForPosition, calcRoleScore, getTopRolesForPosition, starsDisplay, scoreToStars,
 } from '../data/roleWeights.js'
 import { getAgeProfile, rolePhysicalDemand } from '../data/playerHelpers.js'
+import { getTopArchetypes, getSetPieceBonus } from '../data/archetypes.js'
 
 const TECHNICAL_ATTRS = [
   'corners', 'crossing', 'dribbling', 'finishing', 'first touch',
@@ -213,12 +214,42 @@ function PositionCard({ posKey, posLabel, score, flat }) {
 
 /* ── Insight Banner ─────────────────────────────────────────────────── */
 
-function InsightBanner({ posScores, flat, age }) {
-  const best = posScores[0]
+const ARCHETYPE_BANDS = [
+  { min: 16, label: 'Elite',  color: '#a855f7' },
+  { min: 14, label: 'Gold',   color: '#f59e0b' },
+  { min: 12, label: 'Silver', color: '#94a3b8' },
+  { min: 10, label: 'Bronze', color: '#cd7f32' },
+  { min: 0,  label: 'Fringe', color: '#6b7280' },
+]
+
+function archetypeBand(score) {
+  return ARCHETYPE_BANDS.find(b => score >= b.min) || ARCHETYPE_BANDS.at(-1)
+}
+
+function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
+  const [archetypeOpen, setArchetypeOpen] = useState(false)
+  // Derive natural position: prefer the highest-scoring position from extracted FM positions
+  const mappedKeys = (fmPositions || []).map(mapFMPosition).filter(Boolean)
+  const fmPosSorted = mappedKeys.length > 0
+    ? posScores.filter(p => mappedKeys.includes(p.key)).sort((a, b) => b.score - a.score)
+    : []
+  const naturalPos = fmPosSorted[0] || posScores[0]
+  const altPos = fmPosSorted[1] || null
+  const best = naturalPos
   if (!best) return null
 
   const topRoles = getTopRolesForPosition(best.key, flat, 3)
   const bestRole = topRoles[0]
+  const topArchetypes = getTopArchetypes(flat, 3).filter(a => a.score >= 10)
+  const setPieceBonus = getSetPieceBonus(flat, traits)
+  const bestArchetype = topArchetypes[0]
+  // Top key attrs for the primary archetype (by weight), with player values
+  const archetypeKeyAttrs = bestArchetype
+    ? Object.entries(bestArchetype.weights || {})
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(([k]) => ({ key: k, label: attrDisplayName(k), val: flat[k] ?? '–' }))
+    : []
 
   const barColor = best.score >= 15 ? C.green : best.score >= 12 ? C.blue : C.orange
 
@@ -238,9 +269,9 @@ function InsightBanner({ posScores, flat, age }) {
           <span style={{ fontSize: 22, fontWeight: 900, color: barColor }}>{best.label}</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: C.textSecondary }}>{best.score.toFixed(1)}</span>
         </div>
-        {posScores[1] && (
+        {altPos && (
           <div style={{ fontSize: 11, color: C.textMuted, marginTop: 2 }}>
-            Also: {posScores[1].label} ({posScores[1].score.toFixed(1)})
+            Also: {altPos.label} ({altPos.score.toFixed(1)})
           </div>
         )}
       </div>
@@ -255,10 +286,99 @@ function InsightBanner({ posScores, flat, age }) {
         {bestRole && (
           <>
             <div style={{ fontSize: 18, fontWeight: 800, color: C.text }}>{bestRole.label}</div>
-            <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{bestRole.duty} · {starsDisplay(bestRole.score)}</div>
+            <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{starsDisplay(bestRole.score)}</div>
           </>
         )}
       </div>
+
+      {bestArchetype && (
+        <>
+          <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
+          {/* Archetype — 3-box horizontal cards */}
+          <div style={{ flex: '1 1 300px', minWidth: 260 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 8 }}>
+              Archetype
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {/* Primary + secondary archetype cards */}
+              {topArchetypes.map((a, i) => {
+                const band = archetypeBand(a.score)
+                const keyAttrs = Object.entries(a.weights || {})
+                  .sort((x, y) => y[1] - x[1]).slice(0, 3)
+                  .map(([k]) => ({ key: k, label: attrDisplayName(k), val: flat[k] ?? '–' }))
+                return (
+                  <div key={a.key} style={{
+                    flex: '1 1 100px', padding: '8px 10px', borderRadius: 10,
+                    background: `${a.color}0d`, border: `1px solid ${a.color}35`,
+                    position: 'relative',
+                  }}>
+                    {i > 0 && (
+                      <div style={{
+                        position: 'absolute', top: 6, right: 8,
+                        fontSize: 8, fontWeight: 700, color: a.color,
+                        textTransform: 'uppercase', letterSpacing: 0.5, opacity: 0.7,
+                      }}>Also</div>
+                    )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
+                      <span style={{ fontSize: 14 }}>{a.icon}</span>
+                      <span style={{ fontSize: 12, fontWeight: 800, color: a.color }}>{a.label}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 5 }}>
+                      <span style={{
+                        fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 10,
+                        background: `${band.color}22`, border: `1px solid ${band.color}60`, color: band.color,
+                      }}>{band.label}</span>
+                      <span style={{ fontSize: 10, color: C.textMuted }}>{a.score.toFixed(1)}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                      {keyAttrs.map(attr => (
+                        <span key={attr.key} style={{
+                          fontSize: 9, padding: '1px 5px', borderRadius: 4,
+                          background: `${a.color}15`, border: `1px solid ${a.color}35`,
+                          color: a.color, fontWeight: 600,
+                        }}>{attr.label} {attr.val}</span>
+                      ))}
+                    </div>
+                    {a.source && (
+                      <div style={{ marginTop: 5, fontSize: 8, color: C.textMuted, opacity: 0.7 }}>
+                        via <a href={a.source.url} target="_blank" rel="noopener noreferrer"
+                          style={{ color: C.textMuted, textDecoration: 'underline' }}>{a.source.label}</a>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+              {/* Set Piece Specialist bonus card */}
+              {setPieceBonus && (
+                <div style={{
+                  flex: '1 1 100px', padding: '8px 10px', borderRadius: 10,
+                  background: `${setPieceBonus.color}0d`, border: `1px dashed ${setPieceBonus.color}50`,
+                  position: 'relative',
+                }}>
+                  <div style={{
+                    position: 'absolute', top: 6, right: 8,
+                    fontSize: 8, fontWeight: 700, color: setPieceBonus.color,
+                    textTransform: 'uppercase', letterSpacing: 0.5, opacity: 0.8,
+                  }}>Bonus</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 6 }}>
+                    <span style={{ fontSize: 14 }}>{setPieceBonus.icon}</span>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: setPieceBonus.color }}>{setPieceBonus.label}</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+                    {setPieceBonus.attrs.map(a => (
+                      <span key={a.key} style={{
+                        fontSize: 9, padding: '1px 5px', borderRadius: 4,
+                        background: `${setPieceBonus.color}15`, border: `1px solid ${setPieceBonus.color}35`,
+                        color: setPieceBonus.color, fontWeight: 600,
+                      }}>{a.label} {a.val}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
 
       <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
 
@@ -327,6 +447,32 @@ function InsightBanner({ posScores, flat, age }) {
 /* ── Position Map data ───────────────────────────────────────────────── */
 
 const ZONE_COLORS = { gk: '#c4a935', def: '#8c7856', mid: '#d4782a', att: '#3fbf4f' }
+
+/**
+ * Map an FM position string (e.g. "ST (C)", "D (L)", "WB (R)") to a positionWeights key.
+ * Returns null if no match.
+ */
+function mapFMPosition(str) {
+  if (!str) return null
+  const s = str.toUpperCase().replace(/\s/g, '')
+  if (s.startsWith('GK')) return 'GK'
+  if (s.startsWith('ST')) return 'ST'
+  if (s === 'DM' || s.startsWith('DM(')) return 'DM'
+  if (s.startsWith('WB(L)') || s === 'WBL') return 'LWB'
+  if (s.startsWith('WB(R)') || s === 'WBR') return 'RWB'
+  if (s.startsWith('WB')) return 'LWB' // fallback
+  if (s.startsWith('D(C)') || s === 'DC' || s === 'CB') return 'CB'
+  if (s.startsWith('D(L)') || s === 'DL' || s === 'LB') return 'LB'
+  if (s.startsWith('D(R)') || s === 'DR' || s === 'RB') return 'RB'
+  if (s.startsWith('D')) return 'CB'
+  if (s.startsWith('AM(C)') || s === 'AMC') return 'AM'
+  if (s.startsWith('AM(L)') || s === 'AML') return 'LW'
+  if (s.startsWith('AM(R)') || s === 'AMR') return 'RW'
+  if (s.startsWith('M(C)') || s === 'MC' || s === 'CM') return 'CM'
+  if (s.startsWith('M(L)') || s === 'ML' || s === 'LM') return 'LM'
+  if (s.startsWith('M(R)') || s === 'MR' || s === 'RM') return 'RM'
+  return null
+}
 
 // Maps each pitch dot ID → positionWeights.js key for suitability scoring
 const POSMAP_TO_POSWEIGHT = {
@@ -419,7 +565,7 @@ const POSITION_MAP = [
   },
 ]
 
-function PositionMapTab({ flat, onPosClick }) {
+function PositionMapTab({ flat, preferredFoot, onPosClick }) {
   const [selected, setSelected] = useState(null)
   const [collapsed, setCollapsed] = useState({})
   const hasPlayer = flat && Object.keys(flat).length > 0
@@ -483,7 +629,7 @@ function PositionMapTab({ flat, onPosClick }) {
             const posScoreMap = hasPlayer
               ? Object.fromEntries(POSITION_MAP.map(p => {
                   const k = POSMAP_TO_POSWEIGHT[p.id]
-                  return [p.id, k ? calcPositionScore(k, flat) : null]
+                  return [p.id, k ? calcPositionScore(k, flat) * footAdjustment(k, preferredFoot) : null]
                 }))
               : {}
             const scores = Object.values(posScoreMap).filter(s => s != null)
@@ -626,7 +772,7 @@ function RoleSection({ title, roles, flat, age, accentColor }) {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{r.label}</div>
-                  <div style={{ fontSize: 11, color: C.textMuted }}>{r.duty}</div>
+                  <div style={{ fontSize: 11, color: C.textMuted }}>{r.description}</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontSize: 18, fontWeight: 800, color: barColor }}>{r.score.toFixed(1)}</div>
@@ -913,7 +1059,7 @@ export default function PlayerAnalyserTool() {
   // Position scores
   const posScores = POSITION_LIST
     .filter(p => hasGK ? p.key === 'GK' : p.key !== 'GK')
-    .map(p => ({ ...p, score: calcPositionScore(p.key, flat) }))
+    .map(p => ({ ...p, score: calcPositionScore(p.key, flat) * footAdjustment(p.key, details.preferredFoot) }))
     .sort((a, b) => b.score - a.score)
 
   return (
@@ -927,9 +1073,29 @@ export default function PlayerAnalyserTool() {
         <div style={{ flex: 1, minWidth: 200 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
             {player.preview && (
-              <img src={player.preview} alt="" style={{
-                width: 48, height: 48, borderRadius: 10, objectFit: 'cover', opacity: 0.8,
-              }} />
+              <a
+                href={player.preview}
+                download={`${(player.name || 'player').replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().slice(0, 10)}.png`}
+                title="Download screenshot"
+                style={{ position: 'relative', display: 'block', flexShrink: 0 }}
+              >
+                <img src={player.preview} alt="" style={{
+                  width: 48, height: 48, borderRadius: 10, objectFit: 'cover', opacity: 0.8,
+                  display: 'block',
+                }} />
+                <div style={{
+                  position: 'absolute', inset: 0, borderRadius: 10,
+                  background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s',
+                }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = 1}
+                  onMouseLeave={e => e.currentTarget.style.opacity = 0}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                  </svg>
+                </div>
+              </a>
             )}
             <div>
               <input
@@ -1012,7 +1178,7 @@ export default function PlayerAnalyserTool() {
       </div>
 
       {/* ── Insight Banner ── */}
-      <InsightBanner posScores={posScores} flat={flat} age={details.age} />
+      <InsightBanner posScores={posScores} flat={flat} age={details.age} fmPositions={details.positions} traits={details.traits} />
 
       {/* ── 4-Column Attribute Table (FM-style) ── */}
       <style>{`@media (max-width: 900px) { .fm-attr-grid { grid-template-columns: repeat(2, 1fr) !important; } } @media (max-width: 520px) { .fm-attr-grid { grid-template-columns: 1fr !important; } }`}</style>
@@ -1059,7 +1225,7 @@ export default function PlayerAnalyserTool() {
 
       {/* ── Position Map (always visible) ── */}
       <div style={{ marginBottom: 24 }}>
-        <PositionMapTab flat={flat} onPosClick={(posKey) => { setSelectedRolesPos(posKey); setActiveView('roles') }} />
+        <PositionMapTab flat={flat} preferredFoot={details.preferredFoot} onPosClick={(posKey) => { setSelectedRolesPos(posKey); setActiveView('roles') }} />
       </div>
 
       {/* Tab Bar */}

@@ -12,9 +12,11 @@
  * from outfield player scans, so outfield players will score low at GK naturally.
  */
 
+// side: which foot dominates for this position ('left'|'right'|'neutral')
+// weakerFootWeight: how much the weaker/opposite foot matters (from Excel, normalised)
 const POSITIONS = {
   GK: {
-    label: 'Goalkeeper',
+    label: 'Goalkeeper', side: 'neutral', weakerFootWeight: 0.29,
     // Raw max = 14 (One on Ones)
     weights: {
       oneOnOnes: 1.00, decisions: 0.71, reflexes: 0.57, handling: 0.57,
@@ -27,7 +29,7 @@ const POSITIONS = {
   },
 
   CB: {
-    label: 'Centre Back',
+    label: 'Centre Back', side: 'neutral', weakerFootWeight: 0.45,
     // Raw max = 10 (Decisions)
     weights: {
       decisions: 1.00, marking: 0.80, positioning: 0.80,
@@ -40,7 +42,7 @@ const POSITIONS = {
   },
 
   LB: {
-    label: 'Left Back',
+    label: 'Left Back', side: 'left', weakerFootWeight: 0.50,
     // Raw max = 8 (Acceleration)
     weights: {
       acceleration: 1.00, stamina: 0.88, pace: 0.75,
@@ -55,7 +57,7 @@ const POSITIONS = {
   },
 
   RB: {
-    label: 'Right Back',
+    label: 'Right Back', side: 'right', weakerFootWeight: 0.50,
     // Raw max = 8 (Acceleration)
     weights: {
       acceleration: 1.00, stamina: 0.88, pace: 0.75,
@@ -70,7 +72,7 @@ const POSITIONS = {
   },
 
   LWB: {
-    label: 'Left Wing Back',
+    label: 'Left Wing Back', side: 'left', weakerFootWeight: 0.53,
     // Derived: average of LB (DL) and LM (AML) raw weights, max = 9
     weights: {
       acceleration: 1.00, pace: 0.89, stamina: 0.78,
@@ -83,7 +85,7 @@ const POSITIONS = {
   },
 
   RWB: {
-    label: 'Right Wing Back',
+    label: 'Right Wing Back', side: 'right', weakerFootWeight: 0.53,
     // Derived: average of RB (DR) and RM (AMR) raw weights, max = 9
     weights: {
       acceleration: 1.00, pace: 0.89, stamina: 0.78,
@@ -96,7 +98,7 @@ const POSITIONS = {
   },
 
   DM: {
-    label: 'Defensive Midfielder',
+    label: 'Defensive Midfielder', side: 'neutral', weakerFootWeight: 0.63,
     // Raw max = 8 (Decisions)
     weights: {
       decisions: 1.00, tackling: 0.88,
@@ -110,7 +112,7 @@ const POSITIONS = {
   },
 
   CM: {
-    label: 'Central Midfielder',
+    label: 'Central Midfielder', side: 'neutral', weakerFootWeight: 0.83,
     // Raw max = 9 (Acceleration)
     weights: {
       acceleration: 1.00, pace: 0.78,
@@ -125,7 +127,7 @@ const POSITIONS = {
   },
 
   LM: {
-    label: 'Left Midfielder',
+    label: 'Left Midfielder', side: 'left', weakerFootWeight: 0.55,
     // From AML column, raw max = 10
     weights: {
       acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
@@ -139,7 +141,7 @@ const POSITIONS = {
   },
 
   RM: {
-    label: 'Right Midfielder',
+    label: 'Right Midfielder', side: 'right', weakerFootWeight: 0.55,
     // From AMR column, raw max = 10
     weights: {
       acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
@@ -153,7 +155,7 @@ const POSITIONS = {
   },
 
   AM: {
-    label: 'Attacking Midfielder',
+    label: 'Attacking Midfielder', side: 'neutral', weakerFootWeight: 0.55,
     // From AMRLC/ST column (same as wide-mid in user's Excel), raw max = 10
     weights: {
       acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
@@ -167,7 +169,7 @@ const POSITIONS = {
   },
 
   LW: {
-    label: 'Left Winger',
+    label: 'Left Winger', side: 'left', weakerFootWeight: 0.55,
     // Same wide-mid profile as LM in user's Excel
     weights: {
       acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
@@ -181,7 +183,7 @@ const POSITIONS = {
   },
 
   RW: {
-    label: 'Right Winger',
+    label: 'Right Winger', side: 'right', weakerFootWeight: 0.55,
     // Same wide-mid profile as RM in user's Excel
     weights: {
       acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
@@ -195,7 +197,7 @@ const POSITIONS = {
   },
 
   ST: {
-    label: 'Striker',
+    label: 'Striker', side: 'neutral', weakerFootWeight: 0.75,
     // From STC column, raw max = 10 (Acceleration)
     weights: {
       acceleration: 1.00, finishing: 0.80, pace: 0.70,
@@ -249,6 +251,31 @@ export function calcPositionScore(posKey, flatAttrs) {
   }
 
   return totalWeight > 0 ? Math.round((totalWeighted / totalWeight) * 10) / 10 : 0
+}
+
+/**
+ * Multiplier (0–1) applied to a position score based on foot preference.
+ * - Left-sided positions penalise right-footed players (weaker left foot).
+ * - Right-sided positions penalise left-footed players (weaker right foot).
+ * - Neutral positions use the average of both feet.
+ * Returns 1.0 if foot data is unavailable.
+ */
+export function footAdjustment(posKey, preferredFoot) {
+  const pos = POSITIONS[posKey]
+  if (!pos || !preferredFoot || typeof preferredFoot !== 'object') return 1.0
+  const { leftFoot, rightFoot } = preferredFoot
+  if (leftFoot == null || rightFoot == null) return 1.0
+
+  let footScore
+  if (pos.side === 'left') {
+    footScore = leftFoot / 5
+  } else if (pos.side === 'right') {
+    footScore = rightFoot / 5
+  } else {
+    footScore = (leftFoot + rightFoot) / 10
+  }
+
+  return Math.max(0.5, 1 - pos.weakerFootWeight * (1 - footScore))
 }
 
 /** List of all FM26 position options for the UI. */
