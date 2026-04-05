@@ -1,154 +1,210 @@
 /**
  * Position-based attribute weights for FM26 positions.
+ * Source: "Weighted Attributes.xlsx" — raw weights normalised to 0–1 per position (÷ max).
  *
- * Positions match FM26 exactly: GK, CB, LB, RB, LWB, RWB, DM, CM, LM, RM, AM, LW, RW, ST
+ * Excel positions mapped to FM26 keys:
+ *   GK→GK, DR→RB, DL→LB, DC→CB, DM→DM, MC→CM,
+ *   AMR→RM, AML→LM, AMRLC/ST→AM, STC→ST
+ *   LWB/RWB derived as average of FB + wide-mid columns.
+ *   LW/RW use the same wide-mid profile as LM/RM.
  *
- * Each position maps attributes to a weight (0–1):
- *   1.0 = critical for the position
- *   0.8 = very important
- *   0.6 = important
- *   0.4 = useful
- *   0.2 = minor relevance
+ * Note: GK-specific attributes (reflexes, handling, oneOnOnes, etc.) will be absent
+ * from outfield player scans, so outfield players will score low at GK naturally.
  */
 
 const POSITIONS = {
   GK: {
     label: 'Goalkeeper',
+    // Raw max = 14 (One on Ones)
     weights: {
-      reflexes: 1.0, handling: 1.0, oneOnOnes: 0.9, commandOfArea: 0.9,
-      positioning: 0.8, anticipation: 0.8, concentration: 0.8, decisions: 0.7,
-      composure: 0.7, jumpingReach: 0.7, kicking: 0.6, throwing: 0.6,
-      agility: 0.5, acceleration: 0.4, pace: 0.3,
+      oneOnOnes: 1.00, decisions: 0.71, reflexes: 0.57, handling: 0.57,
+      agility: 0.57, aerialAbility: 0.43, commandOfArea: 0.43,
+      concentration: 0.43, bravery: 0.43, acceleration: 0.43,
+      communication: 0.36, positioning: 0.36, kicking: 0.36,
+      strength: 0.29, throwing: 0.21, passing: 0.21, pace: 0.21,
+      composure: 0.14, balance: 0.14, leadership: 0.14, teamwork: 0.14,
     },
   },
 
   CB: {
     label: 'Centre Back',
+    // Raw max = 10 (Decisions)
     weights: {
-      heading: 1.0, tackling: 1.0, marking: 0.9, positioning: 0.9,
-      strength: 0.9, jumpingReach: 0.8, concentration: 0.8, anticipation: 0.8,
-      composure: 0.7, decisions: 0.7, bravery: 0.7, aggression: 0.5,
-      pace: 0.5, acceleration: 0.4, passing: 0.4, firstTouch: 0.3,
+      decisions: 1.00, marking: 0.80, positioning: 0.80,
+      acceleration: 0.60, agility: 0.60, strength: 0.60, jumpingReach: 0.60,
+      heading: 0.50, tackling: 0.50, pace: 0.50, anticipation: 0.50,
+      concentration: 0.40, stamina: 0.30,
+      composure: 0.20, bravery: 0.20, firstTouch: 0.20, passing: 0.20,
+      balance: 0.20, leadership: 0.20, workRate: 0.20,
     },
   },
 
   LB: {
     label: 'Left Back',
+    // Raw max = 8 (Acceleration)
     weights: {
-      pace: 0.9, stamina: 0.9, tackling: 0.9, marking: 0.8,
-      positioning: 0.8, anticipation: 0.8, concentration: 0.8, workRate: 0.8,
-      acceleration: 0.7, crossing: 0.7, decisions: 0.7, strength: 0.6,
-      offTheBall: 0.5, passing: 0.5, technique: 0.5, firstTouch: 0.4,
+      acceleration: 1.00, stamina: 0.88, pace: 0.75,
+      agility: 0.63, decisions: 0.63, strength: 0.50,
+      concentration: 0.38, anticipation: 0.38, crossing: 0.38,
+      firstTouch: 0.38, positioning: 0.38, passing: 0.38,
+      tackling: 0.38, technique: 0.38,
+      offTheBall: 0.25, composure: 0.25, balance: 0.25,
+      teamwork: 0.25, vision: 0.25, marking: 0.25,
+      workRate: 0.25, dribbling: 0.25,
     },
   },
 
   RB: {
     label: 'Right Back',
+    // Raw max = 8 (Acceleration)
     weights: {
-      pace: 0.9, stamina: 0.9, tackling: 0.9, marking: 0.8,
-      positioning: 0.8, anticipation: 0.8, concentration: 0.8, workRate: 0.8,
-      acceleration: 0.7, crossing: 0.7, decisions: 0.7, strength: 0.6,
-      offTheBall: 0.5, passing: 0.5, technique: 0.5, firstTouch: 0.4,
+      acceleration: 1.00, stamina: 0.88, pace: 0.75,
+      agility: 0.63, decisions: 0.63, strength: 0.50,
+      concentration: 0.38, anticipation: 0.38, crossing: 0.38,
+      firstTouch: 0.38, positioning: 0.38, passing: 0.38,
+      tackling: 0.38, technique: 0.38,
+      offTheBall: 0.25, composure: 0.25, balance: 0.25,
+      teamwork: 0.25, vision: 0.25, marking: 0.25,
+      workRate: 0.25, dribbling: 0.25,
     },
   },
 
   LWB: {
     label: 'Left Wing Back',
+    // Derived: average of LB (DL) and LM (AML) raw weights, max = 9
     weights: {
-      pace: 1.0, stamina: 1.0, crossing: 0.9, workRate: 0.9,
-      acceleration: 0.9, tackling: 0.7, offTheBall: 0.7, dribbling: 0.7,
-      anticipation: 0.7, decisions: 0.7, firstTouch: 0.6, technique: 0.6,
-      passing: 0.6, marking: 0.5, positioning: 0.5,
+      acceleration: 1.00, pace: 0.89, stamina: 0.78,
+      agility: 0.61, decisions: 0.56, crossing: 0.44, firstTouch: 0.44,
+      technique: 0.39, strength: 0.39, dribbling: 0.39,
+      anticipation: 0.33, composure: 0.28, concentration: 0.28,
+      workRate: 0.28, vision: 0.28, passing: 0.28, tackling: 0.28,
+      positioning: 0.22, offTheBall: 0.22, balance: 0.22, teamwork: 0.22,
     },
   },
 
   RWB: {
     label: 'Right Wing Back',
+    // Derived: average of RB (DR) and RM (AMR) raw weights, max = 9
     weights: {
-      pace: 1.0, stamina: 1.0, crossing: 0.9, workRate: 0.9,
-      acceleration: 0.9, tackling: 0.7, offTheBall: 0.7, dribbling: 0.7,
-      anticipation: 0.7, decisions: 0.7, firstTouch: 0.6, technique: 0.6,
-      passing: 0.6, marking: 0.5, positioning: 0.5,
+      acceleration: 1.00, pace: 0.89, stamina: 0.78,
+      agility: 0.61, decisions: 0.56, crossing: 0.44, firstTouch: 0.44,
+      technique: 0.39, strength: 0.39, dribbling: 0.39,
+      anticipation: 0.33, composure: 0.28, concentration: 0.28,
+      workRate: 0.28, vision: 0.28, passing: 0.28, tackling: 0.28,
+      positioning: 0.22, offTheBall: 0.22, balance: 0.22, teamwork: 0.22,
     },
   },
 
   DM: {
     label: 'Defensive Midfielder',
+    // Raw max = 8 (Decisions)
     weights: {
-      tackling: 1.0, positioning: 1.0, anticipation: 0.9, concentration: 0.9,
-      stamina: 0.9, decisions: 0.8, teamwork: 0.8, marking: 0.7,
-      composure: 0.7, strength: 0.7, passing: 0.7, workRate: 0.7,
-      vision: 0.4, firstTouch: 0.4, technique: 0.4,
+      decisions: 1.00, tackling: 0.88,
+      acceleration: 0.75, agility: 0.75,
+      anticipation: 0.63, strength: 0.63, positioning: 0.63,
+      pace: 0.50, stamina: 0.50, firstTouch: 0.50, vision: 0.50,
+      passing: 0.50, workRate: 0.50,
+      concentration: 0.38, technique: 0.38, marking: 0.38, longShots: 0.38,
+      composure: 0.25, dribbling: 0.25, balance: 0.25, teamwork: 0.25,
     },
   },
 
   CM: {
     label: 'Central Midfielder',
+    // Raw max = 9 (Acceleration)
     weights: {
-      passing: 1.0, decisions: 0.9, vision: 0.9, stamina: 0.9,
-      workRate: 0.9, firstTouch: 0.8, technique: 0.8, teamwork: 0.8,
-      anticipation: 0.7, concentration: 0.7, composure: 0.7, tackling: 0.6,
-      offTheBall: 0.5, pace: 0.4, acceleration: 0.4, dribbling: 0.4,
+      acceleration: 1.00, pace: 0.78,
+      agility: 0.67, stamina: 0.67, decisions: 0.67, vision: 0.67,
+      firstTouch: 0.56, technique: 0.56,
+      passing: 0.44,
+      composure: 0.33, dribbling: 0.33, finishing: 0.33,
+      offTheBall: 0.33, workRate: 0.33, anticipation: 0.33, strength: 0.33,
+      concentration: 0.22, positioning: 0.22, tackling: 0.22,
+      balance: 0.22, teamwork: 0.22,
     },
   },
 
   LM: {
     label: 'Left Midfielder',
+    // From AML column, raw max = 10
     weights: {
-      crossing: 1.0, stamina: 1.0, workRate: 0.9, pace: 0.8,
-      acceleration: 0.8, offTheBall: 0.8, firstTouch: 0.7, decisions: 0.7,
-      passing: 0.7, anticipation: 0.7, dribbling: 0.6, technique: 0.6,
-      vision: 0.6, tackling: 0.5, positioning: 0.4,
+      acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
+      crossing: 0.50, dribbling: 0.50, firstTouch: 0.50, decisions: 0.50,
+      technique: 0.40,
+      strength: 0.30, vision: 0.30, anticipation: 0.30,
+      workRate: 0.30, composure: 0.30,
+      finishing: 0.20, tackling: 0.20, longShots: 0.20,
+      offTheBall: 0.20, balance: 0.20, teamwork: 0.20, concentration: 0.20,
     },
   },
 
   RM: {
     label: 'Right Midfielder',
+    // From AMR column, raw max = 10
     weights: {
-      crossing: 1.0, stamina: 1.0, workRate: 0.9, pace: 0.8,
-      acceleration: 0.8, offTheBall: 0.8, firstTouch: 0.7, decisions: 0.7,
-      passing: 0.7, anticipation: 0.7, dribbling: 0.6, technique: 0.6,
-      vision: 0.6, tackling: 0.5, positioning: 0.4,
+      acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
+      crossing: 0.50, dribbling: 0.50, firstTouch: 0.50, decisions: 0.50,
+      technique: 0.40,
+      strength: 0.30, vision: 0.30, anticipation: 0.30,
+      workRate: 0.30, composure: 0.30,
+      finishing: 0.20, tackling: 0.20, longShots: 0.20,
+      offTheBall: 0.20, balance: 0.20, teamwork: 0.20, concentration: 0.20,
     },
   },
 
   AM: {
     label: 'Attacking Midfielder',
+    // From AMRLC/ST column (same as wide-mid in user's Excel), raw max = 10
     weights: {
-      decisions: 1.0, passing: 1.0, firstTouch: 0.9, technique: 0.9,
-      vision: 0.9, dribbling: 0.8, composure: 0.8, anticipation: 0.8,
-      offTheBall: 0.7, stamina: 0.7, pace: 0.6, acceleration: 0.6,
-      flair: 0.6, finishing: 0.5, agility: 0.5,
+      acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
+      crossing: 0.50, dribbling: 0.50, firstTouch: 0.50, decisions: 0.50,
+      technique: 0.40,
+      strength: 0.30, vision: 0.30, anticipation: 0.30,
+      workRate: 0.30, composure: 0.30,
+      finishing: 0.20, tackling: 0.20, longShots: 0.20,
+      offTheBall: 0.20, balance: 0.20, teamwork: 0.20, concentration: 0.20,
     },
   },
 
   LW: {
     label: 'Left Winger',
+    // Same wide-mid profile as LM in user's Excel
     weights: {
-      pace: 1.0, acceleration: 1.0, dribbling: 0.9, offTheBall: 0.9,
-      stamina: 0.9, crossing: 0.8, firstTouch: 0.8, technique: 0.8,
-      agility: 0.7, flair: 0.7, finishing: 0.6, anticipation: 0.6,
-      decisions: 0.6, workRate: 0.6, passing: 0.5,
+      acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
+      crossing: 0.50, dribbling: 0.50, firstTouch: 0.50, decisions: 0.50,
+      technique: 0.40,
+      strength: 0.30, vision: 0.30, anticipation: 0.30,
+      workRate: 0.30, composure: 0.30,
+      finishing: 0.20, tackling: 0.20, longShots: 0.20,
+      offTheBall: 0.20, balance: 0.20, teamwork: 0.20, concentration: 0.20,
     },
   },
 
   RW: {
     label: 'Right Winger',
+    // Same wide-mid profile as RM in user's Excel
     weights: {
-      pace: 1.0, acceleration: 1.0, dribbling: 0.9, offTheBall: 0.9,
-      stamina: 0.9, crossing: 0.8, firstTouch: 0.8, technique: 0.8,
-      agility: 0.7, flair: 0.7, finishing: 0.6, anticipation: 0.6,
-      decisions: 0.6, workRate: 0.6, passing: 0.5,
+      acceleration: 1.00, pace: 1.00, stamina: 0.70, agility: 0.60,
+      crossing: 0.50, dribbling: 0.50, firstTouch: 0.50, decisions: 0.50,
+      technique: 0.40,
+      strength: 0.30, vision: 0.30, anticipation: 0.30,
+      workRate: 0.30, composure: 0.30,
+      finishing: 0.20, tackling: 0.20, longShots: 0.20,
+      offTheBall: 0.20, balance: 0.20, teamwork: 0.20, concentration: 0.20,
     },
   },
 
   ST: {
     label: 'Striker',
+    // From STC column, raw max = 10 (Acceleration)
     weights: {
-      finishing: 1.0, offTheBall: 1.0, anticipation: 0.9, composure: 0.9,
-      pace: 0.8, acceleration: 0.8, firstTouch: 0.8, decisions: 0.7,
-      heading: 0.7, strength: 0.6, dribbling: 0.6, technique: 0.6,
-      agility: 0.5, jumpingReach: 0.5, flair: 0.4,
+      acceleration: 1.00, finishing: 0.80, pace: 0.70,
+      agility: 0.60, composure: 0.60, heading: 0.60, firstTouch: 0.60,
+      offTheBall: 0.60, strength: 0.60, stamina: 0.60,
+      anticipation: 0.50, dribbling: 0.50, jumpingReach: 0.50, decisions: 0.50,
+      technique: 0.40,
+      workRate: 0.20, concentration: 0.20, positioning: 0.20,
+      vision: 0.20, passing: 0.20, longShots: 0.20, balance: 0.20,
     },
   },
 }
@@ -200,5 +256,3 @@ export const POSITION_LIST = Object.entries(POSITIONS).map(([key, val]) => ({
   key,
   label: val.label,
 }))
-
-export default POSITIONS
