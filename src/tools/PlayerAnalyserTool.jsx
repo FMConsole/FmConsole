@@ -50,7 +50,6 @@ const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
   { key: 'roles', label: 'IP / OOP Roles' },
   { key: 'positions', label: 'Positions' },
-  { key: 'posmap', label: 'Position Map' },
 ]
 
 
@@ -405,36 +404,46 @@ const POSITION_MAP = [
 
 function PositionMapTab({ flat }) {
   const [selected, setSelected] = useState(null)
+  const [collapsed, setCollapsed] = useState({})
   const hasPlayer = flat && Object.keys(flat).length > 0
 
-  const renderAttrGroup = (title, color, group) => {
+  const toggleSection = (sectionKey) => setCollapsed(prev => ({ ...prev, [sectionKey]: !prev[sectionKey] }))
+
+  const renderAttrGroup = (sectionKey, title, color, group) => {
     if (!group) return null
+    const isCollapsed = collapsed[sectionKey]
     const attrs = [
       ...(group.key || []).map(k => ({ key: k, tier: 'key' })),
       ...(group.useful || []).map(k => ({ key: k, tier: 'useful' })),
     ]
     return (
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, color, marginBottom: 6, paddingBottom: 3, borderBottom: `1px solid ${C.border}` }}>
-          {title}
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 8px' }}>
-          {attrs.map(({ key, tier }) => {
-            const val = hasPlayer ? (flat[key] ?? null) : null
-            const valColor = val == null ? null : getBarColor(val)
-            return (
-              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 6px', borderRadius: 5, background: tier === 'key' ? `${C.purple}10` : 'transparent' }}>
-                <span style={{ fontSize: 11, color: C.text }}>{attrDisplayName(key)}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  {val != null && <span style={{ fontSize: 12, fontWeight: 700, color: valColor }}>{val}</span>}
-                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: tier === 'key' ? `${C.purple}25` : `${C.green}15`, color: tier === 'key' ? '#a78bfa' : '#4ade80' }}>
-                    {tier === 'key' ? 'KEY' : 'USF'}
-                  </span>
+      <div style={{ marginBottom: 8 }}>
+        <button
+          onClick={() => toggleSection(sectionKey)}
+          style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: isCollapsed ? 0 : 5, paddingBottom: 3, borderBottom: `1px solid ${C.border}` }}
+        >
+          <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, color }}>{title}</span>
+          <span style={{ fontSize: 10, color, opacity: 0.7 }}>{isCollapsed ? '▶' : '▼'}</span>
+        </button>
+        {!isCollapsed && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 8px' }}>
+            {attrs.map(({ key, tier }) => {
+              const val = hasPlayer ? (flat[key] ?? null) : null
+              const valColor = val == null ? null : getBarColor(val)
+              return (
+                <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 6px', borderRadius: 5, background: tier === 'key' ? `${C.purple}10` : 'transparent' }}>
+                  <span style={{ fontSize: 11, color: C.text }}>{attrDisplayName(key)}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {val != null && <span style={{ fontSize: 12, fontWeight: 700, color: valColor }}>{val}</span>}
+                    <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: tier === 'key' ? `${C.purple}25` : `${C.green}15`, color: tier === 'key' ? '#a78bfa' : '#4ade80' }}>
+                      {tier === 'key' ? 'KEY' : 'USF'}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     )
   }
@@ -459,7 +468,7 @@ function PositionMapTab({ flat }) {
             return (
               <div
                 key={pos.id}
-                onClick={e => { e.stopPropagation(); setSelected(isActive ? null : pos) }}
+                onClick={e => { e.stopPropagation(); setCollapsed({}); setSelected(isActive ? null : pos) }}
                 title={pos.label}
                 style={{
                   position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`,
@@ -503,10 +512,10 @@ function PositionMapTab({ flat }) {
               {hasPlayer && <span style={{ fontSize: 10, color: C.textMuted, marginLeft: 'auto' }}>values shown</span>}
             </div>
             <div style={{ padding: '12px 16px', overflowY: 'auto', maxHeight: 420 }}>
-              {selected.gk && renderAttrGroup('Goalkeeping', C.orange, selected.gk)}
-              {renderAttrGroup('Technical', C.blue, selected.technical)}
-              {renderAttrGroup('Mental', C.orange, selected.mental)}
-              {renderAttrGroup('Physical', C.green, selected.physical)}
+              {selected.gk && renderAttrGroup('gk', 'Goalkeeping', C.orange, selected.gk)}
+              {renderAttrGroup('technical', 'Technical', C.blue, selected.technical)}
+              {renderAttrGroup('mental', 'Mental', C.orange, selected.mental)}
+              {renderAttrGroup('physical', 'Physical', C.green, selected.physical)}
             </div>
           </>
         )}
@@ -1013,7 +1022,12 @@ export default function PlayerAnalyserTool() {
         ))}
       </div>
 
-      {/* Tab Bar (Overview / Positions) */}
+      {/* ── Position Map (always visible) ── */}
+      <div style={{ marginBottom: 24 }}>
+        <PositionMapTab flat={flat} />
+      </div>
+
+      {/* Tab Bar */}
       <div style={{
         display: 'flex', gap: 4, marginBottom: 24,
         padding: 4, background: C.surface, borderRadius: 12,
@@ -1141,10 +1155,6 @@ export default function PlayerAnalyserTool() {
         </div>
       )}
 
-      {/* ── Position Map Tab ── */}
-      {activeView === 'posmap' && (
-        <PositionMapTab flat={flat} />
-      )}
     </div>
   )
 }
