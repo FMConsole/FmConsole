@@ -998,7 +998,7 @@ export function getTopRolesForPosition(posKey, flatAttrs, limit = 5) {
 export function scoreToStars(score) {
   const MIN = 10
   const MAX = 16
-  const stars = Math.max(0, (score - MIN) / (MAX - MIN) * 5)
+  const stars = Math.max(0, Math.min(5, (score - MIN) / (MAX - MIN) * 5))
   return Math.round(stars * 2) / 2 // 0.5 step
 }
 

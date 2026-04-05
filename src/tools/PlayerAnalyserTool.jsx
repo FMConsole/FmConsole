@@ -1136,6 +1136,20 @@ export default function PlayerAnalyserTool() {
     .map(p => ({ ...p, score: calcPositionScore(p.key, flat) * footAdjustment(p.key, details.preferredFoot) }))
     .sort((a, b) => b.score - a.score)
 
+  // Natural position key — used for radar and passed to InsightBanner
+  const mappedPosKeys = [...new Set(
+    (details.positions || []).flatMap(p => {
+      const r = mapFMPosition(p)
+      return Array.isArray(r) ? r : r ? [r] : []
+    })
+  )]
+  const naturalPosKey = (
+    mappedPosKeys.length > 0
+      ? posScores.filter(p => mappedPosKeys.includes(p.key))[0]
+      : posScores[0]
+  )?.key || 'CM'
+  const radarAttrKeys = getKeyAttrsForPosition(naturalPosKey, 12).map(a => a.key)
+
   return (
     <div>
       {/* Player Header */}
@@ -1359,7 +1373,7 @@ export default function PlayerAnalyserTool() {
             background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14,
             padding: 16, marginBottom: 24,
           }}>
-            <RadarChart flat={flat} attrKeys={KEY_STATS} size={520} color={C.blue} />
+            <RadarChart flat={flat} attrKeys={radarAttrKeys} size={520} color={C.blue} />
           </div>
 
           {/* Strengths & Weaknesses */}

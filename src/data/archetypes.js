@@ -247,6 +247,33 @@ export const ARCHETYPES = {
     ],
   },
 
+  theProgressor: {
+    label: 'The Progressor',
+    description: 'A defender who breaks lines with precise passing, composure under pressure, and the vision to find runners — the engine of build-up play from the back',
+    positions: ['CB', 'LB', 'RB', 'LWB', 'RWB', 'DM'],
+    color: '#10b981',
+    icon: '🎯',
+    peakAge: [24, 34],
+    agingNote: 'Technical-mental archetype — composure and vision hold well into the mid-30s',
+    weights: {
+      passing: 1.00,
+      composure: 1.00,
+      vision: 0.90,
+      firstTouch: 0.80,
+      decisions: 0.80,
+      technique: 0.70,
+      anticipation: 0.50,
+      concentration: 0.40,
+    },
+    traits: [
+      'Tries To Play Way Out Of Trouble',
+      'Plays Short Simple Passes',
+      'Brings Ball Out Of Defence',
+      'Tries Long Range Passes',
+    ],
+    minReqs: { passing: 13 },
+  },
+
   theLauncher: {
     label: 'The Launcher',
     description: 'Long throw weapon who can hurl the ball deep into the box from the touchline — a tactical set piece threat',
@@ -271,6 +298,7 @@ export const ARCHETYPES = {
       'Hits Long Throws',
       'Tries Long Throws',
     ],
+    minReqs: { longThrows: 13 },
   },
 
 }
@@ -358,6 +386,7 @@ function calcTraitBonus(archetypeTraits, playerTraits) {
 export function getTopArchetypes(flatAttrs, limit = 3, playerPosKeys = null, playerTraits = null) {
   return Object.entries(ARCHETYPES)
     .filter(([, arch]) => {
+      if (arch.minReqs && !Object.entries(arch.minReqs).every(([a, min]) => (flatAttrs[a] || 0) >= min)) return false
       if (!playerPosKeys || playerPosKeys.length === 0) return true
       return arch.positions.some(p => playerPosKeys.includes(p))
     })
