@@ -50,6 +50,7 @@ const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
   { key: 'roles', label: 'IP / OOP Roles' },
   { key: 'positions', label: 'Positions' },
+  { key: 'posmap', label: 'Position Map' },
 ]
 
 
@@ -324,6 +325,207 @@ function InsightBanner({ posScores, flat, age }) {
 
 /* ── Roles Tab ───────────────────────────────────────────────────────── */
 
+/* ── Position Map data ───────────────────────────────────────────────── */
+
+const ZONE_COLORS = { gk: '#c4a935', def: '#8c7856', mid: '#d4782a', att: '#3fbf4f' }
+
+const POSITION_MAP = [
+  { id: 'GK', label: 'Goalkeeper', x: 6, y: 50, zone: 'gk',
+    gk: { key: ['aerialAbility', 'commandOfArea', 'communication', 'handling', 'oneOnOnes', 'rushingOut'] },
+    technical: { key: ['firstTouch', 'passing', 'technique'], useful: ['kicking', 'throwing'] },
+    mental: { key: ['anticipation', 'composure', 'concentration', 'decisions', 'positioning'], useful: ['vision'] },
+    physical: { key: ['agility', 'reflexes'], useful: ['acceleration', 'pace'] },
+  },
+  { id: 'DL', label: 'Defender (L)', x: 22, y: 18, zone: 'def',
+    technical: { key: ['crossing', 'dribbling', 'marking', 'tackling'], useful: ['firstTouch', 'passing', 'technique'] },
+    mental: { key: ['anticipation', 'concentration', 'decisions', 'positioning', 'teamwork', 'workRate'], useful: ['determination'] },
+    physical: { key: ['acceleration', 'pace', 'stamina'], useful: ['agility', 'naturalFitness'] },
+  },
+  { id: 'DC', label: 'Centre Back', x: 22, y: 50, zone: 'def',
+    technical: { key: ['heading', 'marking', 'tackling'], useful: ['passing', 'firstTouch'] },
+    mental: { key: ['aggression', 'anticipation', 'bravery', 'composure', 'concentration', 'decisions', 'positioning'], useful: ['teamwork'] },
+    physical: { key: ['jumpingReach', 'pace', 'strength'], useful: ['acceleration', 'stamina'] },
+  },
+  { id: 'DR', label: 'Defender (R)', x: 22, y: 82, zone: 'def',
+    technical: { key: ['crossing', 'dribbling', 'marking', 'tackling'], useful: ['firstTouch', 'passing', 'technique'] },
+    mental: { key: ['anticipation', 'concentration', 'decisions', 'positioning', 'teamwork', 'workRate'], useful: ['determination'] },
+    physical: { key: ['acceleration', 'pace', 'stamina'], useful: ['agility', 'naturalFitness'] },
+  },
+  { id: 'DML', label: 'Def Mid (L)', x: 38, y: 18, zone: 'mid',
+    technical: { key: ['crossing', 'marking', 'passing', 'tackling', 'technique'], useful: ['dribbling', 'firstTouch'] },
+    mental: { key: ['anticipation', 'concentration', 'decisions', 'positioning', 'teamwork', 'workRate'], useful: ['aggression', 'vision'] },
+    physical: { key: ['acceleration', 'pace', 'stamina'], useful: ['balance', 'strength'] },
+  },
+  { id: 'DMC', label: 'Def Midfielder', x: 38, y: 50, zone: 'mid',
+    technical: { key: ['firstTouch', 'marking', 'passing', 'tackling', 'technique'], useful: ['heading'] },
+    mental: { key: ['aggression', 'anticipation', 'composure', 'concentration', 'decisions', 'positioning', 'teamwork', 'workRate'], useful: ['bravery', 'vision'] },
+    physical: { key: ['stamina', 'strength'], useful: ['balance', 'jumpingReach', 'pace'] },
+  },
+  { id: 'DMR', label: 'Def Mid (R)', x: 38, y: 82, zone: 'mid',
+    technical: { key: ['crossing', 'marking', 'passing', 'tackling', 'technique'], useful: ['dribbling', 'firstTouch'] },
+    mental: { key: ['anticipation', 'concentration', 'decisions', 'positioning', 'teamwork', 'workRate'], useful: ['aggression', 'vision'] },
+    physical: { key: ['acceleration', 'pace', 'stamina'], useful: ['balance', 'strength'] },
+  },
+  { id: 'ML', label: 'Midfielder (L)', x: 54, y: 18, zone: 'mid',
+    technical: { key: ['crossing', 'dribbling', 'firstTouch', 'passing', 'technique'], useful: ['finishing'] },
+    mental: { key: ['anticipation', 'decisions', 'flair', 'offTheBall', 'teamwork', 'workRate'], useful: ['vision'] },
+    physical: { key: ['acceleration', 'agility', 'pace', 'stamina'], useful: ['balance'] },
+  },
+  { id: 'MC', label: 'Midfielder (C)', x: 54, y: 50, zone: 'mid',
+    technical: { key: ['firstTouch', 'passing', 'tackling', 'technique'], useful: ['dribbling', 'longShots'] },
+    mental: { key: ['anticipation', 'composure', 'decisions', 'teamwork', 'vision', 'workRate'], useful: ['concentration', 'determination', 'offTheBall'] },
+    physical: { key: ['stamina'], useful: ['acceleration', 'balance', 'naturalFitness', 'pace'] },
+  },
+  { id: 'MR', label: 'Midfielder (R)', x: 54, y: 82, zone: 'mid',
+    technical: { key: ['crossing', 'dribbling', 'firstTouch', 'passing', 'technique'], useful: ['finishing'] },
+    mental: { key: ['anticipation', 'decisions', 'flair', 'offTheBall', 'teamwork', 'workRate'], useful: ['vision'] },
+    physical: { key: ['acceleration', 'agility', 'pace', 'stamina'], useful: ['balance'] },
+  },
+  { id: 'AML', label: 'Att Mid (L)', x: 70, y: 18, zone: 'att',
+    technical: { key: ['crossing', 'dribbling', 'finishing', 'firstTouch', 'technique'], useful: ['passing'] },
+    mental: { key: ['anticipation', 'composure', 'decisions', 'flair', 'offTheBall', 'vision'], useful: ['workRate'] },
+    physical: { key: ['acceleration', 'agility', 'pace'], useful: ['balance', 'stamina'] },
+  },
+  { id: 'AMC', label: 'Att Mid (C)', x: 70, y: 50, zone: 'att',
+    technical: { key: ['dribbling', 'firstTouch', 'passing', 'technique'], useful: ['finishing', 'longShots'] },
+    mental: { key: ['anticipation', 'composure', 'decisions', 'flair', 'offTheBall', 'vision'], useful: ['teamwork', 'workRate'] },
+    physical: { key: ['acceleration', 'agility'], useful: ['balance', 'pace'] },
+  },
+  { id: 'AMR', label: 'Att Mid (R)', x: 70, y: 82, zone: 'att',
+    technical: { key: ['crossing', 'dribbling', 'finishing', 'firstTouch', 'technique'], useful: ['passing'] },
+    mental: { key: ['anticipation', 'composure', 'decisions', 'flair', 'offTheBall', 'vision'], useful: ['workRate'] },
+    physical: { key: ['acceleration', 'agility', 'pace'], useful: ['balance', 'stamina'] },
+  },
+  { id: 'ST', label: 'Striker', x: 88, y: 50, zone: 'att',
+    technical: { key: ['dribbling', 'finishing', 'firstTouch', 'heading', 'technique'], useful: ['passing', 'longShots'] },
+    mental: { key: ['anticipation', 'composure', 'decisions', 'offTheBall'], useful: ['aggression', 'bravery', 'concentration', 'determination', 'flair', 'workRate'] },
+    physical: { key: ['acceleration', 'pace', 'strength'], useful: ['agility', 'balance', 'jumpingReach', 'stamina'] },
+  },
+]
+
+function PositionMapTab({ flat }) {
+  const [selected, setSelected] = useState(null)
+  const hasPlayer = flat && Object.keys(flat).length > 0
+
+  const renderAttrGroup = (title, color, group) => {
+    if (!group) return null
+    const attrs = [
+      ...(group.key || []).map(k => ({ key: k, tier: 'key' })),
+      ...(group.useful || []).map(k => ({ key: k, tier: 'useful' })),
+    ]
+    return (
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, color, marginBottom: 6, paddingBottom: 3, borderBottom: `1px solid ${C.border}` }}>
+          {title}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 8px' }}>
+          {attrs.map(({ key, tier }) => {
+            const val = hasPlayer ? (flat[key] ?? null) : null
+            const valColor = val == null ? null : getBarColor(val)
+            return (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 6px', borderRadius: 5, background: tier === 'key' ? `${C.purple}10` : 'transparent' }}>
+                <span style={{ fontSize: 11, color: C.text }}>{attrDisplayName(key)}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  {val != null && <span style={{ fontSize: 12, fontWeight: 700, color: valColor }}>{val}</span>}
+                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: tier === 'key' ? `${C.purple}25` : `${C.green}15`, color: tier === 'key' ? '#a78bfa' : '#4ade80' }}>
+                    {tier === 'key' ? 'KEY' : 'USF'}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, alignItems: 'start' }}>
+      {/* Pitch */}
+      <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, padding: 14 }}>
+        <div
+          style={{ position: 'relative', width: '100%', aspectRatio: '1.5 / 1', background: 'linear-gradient(180deg, #1a6b30 0%, #155d28 50%, #1a6b30 100%)', borderRadius: 8, overflow: 'hidden', border: '2px solid rgba(255,255,255,0.15)' }}
+          onClick={() => setSelected(null)}
+        >
+          {/* Field markings */}
+          <div style={{ position: 'absolute', top: 0, left: '50%', width: 1, height: '100%', background: 'rgba(255,255,255,0.2)' }} />
+          <div style={{ position: 'absolute', top: '50%', left: '50%', width: '18%', aspectRatio: '1', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '50%', transform: 'translate(-50%,-50%)' }} />
+          <div style={{ position: 'absolute', top: '20%', left: 0, height: '60%', width: '16%', border: '1px solid rgba(255,255,255,0.2)', borderLeft: 'none' }} />
+          <div style={{ position: 'absolute', top: '20%', right: 0, height: '60%', width: '16%', border: '1px solid rgba(255,255,255,0.2)', borderRight: 'none' }} />
+          {/* Position dots */}
+          {POSITION_MAP.map(pos => {
+            const color = ZONE_COLORS[pos.zone]
+            const isActive = selected?.id === pos.id
+            return (
+              <div
+                key={pos.id}
+                onClick={e => { e.stopPropagation(); setSelected(isActive ? null : pos) }}
+                title={pos.label}
+                style={{
+                  position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`,
+                  width: isActive ? 30 : 24, height: isActive ? 30 : 24,
+                  borderRadius: '50%', transform: 'translate(-50%,-50%)',
+                  background: color, cursor: 'pointer', zIndex: 5,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 7, fontWeight: 800, color: '#000',
+                  border: isActive ? '2.5px solid #fff' : '1.5px solid rgba(255,255,255,0.35)',
+                  boxShadow: isActive ? `0 0 10px ${color}90` : 'none',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {pos.id}
+              </div>
+            )
+          })}
+        </div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 10, flexWrap: 'wrap' }}>
+          {[['gk','GK'],['def','DEF'],['mid','MID'],['att','ATT']].map(([z, l]) => (
+            <div key={z} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.textMuted }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: ZONE_COLORS[z] }} />
+              {l}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Detail panel */}
+      <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14, overflow: 'hidden', minHeight: 260 }}>
+        {!selected ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: 260, color: C.textMuted, gap: 8 }}>
+            <div style={{ fontSize: 28 }}>⚽</div>
+            <p style={{ fontSize: 12 }}>Click a position on the pitch</p>
+          </div>
+        ) : (
+          <>
+            <div style={{ padding: '12px 16px 10px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: ZONE_COLORS[selected.zone], flexShrink: 0 }} />
+              <span style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{selected.label}</span>
+              {hasPlayer && <span style={{ fontSize: 10, color: C.textMuted, marginLeft: 'auto' }}>values shown</span>}
+            </div>
+            <div style={{ padding: '12px 16px', overflowY: 'auto', maxHeight: 420 }}>
+              {selected.gk && renderAttrGroup('Goalkeeping', C.orange, selected.gk)}
+              {renderAttrGroup('Technical', C.blue, selected.technical)}
+              {renderAttrGroup('Mental', C.orange, selected.mental)}
+              {renderAttrGroup('Physical', C.green, selected.physical)}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ── Age-adjusted role scoring ───────────────────────────────────────── */
+
+function ageAdjustedScore(score, weights, age) {
+  const profile = getAgeProfile(age)
+  if (!profile || ['developing', 'peak', 'prime'].includes(profile.bracket)) return score
+  const demand = rolePhysicalDemand(weights)
+  const penaltyFactor = profile.bracket === 'declining' ? 1.6 : 0.7
+  const penalty = Math.max(0, demand - 0.2) * penaltyFactor
+  return score * Math.max(0.65, 1 - penalty)
+}
+
 function RoleSection({ title, roles, flat, age, accentColor }) {
   return (
     <div style={{ marginBottom: 24 }}>
@@ -428,7 +630,7 @@ function RolesTab({ posScores, flat, age }) {
 
   const allRoles = getRolesForPosition(selectedPos)
     .map(r => ({ ...r, score: calcRoleScore(r.key, flat) }))
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => ageAdjustedScore(b.score, b.weights, age) - ageAdjustedScore(a.score, a.weights, age))
 
   const isGK = selectedPos === 'GK'
   const ipRoles = isGK ? allRoles : allRoles.filter(r => r.phase === 'IP')
@@ -456,27 +658,28 @@ function RolesTab({ posScores, flat, age }) {
         })}
       </div>
 
-      {/* IP roles */}
-      {ipRoles.length > 0 && (
-        <RoleSection
-          title="In Possession"
-          roles={ipRoles}
-          flat={flat}
-          age={age}
-          accentColor={C.blue}
-        />
-      )}
+      {/* IP + OOP side by side */}
+      <div style={{ display: 'grid', gridTemplateColumns: oopRoles.length ? '1fr 1fr' : '1fr', gap: 16 }}>
+        {ipRoles.length > 0 && (
+          <RoleSection
+            title="In Possession"
+            roles={ipRoles}
+            flat={flat}
+            age={age}
+            accentColor={C.blue}
+          />
+        )}
 
-      {/* OOP roles */}
-      {oopRoles.length > 0 && (
-        <RoleSection
-          title="Out of Possession"
-          roles={oopRoles}
-          flat={flat}
-          age={age}
-          accentColor={C.orange}
-        />
-      )}
+        {oopRoles.length > 0 && (
+          <RoleSection
+            title="Out of Possession"
+            roles={oopRoles}
+            flat={flat}
+            age={age}
+            accentColor={C.orange}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -936,6 +1139,11 @@ export default function PlayerAnalyserTool() {
             ))}
           </div>
         </div>
+      )}
+
+      {/* ── Position Map Tab ── */}
+      {activeView === 'posmap' && (
+        <PositionMapTab flat={flat} />
       )}
     </div>
   )
