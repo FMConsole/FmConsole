@@ -417,7 +417,7 @@ const POSITION_MAP = [
   },
 ]
 
-function PositionMapTab({ flat }) {
+function PositionMapTab({ flat, onPosClick }) {
   const [selected, setSelected] = useState(null)
   const [collapsed, setCollapsed] = useState({})
   const hasPlayer = flat && Object.keys(flat).length > 0
@@ -485,7 +485,15 @@ function PositionMapTab({ flat }) {
             return (
               <div
                 key={pos.id}
-                onClick={e => { e.stopPropagation(); setCollapsed({}); setSelected(isActive ? null : pos) }}
+                onClick={e => {
+                  e.stopPropagation()
+                  setCollapsed({})
+                  setSelected(isActive ? null : pos)
+                  if (!isActive && onPosClick) {
+                    const pwKey = POSMAP_TO_POSWEIGHT[pos.id]
+                    if (pwKey) onPosClick(pwKey)
+                  }
+                }}
                 title={score != null ? `${pos.label} — ${score.toFixed(1)}` : pos.label}
                 style={{
                   position: 'absolute', left: `${pos.x}%`, top: `${pos.y}%`,
@@ -659,38 +667,27 @@ function RoleSection({ title, roles, flat, age, accentColor }) {
   )
 }
 
-function RolesTab({ posScores, flat, age }) {
-  const [selectedPos, setSelectedPos] = useState(posScores[0]?.key || '')
+function RolesTab({ posScores, flat, age, selectedPos }) {
+  const activePos = selectedPos || posScores[0]?.key || ''
 
-  const allRoles = getRolesForPosition(selectedPos)
+  const allRoles = getRolesForPosition(activePos)
     .map(r => ({ ...r, score: calcRoleScore(r.key, flat) }))
     .sort((a, b) => ageAdjustedScore(b.score, b.weights, age) - ageAdjustedScore(a.score, a.weights, age))
 
-  const isGK = selectedPos === 'GK'
+  const isGK = activePos === 'GK'
   const ipRoles = isGK ? allRoles : allRoles.filter(r => r.phase === 'IP')
   const oopRoles = isGK ? [] : allRoles.filter(r => r.phase === 'OOP')
 
+  const posLabel = posScores.find(p => p.key === activePos)?.label || activePos
+
   return (
     <div>
-      {/* Position selector */}
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 20 }}>
-        {posScores.slice(0, 6).map(p => {
-          const isActive = selectedPos === p.key
-          const barColor = p.score >= 15 ? C.green : p.score >= 12 ? C.blue : C.orange
-          return (
-            <button key={p.key} onClick={() => setSelectedPos(p.key)} style={{
-              padding: '8px 14px', borderRadius: 8, border: `1px solid ${isActive ? barColor : C.border}`,
-              background: isActive ? `${barColor}18` : C.surface,
-              color: isActive ? barColor : C.textSecondary,
-              fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-              transition: 'all 0.15s',
-            }}>
-              {p.label}
-              <span style={{ marginLeft: 6, fontSize: 11, opacity: 0.8 }}>{p.score.toFixed(1)}</span>
-            </button>
-          )
-        })}
-      </div>
+      {posLabel && (
+        <div style={{ marginBottom: 16, fontSize: 13, color: C.textSecondary }}>
+          Showing roles for <span style={{ color: C.text, fontWeight: 700 }}>{posLabel}</span>
+          <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 6 }}>— click a position dot on the map to change</span>
+        </div>
+      )}
 
       {/* IP + OOP side by side */}
       <div style={{ display: 'grid', gridTemplateColumns: oopRoles.length ? '1fr 1fr' : '1fr', gap: 16 }}>
@@ -723,6 +720,7 @@ function RolesTab({ posScores, flat, age }) {
 export default function PlayerAnalyserTool() {
   const [player, setPlayer] = useState(null)
   const [activeView, setActiveView] = useState('overview')
+  const [selectedRolesPos, setSelectedRolesPos] = useState(null)
   const inputRef = useRef(null)
   const reuploadRef = useRef(null)
   const [dragOver, setDragOver] = useState(false)
@@ -760,6 +758,7 @@ export default function PlayerAnalyserTool() {
     if (player?.preview) URL.revokeObjectURL(player.preview)
     setPlayer(null)
     setActiveView('overview')
+    setSelectedRolesPos(null)
   }, [player])
 
   const reupload = useCallback(() => {
@@ -1049,7 +1048,7 @@ export default function PlayerAnalyserTool() {
 
       {/* ── Position Map (always visible) ── */}
       <div style={{ marginBottom: 24 }}>
-        <PositionMapTab flat={flat} />
+        <PositionMapTab flat={flat} onPosClick={(posKey) => { setSelectedRolesPos(posKey); setActiveView('roles') }} />
       </div>
 
       {/* Tab Bar */}
@@ -1155,7 +1154,7 @@ export default function PlayerAnalyserTool() {
 
       {/* ── Roles Tab ── */}
       {activeView === 'roles' && (
-        <RolesTab posScores={posScores} flat={flat} age={details.age} />
+        <RolesTab posScores={posScores} flat={flat} age={details.age} selectedPos={selectedRolesPos} />
       )}
 
       {/* ── Positions Tab ── */}
