@@ -339,9 +339,9 @@ const POSMAP_TO_POSWEIGHT = {
 function suitabilityColor(score, maxScore) {
   if (!maxScore) return ZONE_COLORS.mid
   const r = score / maxScore
-  if (r >= 0.92) return C.green
-  if (r >= 0.78) return C.blue
-  if (r >= 0.60) return C.orange
+  if (r >= 0.96) return C.green
+  if (r >= 0.90) return C.blue
+  if (r >= 0.74) return C.orange
   return '#ef4444'
 }
 
