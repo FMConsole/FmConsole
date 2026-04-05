@@ -66,7 +66,7 @@ export const ARCHETYPES = {
   thePainter: {
     label: 'The Painter',
     description: 'Technical artist who creates with flair — dribbles, curls the ball, and makes the game look effortless',
-    positions: ['AM', 'LW', 'RW', 'LM', 'RM', 'CM'],
+    positions: ['AM', 'LW', 'RW'],
     color: '#a855f7',
     icon: '🎨',
     peakAge: [20, 33],
@@ -182,25 +182,28 @@ export const ARCHETYPES = {
     agingNote: 'Physical archetype — pace, acceleration and stamina decline significantly after 30',
     source: { label: 'Scouted Football', url: 'https://scoutedftbl.com/an-introduction-to-full-back-archetypes/' },
     weights: {
-      // Speed weapons — the core
-      pace: 1.00,
-      acceleration: 1.00,
-      stamina: 0.90,
-      // Attacking output
-      crossing: 0.80,
-      dribbling: 0.70,
+      // Delivery output — the core differentiator: no crossing = no Flyer
+      crossing: 1.00,
+      // Speed engine — supports but doesn't define
+      pace: 0.70,
+      acceleration: 0.70,
+      stamina: 0.70,
+      // Attacking runs
       offTheBall: 0.60,
-      // Supporting
-      agility: 0.50,
       workRate: 0.50,
-      firstTouch: 0.40,
-      technique: 0.30,
-      anticipation: 0.30,
+      // Supporting — a Flyer runs lines, not channels
+      agility: 0.30,
+      firstTouch: 0.20,
+      anticipation: 0.20,
     },
     traits: [
-      'Runs With Ball Often',
       'Gets Forward Whenever Possible',
       'Hugs Line',
+      'Runs With Ball Down Left',
+      'Runs With Ball Down Right',
+      'Crosses Ball Early',
+      'Crosses From Left Byline',
+      'Crosses From Right Byline',
     ],
   },
 
@@ -216,13 +219,13 @@ export const ARCHETYPES = {
     weights: {
       // Possession engine — the core
       passing: 1.00,
+      vision: 1.00,
       composure: 0.90,
       decisions: 0.90,
       // Technical quality
       technique: 0.80,
       firstTouch: 0.80,
       dribbling: 0.70,
-      vision: 0.70,
       // Mental
       anticipation: 0.50,
       concentration: 0.40,
@@ -232,9 +235,15 @@ export const ARCHETYPES = {
       agility: 0.30,
     },
     traits: [
+      'Runs With Ball Through Centre',
+      'Cuts Inside From Left',
+      'Cuts Inside From Right',
       'Plays Short Simple Passes',
       'Comes Deep To Get Ball',
       'Moves Into Channels',
+      'Tries To Play Way Out Of Trouble',
+      'Brings Ball Out Of Defence',
+      'Dribbles Through Centre',
     ],
   },
 
@@ -328,10 +337,30 @@ export function calcArchetypeScore(archetypeKey, flatAttrs) {
 
 /**
  * Score all archetypes for a player and return sorted array.
- * Optionally filter to archetypes that fit the player's positions.
+ * @param {object} flatAttrs - flat attribute map
+ * @param {number} limit - max results
+ * @param {string[]} playerPosKeys - player's mapped position keys (e.g. ['LB','DM','CM'])
+ *   When provided, only archetypes whose positions overlap with the player's positions are scored.
  */
-export function getTopArchetypes(flatAttrs, limit = 3) {
+/**
+ * Trait bonus: +0.3 per matching trait, capped at 1.0.
+ * Case-insensitive partial match.
+ */
+function calcTraitBonus(archetypeTraits, playerTraits) {
+  if (!playerTraits || !playerTraits.length) return 0
+  const pt = playerTraits.map(t => t.toLowerCase())
+  const matches = (archetypeTraits || []).filter(t =>
+    pt.some(p => p.includes(t.toLowerCase()) || t.toLowerCase().includes(p))
+  ).length
+  return Math.min(matches * 0.3, 1.0)
+}
+
+export function getTopArchetypes(flatAttrs, limit = 3, playerPosKeys = null, playerTraits = null) {
   return Object.entries(ARCHETYPES)
+    .filter(([, arch]) => {
+      if (!playerPosKeys || playerPosKeys.length === 0) return true
+      return arch.positions.some(p => playerPosKeys.includes(p))
+    })
     .map(([key, arch]) => ({
       key,
       label: arch.label,
@@ -344,8 +373,16 @@ export function getTopArchetypes(flatAttrs, limit = 3) {
       peakAge: arch.peakAge,
       agingNote: arch.agingNote,
       source: arch.source || null,
-      score: calcArchetypeScore(key, flatAttrs),
+      score: calcArchetypeScore(key, flatAttrs) + calcTraitBonus(arch.traits, playerTraits),
     }))
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => {
+      // Primary: score
+      const diff = b.score - a.score
+      if (Math.abs(diff) > 0.5) return diff
+      // Tiebreaker within 0.5: prefer archetype with more position matches
+      const aMatches = playerPosKeys ? a.positions.filter(p => playerPosKeys.includes(p)).length : 0
+      const bMatches = playerPosKeys ? b.positions.filter(p => playerPosKeys.includes(p)).length : 0
+      return bMatches - aMatches || diff
+    })
     .slice(0, limit)
 }

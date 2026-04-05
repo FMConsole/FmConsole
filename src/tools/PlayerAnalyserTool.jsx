@@ -229,7 +229,12 @@ function archetypeBand(score) {
 function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
   const [archetypeOpen, setArchetypeOpen] = useState(false)
   // Derive natural position: prefer the highest-scoring position from extracted FM positions
-  const mappedKeys = (fmPositions || []).map(mapFMPosition).filter(Boolean)
+  const mappedKeys = [...new Set(
+    (fmPositions || []).flatMap(p => {
+      const r = mapFMPosition(p)
+      return Array.isArray(r) ? r : r ? [r] : []
+    })
+  )]
   const fmPosSorted = mappedKeys.length > 0
     ? posScores.filter(p => mappedKeys.includes(p.key)).sort((a, b) => b.score - a.score)
     : []
@@ -238,9 +243,11 @@ function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
   const best = naturalPos
   if (!best) return null
 
-  const topRoles = getTopRolesForPosition(best.key, flat, 3)
-  const bestRole = topRoles[0]
-  const topArchetypes = getTopArchetypes(flat, 3).filter(a => a.score >= 10)
+  const topRoles = getTopRolesForPosition(best.key, flat, 30)
+  const bestRoleIP = topRoles.find(r => r.phase === 'IP') || null
+  const bestRoleOOP = topRoles.find(r => r.phase === 'OOP') || null
+  const bestRole = bestRoleIP || topRoles[0]
+  const topArchetypes = getTopArchetypes(flat, 3, mappedKeys, traits).filter(a => a.score >= 10)
   const setPieceBonus = getSetPieceBonus(flat, traits)
   const bestArchetype = topArchetypes[0]
   // Top key attrs for the primary archetype (by weight), with player values
@@ -278,18 +285,29 @@ function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
 
       <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
 
-      {/* Best Role */}
-      <div style={{ flex: '0 0 auto' }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>
-          Best Role
+      {/* Best Role IP */}
+      {bestRoleIP && (
+        <div style={{ flex: '0 0 auto' }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>
+            Best Role IP
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: C.text }}>{bestRoleIP.label}</div>
+          <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{starsDisplay(bestRoleIP.score)}</div>
         </div>
-        {bestRole && (
-          <>
-            <div style={{ fontSize: 18, fontWeight: 800, color: C.text }}>{bestRole.label}</div>
-            <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{starsDisplay(bestRole.score)}</div>
-          </>
-        )}
-      </div>
+      )}
+
+      <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
+
+      {/* Best Role OOP */}
+      {bestRoleOOP && (
+        <div style={{ flex: '0 0 auto' }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>
+            Best Role OOP
+          </div>
+          <div style={{ fontSize: 16, fontWeight: 800, color: C.text }}>{bestRoleOOP.label}</div>
+          <div style={{ fontSize: 11, color: barColor, marginTop: 2 }}>{starsDisplay(bestRoleOOP.score)}</div>
+        </div>
+      )}
 
       {bestArchetype && (
         <>
@@ -382,28 +400,46 @@ function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
 
       <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
 
-      {/* Top 3 roles quick view */}
-      <div style={{ flex: 1, minWidth: 180 }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
-          Role Ranking
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {topRoles.map((r, i) => {
-            const stars = scoreToStars(r.score)
-            const filled = Math.floor(stars)
-            const half = stars % 1 >= 0.5
-            return (
-              <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 10, color: C.textMuted, width: 12 }}>{i + 1}.</span>
-                <span style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? C.text : C.textSecondary, minWidth: 150 }}>{r.label}</span>
-                <span style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
-                  {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
-                </span>
+      {/* Role Rankings — split IP / OOP */}
+      {(() => {
+        const ipRoles = topRoles.filter(r => r.phase === 'IP').slice(0, 4)
+        const oopRoles = topRoles.filter(r => r.phase === 'OOP').slice(0, 4)
+        const renderRoleList = (roles) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {roles.map((r, i) => {
+              const stars = scoreToStars(r.score)
+              const filled = Math.floor(stars)
+              const half = stars % 1 >= 0.5
+              return (
+                <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 10, color: C.textMuted, width: 12 }}>{i + 1}.</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? C.text : C.textSecondary, minWidth: 140 }}>{r.label}</span>
+                  <span style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
+                    {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        )
+        return (
+          <>
+            <div style={{ flex: 1, minWidth: 160 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
+                IP Roles
               </div>
-            )
-          })}
-        </div>
-      </div>
+              {renderRoleList(ipRoles)}
+            </div>
+            <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
+            <div style={{ flex: 1, minWidth: 160 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
+                OOP Roles
+              </div>
+              {renderRoleList(oopRoles)}
+            </div>
+          </>
+        )
+      })()}
 
       {/* Description */}
       {bestRole?.description && (
@@ -455,12 +491,50 @@ const ZONE_COLORS = { gk: '#c4a935', def: '#8c7856', mid: '#d4782a', att: '#3fbf
 function mapFMPosition(str) {
   if (!str) return null
   const s = str.toUpperCase().replace(/\s/g, '')
+
+  // Compound FM positions like "DWB/M (L)", "D/WB (R)", "WB/M (L)", "M/AM (C)"
+  // Parse by side indicator + WB presence before doing prefix checks
+  const hasL = s.includes('(L)')
+  const hasR = s.includes('(R)')
+  const hasWB = s.includes('WB')
+  const hasAM = s.includes('AM')
+  if (s.includes('/') || (hasWB && (hasL || hasR))) {
+    if (hasL && hasWB) return 'LWB'
+    if (hasR && hasWB) return 'RWB'
+    if (hasL) return 'LB'
+    if (hasR) return 'RB'
+    if (hasAM && s.includes('(C)')) return 'AM'
+  }
+
+  // Bare position codes without side indicator — return both sides so foot adjustment picks correctly
+  if (s === 'WB' || s === 'DWB' || s === 'WBL' || s === 'WBR') return ['LWB', 'RWB']
+  if (s === 'AM') return 'AM'
+  if (s === 'M') return 'CM'
+
+  // Long-form names extracted by OCR (e.g. "Defender (Left)", "Defensive Midfielder")
+  if (s === 'GOALKEEPER') return 'GK'
+  if (s.startsWith('STRIKER')) return 'ST'
+  if (s === 'DEFENSIVEMIDFIELDER') return 'DM'
+  if (s.startsWith('WINGBACK(L)') || s === 'WINGBACK(LEFT)') return 'LWB'
+  if (s.startsWith('WINGBACK(R)') || s === 'WINGBACK(RIGHT)') return 'RWB'
+  if (s.startsWith('WINGBACK')) return 'LWB'
+  if (s === 'DEFENDER(CENTRE)' || s === 'DEFENDER(C)') return 'CB'
+  if (s === 'DEFENDER(LEFT)' || s === 'DEFENDER(L)') return 'LB'
+  if (s === 'DEFENDER(RIGHT)' || s === 'DEFENDER(R)') return 'RB'
+  if (s.startsWith('ATTACKINGMIDFIELDER(C)') || s === 'ATTACKINGMIDFIELDER(CENTRE)') return 'AM'
+  if (s.startsWith('ATTACKINGMIDFIELDER(L)') || s === 'ATTACKINGMIDFIELDER(LEFT)') return 'LW'
+  if (s.startsWith('ATTACKINGMIDFIELDER(R)') || s === 'ATTACKINGMIDFIELDER(RIGHT)') return 'RW'
+  if (s === 'MIDFIELDER(CENTRE)' || s === 'MIDFIELDER(C)') return 'CM'
+  if (s === 'MIDFIELDER(LEFT)' || s === 'MIDFIELDER(L)') return 'LM'
+  if (s === 'MIDFIELDER(RIGHT)' || s === 'MIDFIELDER(R)') return 'RM'
+
+  // Abbreviated forms (e.g. "D (L)", "AM (R)", "ST (C)")
   if (s.startsWith('GK')) return 'GK'
   if (s.startsWith('ST')) return 'ST'
   if (s === 'DM' || s.startsWith('DM(')) return 'DM'
   if (s.startsWith('WB(L)') || s === 'WBL') return 'LWB'
   if (s.startsWith('WB(R)') || s === 'WBR') return 'RWB'
-  if (s.startsWith('WB')) return 'LWB' // fallback
+  if (s.startsWith('WB')) return 'LWB'
   if (s.startsWith('D(C)') || s === 'DC' || s === 'CB') return 'CB'
   if (s.startsWith('D(L)') || s === 'DL' || s === 'LB') return 'LB'
   if (s.startsWith('D(R)') || s === 'DR' || s === 'RB') return 'RB'
