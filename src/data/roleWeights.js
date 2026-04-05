@@ -22,6 +22,7 @@ export const ROLES = {
     label: 'Goalkeeper',
     positions: ["GK"],
     duty: 'Defend',
+    phase: 'GK',
     description: 'Standard goalkeeper focused on shot-stopping and positioning',
     weights: {
       handling: 1.0, oneOnOnes: 1.0, reflexes: 1.0,
@@ -34,6 +35,7 @@ export const ROLES = {
     label: 'No-Nonsense Goalkeeper',
     positions: ["GK"],
     duty: 'Defend',
+    phase: 'GK',
     description: 'Physical keeper who dominates the box with commanding presence',
     weights: {
       commandOfArea: 1.0, handling: 1.0, jumpingReach: 1.0, reflexes: 1.0,
@@ -46,6 +48,7 @@ export const ROLES = {
     label: 'Line-Holding Keeper',
     positions: ["GK"],
     duty: 'Defend',
+    phase: 'GK',
     description: 'Positional keeper who holds the defensive line to play offside trap',
     weights: {
       concentration: 1.0, handling: 1.0, positioning: 1.0, reflexes: 1.0,
@@ -58,6 +61,7 @@ export const ROLES = {
     label: 'Sweeper Keeper',
     positions: ["GK"],
     duty: 'Defend',
+    phase: 'GK',
     description: 'Aggressive keeper who sweeps behind the defensive line and claims crosses',
     weights: {
       acceleration: 1.0, anticipation: 1.0, handling: 1.0, oneOnOnes: 1.0, pace: 1.0, reflexes: 1.0,
@@ -69,6 +73,7 @@ export const ROLES = {
     label: 'Ball-Playing Goalkeeper',
     positions: ["GK"],
     duty: 'Support',
+    phase: 'GK',
     description: 'Technically gifted keeper who distributes short and builds from the back',
     weights: {
       composure: 1.0, handling: 1.0, kicking: 1.0, reflexes: 1.0, throwing: 1.0,
@@ -86,6 +91,7 @@ export const ROLES = {
     label: 'Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Reads the game, defends aerially and covers space',
     weights: {
       heading: 1.0, marking: 1.0, positioning: 1.0, strength: 1.0, tackling: 1.0,
@@ -98,6 +104,7 @@ export const ROLES = {
     label: 'No-Nonsense Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Physical no-nonsense defender who clears danger directly',
     weights: {
       heading: 1.0, jumpingReach: 1.0, marking: 1.0, positioning: 1.0, strength: 1.0, tackling: 1.0,
@@ -110,6 +117,7 @@ export const ROLES = {
     label: 'Covering Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Covers behind the defensive line and sweeps up loose balls',
     weights: {
       anticipation: 1.0, concentration: 1.0, marking: 1.0, positioning: 1.0, strength: 1.0,
@@ -121,6 +129,7 @@ export const ROLES = {
     label: 'Stopping Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Physical stopper who wins aerial duels and tackles',
     weights: {
       acceleration: 1.0, anticipation: 1.0, pace: 1.0, strength: 1.0, tackling: 1.0,
@@ -132,6 +141,7 @@ export const ROLES = {
     label: 'Ball-Playing Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Ball-playing defender who distributes from the back',
     weights: {
       composure: 1.0, decisions: 1.0, passing: 1.0,
@@ -144,6 +154,7 @@ export const ROLES = {
     label: 'Overlapping Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Overlapping centre-back who supports wide attacks',
     weights: {
       acceleration: 1.0, pace: 1.0, stamina: 1.0,
@@ -155,6 +166,7 @@ export const ROLES = {
     label: 'Advanced Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Advanced centre-back with licence to step into midfield',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0,
@@ -166,6 +178,7 @@ export const ROLES = {
     label: 'Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Wide centre-back deployed on the flank in a back three',
     weights: {
       marking: 1.0, positioning: 1.0, stamina: 1.0, strength: 1.0, tackling: 1.0,
@@ -177,6 +190,7 @@ export const ROLES = {
     label: 'Covering Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide covering centre-back who tucks in to protect space',
     weights: {
       anticipation: 1.0, concentration: 1.0, marking: 1.0, positioning: 1.0, strength: 1.0,
@@ -188,6 +202,7 @@ export const ROLES = {
     label: 'Stopping Wide Centre-Back',
     positions: ["CB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide stopping centre-back focused on defensive duties',
     weights: {
       acceleration: 1.0, aggression: 1.0, anticipation: 1.0, pace: 1.0, tackling: 1.0,
@@ -204,6 +219,7 @@ export const ROLES = {
     label: 'Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Overlapping full-back who supports attacks from wide',
     weights: {
       acceleration: 1.0, pace: 1.0, stamina: 1.0,
@@ -215,6 +231,7 @@ export const ROLES = {
     label: 'Holding Full-Back',
     positions: ["LB", "RB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Holding full-back who maintains defensive shape',
     weights: {
       anticipation: 1.0, concentration: 1.0, marking: 1.0, positioning: 1.0, stamina: 1.0, strength: 1.0,
@@ -227,6 +244,7 @@ export const ROLES = {
     label: 'Inside Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Inside full-back who tucks into midfield to create overloads',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0,
@@ -238,6 +256,7 @@ export const ROLES = {
     label: 'Inverted Full-Back',
     positions: ["LB", "RB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Inverted full-back who cuts inside into central positions',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0,
@@ -249,6 +268,7 @@ export const ROLES = {
     label: 'Pressing Full-Back',
     positions: ["LB", "RB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Pressing full-back who presses high up the pitch',
     weights: {
       acceleration: 1.0, anticipation: 1.0, pace: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -265,6 +285,7 @@ export const ROLES = {
     label: 'Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Dynamic wing-back combining defensive duties with attacking width',
     weights: {
       acceleration: 1.0, crossing: 1.0, pace: 1.0, stamina: 1.0, workRate: 1.0,
@@ -276,6 +297,7 @@ export const ROLES = {
     label: 'Holding Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Holding wing-back who prioritises defensive cover',
     weights: {
       anticipation: 1.0, concentration: 1.0, marking: 1.0, positioning: 1.0, stamina: 1.0, strength: 1.0,
@@ -287,6 +309,7 @@ export const ROLES = {
     label: 'Inside Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
+    phase: 'OOP',
     description: 'Inside wing-back who moves centrally when team has possession',
     weights: {
       concentration: 1.0, positioning: 1.0, stamina: 1.0, teamwork: 1.0,
@@ -298,6 +321,7 @@ export const ROLES = {
     label: 'Inverted Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Inverted wing-back who cuts inside to create overloads',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0,
@@ -309,6 +333,7 @@ export const ROLES = {
     label: 'Pressing Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Pressing wing-back who presses high and tracks wide runners',
     weights: {
       acceleration: 1.0, anticipation: 1.0, pace: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -320,6 +345,7 @@ export const ROLES = {
     label: 'Playmaking Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Playmaking wing-back who combines distribution with width',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0, technique: 1.0, vision: 1.0, workRate: 1.0,
@@ -332,6 +358,7 @@ export const ROLES = {
     label: 'Advanced Wing-Back',
     positions: ["LWB", "RWB"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Advanced wing-back who acts almost as a winger going forward',
     weights: {
       acceleration: 1.0, crossing: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0, workRate: 1.0,
@@ -349,6 +376,7 @@ export const ROLES = {
     label: 'Defensive Midfielder',
     positions: ["DM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Defensive midfielder who screens the back four',
     weights: {
       positioning: 1.0, stamina: 1.0,
@@ -360,6 +388,7 @@ export const ROLES = {
     label: 'Dropping Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Dropping defensive midfielder who acts as an extra centre-back',
     weights: {
       anticipation: 1.0, concentration: 1.0, marking: 1.0, positioning: 1.0, stamina: 1.0, strength: 1.0,
@@ -371,6 +400,7 @@ export const ROLES = {
     label: 'Screening Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Screening defensive midfielder who shields and protects the backline',
     weights: {
       anticipation: 1.0, concentration: 1.0, positioning: 1.0, stamina: 1.0, teamwork: 1.0,
@@ -382,6 +412,7 @@ export const ROLES = {
     label: 'Wide Covering Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide-covering defensive midfielder who tracks wide runners',
     weights: {
       anticipation: 1.0, marking: 1.0, positioning: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -393,6 +424,7 @@ export const ROLES = {
     label: 'Pressing Defensive Midfielder',
     positions: ["DM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Pressing defensive midfielder who wins the ball high up the pitch',
     weights: {
       anticipation: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -404,6 +436,7 @@ export const ROLES = {
     label: 'Half-Back',
     positions: ["DM", "CB"],
     duty: 'Defend',
+    phase: 'IP',
     description: 'Half-back who drops between the centre-backs to receive in possession',
     weights: {
       composure: 1.0, decisions: 1.0, passing: 1.0, positioning: 1.0, stamina: 1.0,
@@ -420,6 +453,7 @@ export const ROLES = {
     label: 'Deep-Lying Playmaker',
     positions: ["CM", "DM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Deep-lying playmaker who dictates tempo and distributes from deep',
     weights: {
       decisions: 1.0, firstTouch: 1.0, passing: 1.0, stamina: 1.0, technique: 1.0, vision: 1.0,
@@ -431,6 +465,7 @@ export const ROLES = {
     label: 'Central Midfielder',
     positions: ["CM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Central midfielder who links defence and attack',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0, workRate: 1.0,
@@ -442,6 +477,7 @@ export const ROLES = {
     label: 'Screening Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Screening central midfielder who protects the defensive line',
     weights: {
       anticipation: 1.0, concentration: 1.0, positioning: 1.0, stamina: 1.0, teamwork: 1.0,
@@ -453,6 +489,7 @@ export const ROLES = {
     label: 'Wide Covering Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide-covering central midfielder who tracks wide channels',
     weights: {
       anticipation: 1.0, marking: 1.0, positioning: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -464,6 +501,7 @@ export const ROLES = {
     label: 'Box-to-Box Midfielder',
     positions: ["CM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Box-to-box midfielder with energy to cover every blade of grass',
     weights: {
       stamina: 1.0, workRate: 1.0,
@@ -476,6 +514,7 @@ export const ROLES = {
     label: 'Box-to-Box Playmaker',
     positions: ["CM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Box-to-box playmaker combining ball-carrying with tireless energy',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0, vision: 1.0, workRate: 1.0,
@@ -487,6 +526,7 @@ export const ROLES = {
     label: 'Channel Midfielder',
     positions: ["CM"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Channel midfielder who makes forward runs between the lines',
     weights: {
       acceleration: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0, workRate: 1.0,
@@ -498,6 +538,7 @@ export const ROLES = {
     label: 'Midfield Playmaker',
     positions: ["CM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Midfield playmaker who controls tempo and creates chances',
     weights: {
       decisions: 1.0, firstTouch: 1.0, passing: 1.0, stamina: 1.0, technique: 1.0, vision: 1.0,
@@ -510,6 +551,7 @@ export const ROLES = {
     label: 'Pressing Central Midfielder',
     positions: ["CM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Pressing central midfielder who wins the ball in advanced positions',
     weights: {
       acceleration: 1.0, anticipation: 1.0, pace: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -526,6 +568,7 @@ export const ROLES = {
     label: 'Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Wide midfielder who provides width and crossing from wide areas',
     weights: {
       crossing: 1.0, stamina: 1.0, workRate: 1.0,
@@ -537,6 +580,7 @@ export const ROLES = {
     label: 'Tracking Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Tracking wide midfielder who tracks opposition runs diligently',
     weights: {
       anticipation: 1.0, positioning: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -548,6 +592,7 @@ export const ROLES = {
     label: 'Wide Central Midfielder',
     positions: ["LM", "RM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Wide central midfielder who operates between the lines',
     weights: {
       decisions: 1.0, passing: 1.0, stamina: 1.0, vision: 1.0, workRate: 1.0,
@@ -559,6 +604,7 @@ export const ROLES = {
     label: 'Wide Outlet Wide Midfielder',
     positions: ["LM", "RM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide outlet midfielder who provides a pass option in wide areas',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -574,6 +620,7 @@ export const ROLES = {
     label: 'Attacking Midfielder',
     positions: ["AM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Attacking midfielder who links midfield and the final third',
     weights: {
       decisions: 1.0, firstTouch: 1.0, passing: 1.0, stamina: 1.0, technique: 1.0,
@@ -585,6 +632,7 @@ export const ROLES = {
     label: 'Tracking Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Tracking attacking midfielder who presses from the front',
     weights: {
       anticipation: 1.0, positioning: 1.0, stamina: 1.0, teamwork: 1.0, workRate: 1.0,
@@ -596,6 +644,7 @@ export const ROLES = {
     label: 'Advanced Playmaker',
     positions: ["AM", "CM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Advanced playmaker who creates in the final third',
     weights: {
       decisions: 1.0, firstTouch: 1.0, passing: 1.0, technique: 1.0, vision: 1.0,
@@ -607,6 +656,7 @@ export const ROLES = {
     label: 'Central Outlet Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Central outlet attacking midfielder who provides a passing option centrally',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -618,6 +668,7 @@ export const ROLES = {
     label: 'Splitting Outlet Attacking Midfielder',
     positions: ["AM"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Splitting outlet attacking midfielder who plays killer passes between lines',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -629,6 +680,7 @@ export const ROLES = {
     label: 'Free Role',
     positions: ["AM", "CM"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Free role player with licence to roam and create throughout the pitch',
     weights: {
       decisions: 1.0, firstTouch: 1.0, flair: 1.0, technique: 1.0, vision: 1.0,
@@ -645,6 +697,7 @@ export const ROLES = {
     label: 'Winger',
     positions: ["LW", "RW"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Winger who provides width and delivers crosses from wide positions',
     weights: {
       acceleration: 1.0, crossing: 1.0, pace: 1.0, stamina: 1.0, workRate: 1.0,
@@ -656,6 +709,7 @@ export const ROLES = {
     label: 'Half-Space Winger',
     positions: ["LW", "RW"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Half-space winger who operates in the inside channel',
     weights: {
       acceleration: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -667,6 +721,7 @@ export const ROLES = {
     label: 'Inside Winger',
     positions: ["LW", "RW"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Inside winger who cuts inside to shoot or create',
     weights: {
       acceleration: 1.0, dribbling: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -678,6 +733,7 @@ export const ROLES = {
     label: 'Inverting Outlet Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Inverting outlet winger who tracks back and provides defensive cover',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -689,6 +745,7 @@ export const ROLES = {
     label: 'Tracking Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Tracking winger who presses and recovers defensively',
     weights: {
       anticipation: 1.0, positioning: 1.0, stamina: 1.0, tackling: 1.0, workRate: 1.0,
@@ -700,6 +757,7 @@ export const ROLES = {
     label: 'Wide Outlet Winger',
     positions: ["LW", "RW"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Wide outlet winger who stays wide to provide passing options',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -710,6 +768,7 @@ export const ROLES = {
     label: 'Wide Playmaker',
     positions: ["LW", "RW", "LM", "RM"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Wide playmaker who creates and distributes from wide positions',
     weights: {
       decisions: 1.0, firstTouch: 1.0, passing: 1.0, stamina: 1.0, technique: 1.0, vision: 1.0,
@@ -721,6 +780,7 @@ export const ROLES = {
     label: 'Wide Forward',
     positions: ["LW", "RW", "LM", "RM"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Wide forward who combines goal threat with width',
     weights: {
       acceleration: 1.0, finishing: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -732,6 +792,7 @@ export const ROLES = {
     label: 'Inside Forward',
     positions: ["LW", "RW"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Inside forward who cuts inside from wide to threaten goal',
     weights: {
       acceleration: 1.0, dribbling: 1.0, finishing: 1.0, pace: 1.0, stamina: 1.0,
@@ -748,6 +809,7 @@ export const ROLES = {
     label: 'Centre Forward',
     positions: ["ST"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Complete centre-forward combining aerial and technical goal threat',
     weights: {
       anticipation: 1.0, finishing: 1.0, heading: 1.0, offTheBall: 1.0, strength: 1.0,
@@ -759,6 +821,7 @@ export const ROLES = {
     label: 'False Nine',
     positions: ["ST"],
     duty: 'Support',
+    phase: 'IP',
     description: 'False nine who drops deep to create space and link play',
     weights: {
       decisions: 1.0, firstTouch: 1.0, offTheBall: 1.0, passing: 1.0, technique: 1.0, vision: 1.0,
@@ -770,6 +833,7 @@ export const ROLES = {
     label: 'Deep-Lying Forward',
     positions: ["ST"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Deep-lying forward who drops to receive and distribute for teammates',
     weights: {
       composure: 1.0, decisions: 1.0, firstTouch: 1.0, passing: 1.0, technique: 1.0,
@@ -781,6 +845,7 @@ export const ROLES = {
     label: 'Half-Space Forward',
     positions: ["ST"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Half-space forward who exploits channels between defence and wide',
     weights: {
       acceleration: 1.0, anticipation: 1.0, dribbling: 1.0, finishing: 1.0, offTheBall: 1.0, pace: 1.0,
@@ -792,6 +857,7 @@ export const ROLES = {
     label: 'Channel Forward',
     positions: ["ST"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Channel forward who makes runs in behind to exploit space',
     weights: {
       acceleration: 1.0, anticipation: 1.0, finishing: 1.0, offTheBall: 1.0, pace: 1.0,
@@ -803,6 +869,7 @@ export const ROLES = {
     label: 'Second Striker',
     positions: ["ST"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Second striker who links midfield and attack with energy',
     weights: {
       anticipation: 1.0, decisions: 1.0, finishing: 1.0, offTheBall: 1.0, stamina: 1.0,
@@ -814,6 +881,7 @@ export const ROLES = {
     label: 'Central Outlet Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Central outlet centre-forward who holds up play for direct passes',
     weights: {
       acceleration: 1.0, anticipation: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -825,6 +893,7 @@ export const ROLES = {
     label: 'Splitting Outlet Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Splitting outlet centre-forward who runs in behind to split the defence',
     weights: {
       acceleration: 1.0, anticipation: 1.0, dribbling: 1.0, offTheBall: 1.0, pace: 1.0, stamina: 1.0,
@@ -836,6 +905,7 @@ export const ROLES = {
     label: 'Tracking Centre Forward',
     positions: ["ST"],
     duty: 'Defend',
+    phase: 'OOP',
     description: 'Tracking centre-forward who works hard pressing and defending from the front',
     weights: {
       anticipation: 1.0, stamina: 1.0, teamwork: 1.0, workRate: 1.0,
@@ -847,6 +917,7 @@ export const ROLES = {
     label: 'Target Forward',
     positions: ["ST"],
     duty: 'Support',
+    phase: 'IP',
     description: 'Target forward who holds up play aerially and brings teammates in',
     weights: {
       anticipation: 1.0, heading: 1.0, jumpingReach: 1.0, strength: 1.0,
@@ -858,6 +929,7 @@ export const ROLES = {
     label: 'Poacher',
     positions: ["ST"],
     duty: 'Attack',
+    phase: 'IP',
     description: 'Poacher who lurks in the box to finish off chances',
     weights: {
       anticipation: 1.0, composure: 1.0, finishing: 1.0, offTheBall: 1.0,

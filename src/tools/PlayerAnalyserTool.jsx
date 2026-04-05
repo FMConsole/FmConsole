@@ -8,7 +8,7 @@ import {
   POSITION_LIST, getKeyAttrsForPosition, calcPositionScore,
 } from '../data/positionWeights.js'
 import {
-  getTopRolesForPosition, starsDisplay, scoreToStars,
+  getRolesForPosition, calcRoleScore, getTopRolesForPosition, starsDisplay, scoreToStars,
 } from '../data/roleWeights.js'
 import { getAgeProfile, rolePhysicalDemand } from '../data/playerHelpers.js'
 
@@ -324,9 +324,115 @@ function InsightBanner({ posScores, flat, age }) {
 
 /* ── Roles Tab ───────────────────────────────────────────────────────── */
 
+function RoleSection({ title, roles, flat, age, accentColor }) {
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12,
+        paddingBottom: 8, borderBottom: `1px solid ${C.border}`,
+      }}>
+        <div style={{
+          width: 8, height: 8, borderRadius: '50%', background: accentColor, flexShrink: 0,
+        }} />
+        <span style={{ fontSize: 11, fontWeight: 700, color: accentColor, textTransform: 'uppercase', letterSpacing: 0.8 }}>
+          {title}
+        </span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {roles.map((r, i) => {
+          const ageProfile = getAgeProfile(age)
+          const demand = rolePhysicalDemand(r.weights)
+          const showWarning = ageProfile && ageProfile.bracket !== 'peak' && ageProfile.bracket !== 'developing' && demand >= 0.22
+          const isHighDemand = demand >= 0.32
+          const barColor = r.score >= 15 ? C.green : r.score >= 12 ? C.blue : r.score >= 9 ? C.orange : '#e05050'
+          const stars = scoreToStars(r.score)
+          const filled = Math.floor(stars)
+          const half = stars % 1 >= 0.5
+          const pct = (r.score / 20) * 100
+          const topAttrs = Object.entries(r.weights)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([key]) => ({ key, val: flat[key] ?? 0 }))
+
+          return (
+            <div key={r.key} style={{
+              background: i === 0 ? `linear-gradient(135deg, ${C.surface}, ${C.surfaceLight})` : C.surface,
+              border: `1px solid ${i === 0 ? barColor + '40' : C.border}`,
+              borderRadius: 12, padding: '14px 16px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+                <div style={{
+                  width: 28, height: 28, borderRadius: 6, flexShrink: 0,
+                  background: i === 0 ? barColor : C.surfaceHover,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 13, fontWeight: 800, color: i === 0 ? '#fff' : C.textMuted,
+                }}>
+                  {i + 1}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{r.label}</div>
+                  <div style={{ fontSize: 11, color: C.textMuted }}>{r.duty}</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: barColor }}>{r.score.toFixed(1)}</div>
+                  <div style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
+                    {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
+                  </div>
+                </div>
+              </div>
+              <div style={{ height: 4, borderRadius: 2, background: C.surfaceHover, overflow: 'hidden', marginBottom: 10 }}>
+                <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 2, transition: 'width 0.4s' }} />
+              </div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {topAttrs.map(a => (
+                  <div key={a.key} style={{
+                    display: 'flex', alignItems: 'center', gap: 4,
+                    padding: '3px 8px', borderRadius: 5,
+                    background: C.bgLight, border: `1px solid ${C.border}`,
+                  }}>
+                    <span style={{ fontSize: 10, color: C.textMuted }}>{attrDisplayName(a.key)}</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: getBarColor(a.val) }}>{a.val || '—'}</span>
+                  </div>
+                ))}
+              </div>
+              {showWarning && (
+                <div style={{
+                  marginTop: 8, display: 'flex', alignItems: 'center', gap: 6,
+                  padding: '5px 10px', borderRadius: 6,
+                  background: isHighDemand ? '#e0505018' : `${C.orange}12`,
+                  border: `1px solid ${isHighDemand ? '#e0505040' : C.orange + '40'}`,
+                }}>
+                  <span style={{ fontSize: 12 }}>⚡</span>
+                  <span style={{ fontSize: 11, color: isHighDemand ? '#e05050' : C.orange }}>
+                    {isHighDemand
+                      ? `High physical demand — at ${age}, pace and acceleration decline affects this role`
+                      : `Moderate physical demand — still viable at ${age} but monitor pace/acceleration`}
+                  </span>
+                </div>
+              )}
+              {r.description && (
+                <div style={{ fontSize: 11, color: C.textMuted, marginTop: 8, fontStyle: 'italic' }}>
+                  {r.description}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function RolesTab({ posScores, flat, age }) {
   const [selectedPos, setSelectedPos] = useState(posScores[0]?.key || '')
-  const roles = getTopRolesForPosition(selectedPos, flat, 8)
+
+  const allRoles = getRolesForPosition(selectedPos)
+    .map(r => ({ ...r, score: calcRoleScore(r.key, flat) }))
+    .sort((a, b) => b.score - a.score)
+
+  const isGK = selectedPos === 'GK'
+  const ipRoles = isGK ? allRoles : allRoles.filter(r => r.phase === 'IP')
+  const oopRoles = isGK ? [] : allRoles.filter(r => r.phase === 'OOP')
 
   return (
     <div>
@@ -350,104 +456,27 @@ function RolesTab({ posScores, flat, age }) {
         })}
       </div>
 
-      {/* Role cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {roles.map((r, i) => {
-          const stars = scoreToStars(r.score)
-          const filled = Math.floor(stars)
-          const half = stars % 1 >= 0.5
-          const pct = (r.score / 20) * 100
-          const barColor = r.score >= 15 ? C.green : r.score >= 12 ? C.blue : r.score >= 9 ? C.orange : '#e05050'
+      {/* IP roles */}
+      {ipRoles.length > 0 && (
+        <RoleSection
+          title="In Possession"
+          roles={ipRoles}
+          flat={flat}
+          age={age}
+          accentColor={C.blue}
+        />
+      )}
 
-          // Top 3 key attrs for this role
-          const topAttrs = Object.entries(r.weights)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
-            .map(([key, w]) => ({ key, w, val: flat[key] ?? 0 }))
-
-          return (
-            <div key={r.key} style={{
-              background: i === 0 ? `linear-gradient(135deg, ${C.surface}, ${C.surfaceLight})` : C.surface,
-              border: `1px solid ${i === 0 ? barColor + '40' : C.border}`,
-              borderRadius: 12, padding: '14px 16px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-                {/* Rank */}
-                <div style={{
-                  width: 28, height: 28, borderRadius: 6, flexShrink: 0,
-                  background: i === 0 ? barColor : C.surfaceHover,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 13, fontWeight: 800, color: i === 0 ? '#fff' : C.textMuted,
-                }}>
-                  {i + 1}
-                </div>
-                {/* Name + duty */}
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: C.text }}>{r.label}</div>
-                  <div style={{ fontSize: 11, color: C.textMuted }}>{r.duty}</div>
-                </div>
-                {/* Score */}
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: barColor }}>{r.score.toFixed(1)}</div>
-                  <div style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
-                    {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Score bar */}
-              <div style={{ height: 4, borderRadius: 2, background: C.surfaceHover, overflow: 'hidden', marginBottom: 10 }}>
-                <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 2, transition: 'width 0.4s' }} />
-              </div>
-
-              {/* Key attributes */}
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {topAttrs.map(a => (
-                  <div key={a.key} style={{
-                    display: 'flex', alignItems: 'center', gap: 4,
-                    padding: '3px 8px', borderRadius: 5,
-                    background: C.bgLight, border: `1px solid ${C.border}`,
-                  }}>
-                    <span style={{ fontSize: 10, color: C.textMuted }}>{attrDisplayName(a.key)}</span>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: getBarColor(a.val) }}>{a.val || '—'}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Age / physical demand warning */}
-              {(() => {
-                const ageProfile = getAgeProfile(age)
-                if (!ageProfile || ageProfile.bracket === 'peak' || ageProfile.bracket === 'developing') return null
-                const demand = rolePhysicalDemand(r.weights)
-                if (demand < 0.22) return null // low physical demand — no warning needed
-                const isHighDemand = demand >= 0.32
-                return (
-                  <div style={{
-                    marginTop: 8, display: 'flex', alignItems: 'center', gap: 6,
-                    padding: '5px 10px', borderRadius: 6,
-                    background: isHighDemand ? '#e0505018' : `${C.orange}12`,
-                    border: `1px solid ${isHighDemand ? '#e0505040' : C.orange + '40'}`,
-                  }}>
-                    <span style={{ fontSize: 12 }}>⚡</span>
-                    <span style={{ fontSize: 11, color: isHighDemand ? '#e05050' : C.orange }}>
-                      {isHighDemand
-                        ? `High physical demand — at ${age}, pace and acceleration decline affects this role`
-                        : `Moderate physical demand — still viable at ${age} but monitor pace/acceleration`}
-                    </span>
-                  </div>
-                )
-              })()}
-
-              {/* Description */}
-              {r.description && (
-                <div style={{ fontSize: 11, color: C.textMuted, marginTop: 8, fontStyle: 'italic' }}>
-                  {r.description}
-                </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
+      {/* OOP roles */}
+      {oopRoles.length > 0 && (
+        <RoleSection
+          title="Out of Possession"
+          roles={oopRoles}
+          flat={flat}
+          age={age}
+          accentColor={C.orange}
+        />
+      )}
     </div>
   )
 }
