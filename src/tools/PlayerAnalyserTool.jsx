@@ -48,7 +48,7 @@ const KEY_STATS = [
 
 const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
-  { key: 'roles', label: 'Roles' },
+  { key: 'roles', label: 'IP / OOP Roles' },
   { key: 'positions', label: 'Positions' },
 ]
 
