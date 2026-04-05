@@ -23,12 +23,13 @@ export const ROLES = {
     positions: ['ST'],
     duty: 'Attack',
     description: 'Pure box striker who lives off scraps and through balls',
+    // Weights match FM26 Striker position data: Acceleration=10, Finishing=8, Pace=7
     weights: {
       acceleration: 1.0, finishing: 0.8, pace: 0.7,
       composure: 0.6, agility: 0.6, stamina: 0.6, strength: 0.6,
       firstTouch: 0.6, offTheBall: 0.6, heading: 0.6,
       jumpingReach: 0.5, decisions: 0.5, anticipation: 0.5, dribbling: 0.5,
-      technique: 0.4,
+      technique: 0.4, penaltyTaking: 0.3,
       concentration: 0.2, balance: 0.2, workRate: 0.2, positioning: 0.2,
       vision: 0.2, passing: 0.2, longShots: 0.2, crossing: 0.2,
       bravery: 0.1, teamwork: 0.1, tackling: 0.1, marking: 0.1,
@@ -84,13 +85,15 @@ export const ROLES = {
     label: 'Channel Forward',
     positions: ['ST'],
     duty: 'Attack',
-    description: 'Explosive runner who exploits the channels in behind defences',
+    description: 'Exploits the channel between CB and FB — needs movement, touch and composure to finish',
     weights: {
-      pace: 1.0, acceleration: 0.9, offTheBall: 0.9, anticipation: 0.8,
-      dribbling: 0.8, finishing: 0.7, firstTouch: 0.7, composure: 0.7,
-      decisions: 0.6, agility: 0.6, balance: 0.6, technique: 0.5,
-      stamina: 0.5, strength: 0.4, workRate: 0.4, vision: 0.3,
-      passing: 0.3, concentration: 0.3, bravery: 0.2,
+      offTheBall: 0.9, anticipation: 0.9, finishing: 0.9,
+      composure: 0.8, firstTouch: 0.8, decisions: 0.8, technique: 0.8,
+      positioning: 0.8,
+      pace: 0.7, acceleration: 0.6, agility: 0.6, dribbling: 0.6, balance: 0.6,
+      concentration: 0.5, stamina: 0.5, strength: 0.5,
+      workRate: 0.4, vision: 0.3,
+      passing: 0.2, bravery: 0.2,
     },
   },
 
@@ -613,10 +616,18 @@ export function getTopRolesForPosition(posKey, flatAttrs, limit = 5) {
 
 /**
  * Score-to-stars rating (0–5 stars, 0.5 step).
- * 20 = 5 stars, 15 = 3.75 ≈ 4 stars, 10 = 2.5 stars
+ * Calibrated against FM26 role ratings across 4 players:
+ *   ~15.7 = 5★ (Haaland Poacher)
+ *   ~14.6 = 4★ (Lewandowski Poacher)
+ *   ~13.6 = 3★ (En-Nesyri Poacher)
+ *   ~12.9 = 2★ (Nyman Target Forward)
+ * Maps score range 10–16 to 0–5 stars.
  */
 export function scoreToStars(score) {
-  return Math.round((score / 20) * 10) / 2 // 0.5 step, 0–5
+  const MIN = 10
+  const MAX = 16
+  const stars = Math.max(0, (score - MIN) / (MAX - MIN) * 5)
+  return Math.round(stars * 2) / 2 // 0.5 step
 }
 
 /**
