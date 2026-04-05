@@ -336,10 +336,12 @@ const POSMAP_TO_POSWEIGHT = {
   AML: 'LW', AMC: 'AM', AMR: 'RW', ST: 'ST',
 }
 
-function suitabilityColor(score) {
-  if (score >= 15) return C.green
-  if (score >= 12) return C.blue
-  if (score >= 9) return C.orange
+function suitabilityColor(score, maxScore) {
+  if (!maxScore) return ZONE_COLORS.mid
+  const r = score / maxScore
+  if (r >= 0.92) return C.green
+  if (r >= 0.78) return C.blue
+  if (r >= 0.60) return C.orange
   return '#ef4444'
 }
 
@@ -477,10 +479,18 @@ function PositionMapTab({ flat, onPosClick }) {
           <div style={{ position: 'absolute', top: '20%', left: 0, height: '60%', width: '16%', border: '1px solid rgba(255,255,255,0.2)', borderLeft: 'none' }} />
           <div style={{ position: 'absolute', top: '20%', right: 0, height: '60%', width: '16%', border: '1px solid rgba(255,255,255,0.2)', borderRight: 'none' }} />
           {/* Position dots */}
-          {POSITION_MAP.map(pos => {
-            const posKey = POSMAP_TO_POSWEIGHT[pos.id]
-            const score = hasPlayer && posKey ? calcPositionScore(posKey, flat) : null
-            const dotColor = score != null ? suitabilityColor(score) : ZONE_COLORS[pos.zone]
+          {(() => {
+            const posScoreMap = hasPlayer
+              ? Object.fromEntries(POSITION_MAP.map(p => {
+                  const k = POSMAP_TO_POSWEIGHT[p.id]
+                  return [p.id, k ? calcPositionScore(k, flat) : null]
+                }))
+              : {}
+            const scores = Object.values(posScoreMap).filter(s => s != null)
+            const maxScore = scores.length ? Math.max(...scores) : null
+            return POSITION_MAP.map(pos => {
+            const score = posScoreMap[pos.id] ?? null
+            const dotColor = score != null ? suitabilityColor(score, maxScore) : ZONE_COLORS[pos.zone]
             const isActive = selected?.id === pos.id
             return (
               <div
@@ -510,11 +520,12 @@ function PositionMapTab({ flat, onPosClick }) {
                 {pos.id}
               </div>
             )
-          })}
+          })
+          })()}
         </div>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 10, flexWrap: 'wrap' }}>
           {hasPlayer
-            ? [['#22c55e','15+'],['#0066ff','12–14'],['#ff6b00','9–11'],['#ef4444','<9']].map(([c, l]) => (
+            ? [['#22c55e','Top fit'],['#0066ff','Good fit'],['#ff6b00','Fair fit'],['#ef4444','Weak fit']].map(([c, l]) => (
                 <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.textMuted }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
                   {l}
