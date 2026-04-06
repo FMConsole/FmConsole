@@ -1287,8 +1287,16 @@ export default function PlayerAnalyserTool() {
   const strengths = [...posRelevant]
     .sort((a, b) => (b[1] * getAttrWeight(naturalPosKey, b[0])) - (a[1] * getAttrWeight(naturalPosKey, a[0])))
     .slice(0, 5)
+  // Physical attributes decline naturally with age — adjust weakness threshold accordingly
+  const PHYSICAL_DECAY_ATTRS = ['pace', 'acceleration', 'agility', 'stamina', 'balance']
+  const playerAge = details.age || 0
+  const physThreshold = playerAge >= 30 ? 11 : playerAge >= 27 ? 12 : 14
   const weaknesses = posRelevant
-    .filter(([key, val]) => getAttrWeight(naturalPosKey, key) >= 0.3 && val < 14)
+    .filter(([key, val]) => {
+      if (getAttrWeight(naturalPosKey, key) < 0.3) return false
+      const threshold = PHYSICAL_DECAY_ATTRS.includes(key) ? physThreshold : 14
+      return val < threshold
+    })
     .slice(-5).reverse()
 
   return (
