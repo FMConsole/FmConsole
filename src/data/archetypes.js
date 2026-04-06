@@ -25,6 +25,38 @@ export const ARCHETYPES = {
 
   /* ── Forwards ─────────────────────────────────────────────────────── */
 
+  transitionalForward: {
+    label: 'Transitional Forward',
+    description: 'Explosive mover who punishes defensive transitions — arrives in behind the line with pace, elegance and clinical composure',
+    positions: ['ST', 'LW', 'RW'],
+    color: '#f59e0b',
+    icon: '⚡',
+    peakAge: [19, 28],
+    agingNote: 'Athletic-technical archetype — pace and acceleration decline from late 20s but technique and anticipation can extend the career',
+    weights: {
+      pace: 1.00,
+      acceleration: 1.00,
+      offTheBall: 1.00,
+      anticipation: 0.90,
+      finishing: 0.80,
+      agility: 0.80,
+      technique: 0.70,
+      firstTouch: 0.70,
+      composure: 0.70,
+      decisions: 0.60,
+      flair: 0.50,
+      dribbling: 0.50,
+    },
+    traits: [
+      'Likes To Beat Offside Trap',
+      'Moves Into Channels',
+      'Uses Outside Of Foot',
+      'Tries Tricks',
+      'Runs With Ball Often',
+    ],
+    minReqs: { pace: 13, acceleration: 13 },
+  },
+
   powerForward: {
     label: 'Power Forward',
     description: 'Physical striker who presses relentlessly, wins second balls, and finishes with power',

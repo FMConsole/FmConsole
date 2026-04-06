@@ -47,6 +47,12 @@ const KEY_STATS = [
   'strength', 'stamina',
 ]
 
+const PLAYMAKING_ATTRS = [
+  'passing', 'vision', 'firstTouch', 'technique', 'decisions',
+  'composure', 'flair', 'dribbling', 'anticipation', 'offTheBall',
+  'concentration', 'workRate',
+]
+
 const VIEW_TABS = [
   { key: 'overview', label: 'Overview' },
   { key: 'roles', label: 'IP / OOP Roles' },
@@ -952,6 +958,7 @@ export default function PlayerAnalyserTool() {
   const [player, setPlayer] = useState(null)
   const [activeView, setActiveView] = useState('overview')
   const [selectedRolesPos, setSelectedRolesPos] = useState(null)
+  const [radarMode, setRadarMode] = useState('position')
   const inputRef = useRef(null)
   const reuploadRef = useRef(null)
   const [dragOver, setDragOver] = useState(false)
@@ -1026,6 +1033,65 @@ export default function PlayerAnalyserTool() {
     URL.revokeObjectURL(url)
   }, [player])
 
+  const exportAllScans = useCallback(() => {
+    const cacheKeys = Object.keys(localStorage).filter(k => k.startsWith('fmc_vision_cache_'))
+    if (!cacheKeys.length) return
+
+    const rows = []
+    const headerSet = new Set()
+
+    const scans = cacheKeys.map(k => {
+      try {
+        const d = JSON.parse(localStorage.getItem(k))
+        const vd = d?.result?.visionData
+        if (!vd) return null
+        const attrs = {
+          ...vd.technicalAttributes,
+          ...vd.mentalAttributes,
+          ...vd.physicalAttributes,
+        }
+        // Normalise freeKickTaking → freeKicks
+        if (attrs.freeKickTaking !== undefined && attrs.freeKicks === undefined) {
+          attrs.freeKicks = attrs.freeKickTaking
+          delete attrs.freeKickTaking
+        }
+        Object.keys(attrs).forEach(k => headerSet.add(k))
+        return { vd, attrs }
+      } catch { return null }
+    }).filter(Boolean)
+
+    if (!scans.length) return
+
+    const attrCols = [...headerSet].sort()
+    const headers = ['Name', 'Age', 'Nationality', 'Club', 'Positions', 'Height', 'Foot', 'Personality', 'Reputation', ...attrCols.map(attrDisplayName)]
+
+    scans.forEach(({ vd, attrs }) => {
+      const foot = vd.preferredFoot ? `L:${vd.preferredFoot.leftFoot ?? ''} R:${vd.preferredFoot.rightFoot ?? ''}` : ''
+      const row = [
+        vd.playerName || '',
+        vd.age || '',
+        vd.nationality || '',
+        vd.currentClub || '',
+        (vd.positions || []).join('/'),
+        vd.height || '',
+        foot,
+        vd.personality || '',
+        vd.reputation || '',
+        ...attrCols.map(k => attrs[k] ?? ''),
+      ]
+      rows.push(row)
+    })
+
+    const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `fmconsole-all-players-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [])
+
   // ── Upload state ──
   if (!player) {
     return (
@@ -1062,6 +1128,74 @@ export default function PlayerAnalyserTool() {
             }}
           />
         </div>
+        {(() => {
+          const cacheKeys = Object.keys(localStorage).filter(k => k.startsWith('fmc_vision_cache_'))
+          if (!cacheKeys.length) return null
+          const scanned = cacheKeys.map(k => {
+            try {
+              const vd = JSON.parse(localStorage.getItem(k))?.result?.visionData
+              if (!vd) return null
+              return {
+                key: k,
+                name: vd.playerName || 'Unknown',
+                age: vd.age || '—',
+                positions: (vd.positions || []).join(', ') || '—',
+                club: vd.currentClub || '—',
+              }
+            } catch { return null }
+          }).filter(Boolean)
+          const loadFromCache = (cacheKey) => {
+            try {
+              const vd = JSON.parse(localStorage.getItem(cacheKey))?.result?.visionData
+              if (!vd) return
+              const parsed = parseAttributes(null, null, vd)
+              setPlayer({ file: null, preview: null, name: parsed.playerName, parsed, status: 'done', progress: 100 })
+            } catch { /* ignore */ }
+          }
+          return (
+            <div style={{ marginTop: 20 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 10, textAlign: 'center' }}>
+                Recently Scanned — {scanned.length} player{scanned.length !== 1 ? 's' : ''} on this device
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {scanned.map((p, i) => (
+                  <div key={i} onClick={() => loadFromCache(p.key)} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '8px 14px', borderRadius: 10,
+                    background: C.surface, border: `1px solid ${C.border}`,
+                    cursor: 'pointer', transition: 'border-color 0.15s',
+                  }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor = C.blue}
+                    onMouseLeave={e => e.currentTarget.style.borderColor = C.border}
+                  >
+                    <div>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>{p.name}</span>
+                      <span style={{ fontSize: 11, color: C.textMuted, marginLeft: 8 }}>{p.positions}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: C.textMuted, textAlign: 'right' }}>
+                      <span>Age {p.age}</span>
+                      {p.club !== '—' && <span style={{ marginLeft: 8 }}>{p.club}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 12, textAlign: 'center' }}>
+                <button onClick={exportAllScans} style={{
+                  padding: '8px 20px', borderRadius: 10,
+                  background: 'transparent', border: `1px solid ${C.border}`,
+                  color: C.textMuted, fontSize: 12, fontWeight: 600,
+                  cursor: 'pointer', fontFamily: 'inherit',
+                  transition: 'border-color 0.15s, color 0.15s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.blue; e.currentTarget.style.color = C.blue }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted }}
+                >
+                  Export All as CSV
+                </button>
+              </div>
+            </div>
+          )
+        })()}
       </div>
     )
   }
@@ -1373,7 +1507,26 @@ export default function PlayerAnalyserTool() {
             background: C.surface, border: `1px solid ${C.border}`, borderRadius: 14,
             padding: 16, marginBottom: 24,
           }}>
-            <RadarChart flat={flat} attrKeys={radarAttrKeys} size={520} color={C.blue} />
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 12 }}>
+              {[
+                { key: 'position', label: 'Position' },
+                { key: 'playmaking', label: 'Playmaking' },
+              ].map(m => (
+                <button key={m.key} onClick={() => setRadarMode(m.key)} style={{
+                  padding: '4px 14px', borderRadius: 20, fontSize: 11, fontWeight: 700,
+                  cursor: 'pointer', fontFamily: 'inherit', border: 'none',
+                  background: radarMode === m.key ? C.blue : C.surfaceHover,
+                  color: radarMode === m.key ? '#fff' : C.textMuted,
+                  transition: 'background 0.15s',
+                }}>{m.label}</button>
+              ))}
+            </div>
+            <RadarChart
+              flat={flat}
+              attrKeys={radarMode === 'playmaking' ? PLAYMAKING_ATTRS : radarAttrKeys}
+              size={520}
+              color={radarMode === 'playmaking' ? C.green : C.blue}
+            />
           </div>
 
           {/* Strengths & Weaknesses */}
