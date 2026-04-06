@@ -5,7 +5,7 @@ import {
   parseAttributes, flattenAttributes, attrDisplayName, toCamelCase,
 } from './scanner/attributeParser.js'
 import {
-  POSITION_LIST, getKeyAttrsForPosition, calcPositionScore, footAdjustment,
+  POSITION_LIST, getKeyAttrsForPosition, calcPositionScore, footAdjustment, getAttrWeight,
 } from '../data/positionWeights.js'
 import {
   getRolesForPosition, calcRoleScore, getTopRolesForPosition, starsDisplay, scoreToStars,
@@ -318,8 +318,10 @@ function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
       {bestArchetype && (
         <>
           <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
-          {/* Archetype — 3-box horizontal cards */}
-          <div style={{ flex: '1 1 300px', minWidth: 260 }}>
+          {/* Archetype + Role Rankings stacked */}
+          <div style={{ flex: '1 1 400px', minWidth: 320, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {/* Archetype cards */}
+          <div>
             <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 8 }}>
               Archetype
             </div>
@@ -401,51 +403,48 @@ function InsightBanner({ posScores, flat, age, fmPositions, traits }) {
               )}
             </div>
           </div>
+          {/* Role Rankings — split IP / OOP, below archetype cards */}
+          {(() => {
+            const ipRoles = topRoles.filter(r => r.phase === 'IP').slice(0, 4)
+            const oopRoles = topRoles.filter(r => r.phase === 'OOP').slice(0, 4)
+            const renderRoleList = (roles) => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {roles.map((r, i) => {
+                  const stars = scoreToStars(r.score)
+                  const filled = Math.floor(stars)
+                  const half = stars % 1 >= 0.5
+                  return (
+                    <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 10, color: C.textMuted, width: 12 }}>{i + 1}.</span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? C.text : C.textSecondary, minWidth: 140 }}>{r.label}</span>
+                      <span style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
+                        {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            )
+            return (
+              <div style={{ display: 'flex', gap: 24, paddingTop: 10, borderTop: `1px solid ${C.border}22` }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
+                    IP Roles
+                  </div>
+                  {renderRoleList(ipRoles)}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
+                    OOP Roles
+                  </div>
+                  {renderRoleList(oopRoles)}
+                </div>
+              </div>
+            )
+          })()}
+          </div>
         </>
       )}
-
-      <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
-
-      {/* Role Rankings — split IP / OOP */}
-      {(() => {
-        const ipRoles = topRoles.filter(r => r.phase === 'IP').slice(0, 4)
-        const oopRoles = topRoles.filter(r => r.phase === 'OOP').slice(0, 4)
-        const renderRoleList = (roles) => (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {roles.map((r, i) => {
-              const stars = scoreToStars(r.score)
-              const filled = Math.floor(stars)
-              const half = stars % 1 >= 0.5
-              return (
-                <div key={r.key} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 10, color: C.textMuted, width: 12 }}>{i + 1}.</span>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? C.text : C.textSecondary, minWidth: 140 }}>{r.label}</span>
-                  <span style={{ fontSize: 12, color: '#FFD600', letterSpacing: -1 }}>
-                    {'★'.repeat(filled)}{half ? '½' : ''}{'☆'.repeat(5 - filled - (half ? 1 : 0))}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        )
-        return (
-          <>
-            <div style={{ flex: 1, minWidth: 160 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
-                IP Roles
-              </div>
-              {renderRoleList(ipRoles)}
-            </div>
-            <div style={{ width: 1, height: 40, background: C.border, flexShrink: 0 }} />
-            <div style={{ flex: 1, minWidth: 160 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 }}>
-                OOP Roles
-              </div>
-              {renderRoleList(oopRoles)}
-            </div>
-          </>
-        )
-      })()}
 
       {/* Description */}
       {bestRole?.description && (
@@ -1253,10 +1252,8 @@ export default function PlayerAnalyserTool() {
   const details = player.parsed?.details || {}
   const hasGK = GOALKEEPING_ATTRS.some(a => flat[toCamelCase(a)] != null)
 
-  // Strengths & Weaknesses
+  // All attribute entries sorted high→low
   const allEntries = Object.entries(flat).filter(([, v]) => v != null && v > 0).sort((a, b) => b[1] - a[1])
-  const strengths = allEntries.slice(0, 5)
-  const weaknesses = allEntries.slice(-5).reverse()
 
   // Group averages
   const techAvg = groupAvg(flat, TECHNICAL_ATTRS)
@@ -1283,6 +1280,13 @@ export default function PlayerAnalyserTool() {
       : posScores[0]
   )?.key || 'CM'
   const radarAttrKeys = getKeyAttrsForPosition(naturalPosKey, 12).map(a => a.key)
+
+  // Strengths & Weaknesses — filtered by position relevance
+  const posRelevant = allEntries.filter(([key]) => getAttrWeight(naturalPosKey, key) > 0)
+  const strengths = posRelevant.slice(0, 5)
+  const weaknesses = posRelevant
+    .filter(([key]) => getAttrWeight(naturalPosKey, key) >= 0.3)
+    .slice(-5).reverse()
 
   return (
     <div>
