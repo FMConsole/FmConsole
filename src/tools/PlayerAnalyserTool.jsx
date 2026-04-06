@@ -1281,9 +1281,12 @@ export default function PlayerAnalyserTool() {
   )?.key || 'CM'
   const radarAttrKeys = getKeyAttrsForPosition(naturalPosKey, 12).map(a => a.key)
 
-  // Strengths & Weaknesses — filtered by position relevance
+  // Strengths & Weaknesses — filtered and ranked by position relevance
   const posRelevant = allEntries.filter(([key]) => getAttrWeight(naturalPosKey, key) > 0)
-  const strengths = posRelevant.slice(0, 5)
+  // Sort by value × position weight so high-weight attrs (pace for CB) surface over low-weight high-raw (leadership)
+  const strengths = [...posRelevant]
+    .sort((a, b) => (b[1] * getAttrWeight(naturalPosKey, b[0])) - (a[1] * getAttrWeight(naturalPosKey, a[0])))
+    .slice(0, 5)
   const weaknesses = posRelevant
     .filter(([key, val]) => getAttrWeight(naturalPosKey, key) >= 0.3 && val < 14)
     .slice(-5).reverse()
