@@ -1285,7 +1285,7 @@ export default function PlayerAnalyserTool() {
   const posRelevant = allEntries.filter(([key]) => getAttrWeight(naturalPosKey, key) > 0)
   const strengths = posRelevant.slice(0, 5)
   const weaknesses = posRelevant
-    .filter(([key]) => getAttrWeight(naturalPosKey, key) >= 0.3)
+    .filter(([key, val]) => getAttrWeight(naturalPosKey, key) >= 0.3 && val < 14)
     .slice(-5).reverse()
 
   return (
